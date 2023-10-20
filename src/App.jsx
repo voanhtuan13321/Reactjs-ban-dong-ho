@@ -1,24 +1,29 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import ProductDetail from './pages/ProductDetail';
-import Footer from './components/Footer';
-import Header from './components/Header';
+import Home from './pages/client/Home';
+import ProductDetail from './pages/client/ProductDetail';
+import LayoutClient from './pages/client/LayoutClient';
+import LayoutAdmin from './pages/admin/LayoutAdmin';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
-// routes
-const myRouters = [
+// routes client
+const clientRoute = [
   {
-    path: '/',
+    path: '',
     element: <Home />,
   },
   {
-    path: '/home',
+    path: 'home',
     element: <Home />,
   },
   {
-    path: '/product-detail',
+    path: 'product-detail',
     element: <ProductDetail />,
   },
 ];
+
+// routes admin
+const adminRoute = [];
 
 export default function App() {
   /**
@@ -26,8 +31,24 @@ export default function App() {
    *
    * @returns component Route.
    */
-  const renderRoutes = () => {
-    return myRouters.map((rou) => {
+  const renderRoutesClient = () => {
+    return clientRoute.map((rou) => {
+      return (
+        <Route
+          path={rou.path}
+          element={rou.element}
+        />
+      );
+    });
+  };
+
+  /**
+   * Render the routes.
+   *
+   * @returns component Route.
+   */
+  const renderRoutesAdmin = () => {
+    return clientRoute.map((rou) => {
       return (
         <Route
           path={rou.path}
@@ -39,9 +60,30 @@ export default function App() {
 
   return (
     <>
-      <Header />
-      <Routes>{renderRoutes()}</Routes>
-      <Footer />
+      <Routes>
+        <Route
+          path='/login'
+          element={<Login />}
+        />
+        <Route
+          path='/register'
+          element={<Register />}
+        />
+
+        <Route
+          path='/client'
+          element={<LayoutClient />}
+        >
+          {renderRoutesClient()}
+        </Route>
+
+        <Route
+          path='/admin'
+          element={<LayoutAdmin />}
+        >
+          {renderRoutesAdmin()}
+        </Route>
+      </Routes>
     </>
   );
 }
