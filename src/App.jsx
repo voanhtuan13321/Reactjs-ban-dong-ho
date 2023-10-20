@@ -23,7 +23,12 @@ const clientRoute = [
 ];
 
 // routes admin
-const adminRoute = [];
+const adminRoute = [
+  {
+    path: '',
+    element: null,
+  },
+];
 
 export default function App() {
   /**
@@ -48,7 +53,7 @@ export default function App() {
    * @returns component Route.
    */
   const renderRoutesAdmin = () => {
-    return clientRoute.map((rou) => {
+    return adminRoute.map((rou) => {
       return (
         <Route
           path={rou.path}
