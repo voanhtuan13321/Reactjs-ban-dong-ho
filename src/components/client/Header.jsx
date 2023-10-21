@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import Navbar from './Navbar';
 
 const menuAvatar = [
   {
-    to: '',
-    text: 'History',
+    to: '/client/profile',
+    text: 'Profile',
   },
   {
     to: '',
@@ -15,7 +15,8 @@ const menuAvatar = [
 ];
 
 export default function Header() {
-  const [isHoveredAvatar, setIsHoveredAvatar] = useState(true);
+  const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
+  const navigate = useNavigate();
 
   const renderMenuAvatar = () => {
     return menuAvatar.map((item, index) => {
@@ -45,7 +46,12 @@ export default function Header() {
         <div>
           {true ? (
             <div className='flex items-center relative'>
-              <FaShoppingCart className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85' />
+              <FaShoppingCart
+                className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'
+                onClick={() => {
+                  navigate('/client/cart');
+                }}
+              />
               <span className='absolute top-0 right-12 bg-white rounded-full text-xs text-center font-semibold w-5 h-5 leading-4 border-2 border-main-red'>
                 3
               </span>
