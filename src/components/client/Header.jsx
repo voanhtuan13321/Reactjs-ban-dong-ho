@@ -6,12 +6,10 @@ import Navbar from './Navbar';
 const menuAvatar = [
   {
     to: '',
-    element: null,
     text: 'History',
   },
   {
     to: '',
-    element: null,
     text: 'order',
   },
 ];
@@ -28,7 +26,6 @@ export default function Header() {
         >
           <Link
             to={item.to}
-            element={item.element}
             className='block'
           >
             {item.text}
