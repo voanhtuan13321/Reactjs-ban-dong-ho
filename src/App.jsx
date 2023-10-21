@@ -1,31 +1,36 @@
-import { Route, Routes } from 'react-router-dom';
-import Home from './pages/client/Home';
-import ProductDetail from './pages/client/ProductDetail';
-import LayoutClient from './pages/client/LayoutClient';
-import LayoutAdmin from './pages/admin/LayoutAdmin';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/client/Home";
+import ProductDetail from "./pages/client/ProductDetail";
+import LayoutClient from "./pages/client/LayoutClient";
+import LayoutAdmin from "./pages/admin/LayoutAdmin";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Cart from "./pages/client/Cart";
 
 // routes client
 const clientRoute = [
   {
-    path: '',
+    path: "",
     element: <Home />,
   },
   {
-    path: 'home',
+    path: "home",
     element: <Home />,
   },
   {
-    path: 'product-detail',
+    path: "product-detail",
     element: <ProductDetail />,
+  },
+  {
+    path: "cart",
+    element: <Cart />,
   },
 ];
 
 // routes admin
 const adminRoute = [
   {
-    path: '',
+    path: "",
     element: null,
   },
 ];
@@ -38,12 +43,7 @@ export default function App() {
    */
   const renderRoutesClient = () => {
     return clientRoute.map((rou) => {
-      return (
-        <Route
-          path={rou.path}
-          element={rou.element}
-        />
-      );
+      return <Route path={rou.path} element={rou.element} />;
     });
   };
 
@@ -54,38 +54,21 @@ export default function App() {
    */
   const renderRoutesAdmin = () => {
     return adminRoute.map((rou) => {
-      return (
-        <Route
-          path={rou.path}
-          element={rou.element}
-        />
-      );
+      return <Route path={rou.path} element={rou.element} />;
     });
   };
 
   return (
     <>
       <Routes>
-        <Route
-          path='/login'
-          element={<Login />}
-        />
-        <Route
-          path='/register'
-          element={<Register />}
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        <Route
-          path='/client'
-          element={<LayoutClient />}
-        >
+        <Route path="/client" element={<LayoutClient />}>
           {renderRoutesClient()}
         </Route>
 
-        <Route
-          path='/admin'
-          element={<LayoutAdmin />}
-        >
+        <Route path="/admin" element={<LayoutAdmin />}>
           {renderRoutesAdmin()}
         </Route>
       </Routes>
