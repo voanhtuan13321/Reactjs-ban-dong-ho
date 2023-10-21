@@ -7,6 +7,12 @@ module.exports = {
         'main-red': '#eb7260',
         'main-black': '#354458',
       },
+      width: {
+        container: '1300px',
+      },
+      height: {
+        header: '80px',
+      },
     },
   },
   plugins: [],

@@ -5,7 +5,9 @@ import LayoutClient from "./pages/client/LayoutClient";
 import LayoutAdmin from "./pages/admin/LayoutAdmin";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Cart from "./pages/client/Cart";
+import OrderDetail from "./pages/client/OrderDetail";
+import NotFound from "./pages/NotFound";
+import Error from "./pages/Error";
 
 // routes client
 const clientRoute = [
@@ -22,8 +24,8 @@ const clientRoute = [
     element: <ProductDetail />,
   },
   {
-    path: "cart",
-    element: <Cart />,
+    path: "order-detail",
+    element: <OrderDetail />,
   },
 ];
 
@@ -42,8 +44,8 @@ export default function App() {
    * @returns component Route.
    */
   const renderRoutesClient = () => {
-    return clientRoute.map((rou) => {
-      return <Route path={rou.path} element={rou.element} />;
+    return clientRoute.map((rou, index) => {
+      return <Route key={index} path={rou.path} element={rou.element} />;
     });
   };
 
@@ -53,8 +55,8 @@ export default function App() {
    * @returns component Route.
    */
   const renderRoutesAdmin = () => {
-    return adminRoute.map((rou) => {
-      return <Route path={rou.path} element={rou.element} />;
+    return adminRoute.map((rou, index) => {
+      return <Route key={index} path={rou.path} element={rou.element} />;
     });
   };
 
@@ -71,6 +73,9 @@ export default function App() {
         <Route path="/admin" element={<LayoutAdmin />}>
           {renderRoutesAdmin()}
         </Route>
+
+        <Route path="/error" element={<Error />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
