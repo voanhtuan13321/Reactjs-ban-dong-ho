@@ -6,6 +6,8 @@ import LayoutAdmin from './pages/admin/LayoutAdmin';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import OrderDetail from './pages/client/OrderDetail';
+import NotFound from './pages/NotFound';
+import Error from './pages/Error';
 
 // routes client
 const clientRoute = [
@@ -93,6 +95,15 @@ export default function App() {
         >
           {renderRoutesAdmin()}
         </Route>
+
+        <Route
+          path='/error'
+          element={<Error />}
+        />
+        <Route
+          path='*'
+          element={<NotFound />}
+        />
       </Routes>
     </>
   );
