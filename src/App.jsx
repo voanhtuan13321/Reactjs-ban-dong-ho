@@ -5,6 +5,7 @@ import LayoutClient from './pages/client/LayoutClient';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import OrderDetail from './pages/client/OrderDetail';
 
 // routes client
 const clientRoute = [
@@ -19,6 +20,10 @@ const clientRoute = [
   {
     path: 'product-detail',
     element: <ProductDetail />,
+  },
+  {
+    path: 'order-detail',
+    element: <OrderDetail />,
   },
 ];
 
