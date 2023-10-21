@@ -1,8 +1,43 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import Navbar from './Navbar';
 
+const menuAvatar = [
+  {
+    to: '',
+    element: null,
+    text: 'History',
+  },
+  {
+    to: '',
+    element: null,
+    text: 'order',
+  },
+];
+
 export default function Header() {
+  const [isHoveredAvatar, setIsHoveredAvatar] = useState(true);
+
+  const renderMenuAvatar = () => {
+    return menuAvatar.map((item, index) => {
+      return (
+        <li
+          key={index}
+          className='p-2 hover:bg-red-100 transition-all duration-200 ease-in-out'
+        >
+          <Link
+            to={item.to}
+            element={item.element}
+            className='block'
+          >
+            {item.text}
+          </Link>
+        </li>
+      );
+    });
+  };
+
   return (
     <header className='bg-main-red'>
       <div className='w-container h-header mx-auto py-5 flex items-center justify-between'>
@@ -17,11 +52,22 @@ export default function Header() {
               <span className='absolute top-0 right-12 bg-white rounded-full text-xs text-center font-semibold w-5 h-5 leading-4 border-2 border-main-red'>
                 3
               </span>
-              <div className='w-10 bg-white rounded-full border-2 border-white'>
+              <div
+                className='w-10 bg-white rounded-full border-2 border-white relative'
+                onMouseEnter={() => setIsHoveredAvatar(true)}
+                onMouseLeave={() => setIsHoveredAvatar(false)}
+              >
                 <img
                   src='/profile.svg'
                   alt='profile'
                 />
+                {isHoveredAvatar && (
+                  <div className='absolute top-5 right-0 z-50 transition-all duration-200 ease-in-out'>
+                    <ul className='bg-white shadow-2xl w-36 rounded-md mt-5 overflow-hidden'>
+                      {renderMenuAvatar()}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           ) : (

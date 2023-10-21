@@ -44,9 +44,10 @@ export default function App() {
    * @returns component Route.
    */
   const renderRoutesClient = () => {
-    return clientRoute.map((rou) => {
+    return clientRoute.map((rou, index) => {
       return (
         <Route
+          key={index}
           path={rou.path}
           element={rou.element}
         />
@@ -60,9 +61,10 @@ export default function App() {
    * @returns component Route.
    */
   const renderRoutesAdmin = () => {
-    return adminRoute.map((rou) => {
+    return adminRoute.map((rou, index) => {
       return (
         <Route
+          key={index}
           path={rou.path}
           element={rou.element}
         />

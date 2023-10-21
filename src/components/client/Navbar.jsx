@@ -18,20 +18,21 @@ export default function Navbar() {
    * @returns
    */
   const renderNavs = () => {
-    return navs.map((nav) => {
+    return navs.map((nav, index) => {
       /**
        * Handle class name
        * @param {*} param0
        * @returns
        */
       const handleClassName = ({ isActive }) => {
-        let className = 'mx-3';
+        let className = 'mx-3 transition-all duration-200 ease-in-out';
         isActive && (className += ' font-bold');
         return className;
       };
 
       return (
         <NavLink
+          key={index}
           to={nav.to}
           className={handleClassName}
         >
