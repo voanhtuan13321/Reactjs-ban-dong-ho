@@ -1,11 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/client/Home';
+import Cart from './pages/client/Cart';
+import Contact from './pages/client/Contact';
 import ProductDetail from './pages/client/ProductDetail';
 import LayoutClient from './pages/client/LayoutClient';
+import Profile from './pages/client/Profile';
+import OrderDetail from './pages/client/OrderDetail';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import OrderDetail from './pages/client/OrderDetail';
 import NotFound from './pages/NotFound';
 import Error from './pages/Error';
 
@@ -26,6 +29,18 @@ const clientRoute = [
   {
     path: 'order-detail',
     element: <OrderDetail />,
+  },
+  {
+    path: 'cart',
+    element: <Cart />,
+  },
+  {
+    path: 'contact',
+    element: <Contact />,
+  },
+  {
+    path: 'profile',
+    element: <Profile />,
   },
 ];
 
