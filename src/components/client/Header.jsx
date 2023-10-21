@@ -48,9 +48,7 @@ export default function Header() {
             <div className='flex items-center relative'>
               <FaShoppingCart
                 className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'
-                onClick={() => {
-                  navigate('/client/cart');
-                }}
+                onClick={() => navigate('/client/cart')}
               />
               <span className='absolute top-0 right-12 bg-white rounded-full text-xs text-center font-semibold w-5 h-5 leading-4 border-2 border-main-red'>
                 3

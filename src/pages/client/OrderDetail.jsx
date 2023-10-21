@@ -44,7 +44,7 @@ export default function OrderDetail() {
   };
 
   return (
-    <div className='w-container mx-auto'>
+    <div className='w-container px-10 mx-auto shadow-xl rounded-xl'>
       <div>{renderItemDetail()}</div>
       <div className='text-end font-bold'>
         Tổng tiền: {caculateTotalPrice.toLocaleString('vi-VN')} VND
