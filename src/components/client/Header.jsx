@@ -15,7 +15,7 @@ const menuAvatar = [
 ];
 
 export default function Header() {
-  const [isHoveredAvatar, setIsHoveredAvatar] = useState(true);
+  const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
 
   const renderMenuAvatar = () => {
     return menuAvatar.map((item, index) => {
