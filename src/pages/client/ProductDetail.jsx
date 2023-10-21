@@ -55,7 +55,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className='container mx-auto mt-8'>
+    <div className='w-container mx-auto mt-8'>
       <div className='bg-white p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8'>
         <div>
           <img
