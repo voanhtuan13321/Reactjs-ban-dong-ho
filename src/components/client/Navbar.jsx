@@ -10,6 +10,10 @@ const navs = [
     to: '/client/product-detail',
     text: 'Product Details',
   },
+  {
+    to: '/client/contact',
+    text: 'Contact',
+  },
 ];
 
 export default function Navbar() {

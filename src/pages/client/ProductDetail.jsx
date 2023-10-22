@@ -1,46 +1,47 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+const similarProducts = [
+  {
+    id: 1,
+    name: "Product 1",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
+  },
+  {
+    id: 2,
+    name: "Product 2",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-amazfit-gts-4den-1.jpg?v=1667843229057",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/vn-galaxy-watch5-pro-den-4198d8e7-d2a8-4f73-9ea2-4ffebfeb6533.jpg?v=1672474572980",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    image:
+      "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
+  },
+];
+
 export default function ProductDetail() {
-  const similarProducts = [
-    {
-      id: 1,
-      name: "Product 1",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-amazfit-gts-4den-1.jpg?v=1667843229057",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/vn-galaxy-watch5-pro-den-4198d8e7-d2a8-4f73-9ea2-4ffebfeb6533.jpg?v=1672474572980",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      image:
-        "https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127",
-    },
-  ];
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -56,8 +57,9 @@ export default function ProductDetail() {
       },
     ],
   };
+
   return (
-    <div className="container mx-auto mt-8">
+    <div className="w-container mx-auto mt-8">
       <div className="bg-white p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <img
@@ -76,6 +78,13 @@ export default function ProductDetail() {
             <p className="text-xl font-bold text-main-red mb-4">
               Price: $49,950
             </p>
+            <div className="flex items-center py-4">
+              <p className="text-black-600 font-bold">Quantity:</p>
+              <input
+                type="number"
+                className="w-14 py-2 px-3 border border-gray-300 rounded ml-3"
+              />
+            </div>
             <div className="flex flex-col md:flex-row md:space-x-4">
               <button className="bg-main-black text-white py-3 px-6 hover:bg-main-red flex-1 mx-2 h-16 font-bold">
                 ADD TO CART
@@ -164,7 +173,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      <div className="bg-white p-8 rounded-lg shadow-lg mt-4 py-8">
+      <div className="bg-white p-8 rounded-lg shadow-lg mt-4 mb-5">
         {/* sản phẩm tương tự*/}
         <h1 className="text-3xl font-semibold mb-4">Similar product</h1>
         <Slider {...carouselSettings}>

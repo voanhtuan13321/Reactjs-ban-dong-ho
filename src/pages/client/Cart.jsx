@@ -2,9 +2,9 @@ import React from "react";
 
 export default function Cart() {
   return (
-    <div className="container mx-auto mt-8">
+    <div className="w-container mx-auto mt-8">
       <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-semibold mb-4">Giỏ hàng của bạn</h2>
+        <h2 className="text-3xl font-semibold mb-4 text-center">Your cart</h2>
         <div className="bg-white p-6 shadow-md rounded-lg">
           <div className="flex justify-between border-b border-gray-300 p-3 bg-main-red">
             <div className="w-2/5">
@@ -105,6 +105,31 @@ export default function Cart() {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="bg-white p-8 rounded-lg shadow-lg mt-4 mb-4">
+        <h2 className="text-3xl font-semibold mb-4 border-b-2 border-main-red py-3">
+          Today's offer
+        </h2>
+        <div className="flex">
+          <img
+            src="https://bizweb.dktcdn.net/100/021/944/themes/723706/assets/code-20k-techwearvn.jpg?1697034449262"
+            alt=""
+            srcset=""
+            className="w-[400px]"
+          />
+          <img
+            src="https://bizweb.dktcdn.net/100/021/944/themes/723706/assets/code-100k-techwearvn.jpg?1697034449262"
+            alt=""
+            srcset=""
+            className="w-[400px] ml-4"
+          />
+          <img
+            src="https://bizweb.dktcdn.net/100/021/944/themes/723706/assets/code-500k-techwearvn.png?1697034449262"
+            alt=""
+            srcset=""
+            className="w-[400px] ml-4"
+          />
         </div>
       </div>
     </div>
