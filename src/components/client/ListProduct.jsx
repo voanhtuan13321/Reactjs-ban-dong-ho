@@ -1,8 +1,7 @@
 import React from 'react';
 import CardItem from './CardItem';
 import Pagination from './Pagination';
-import Search from './Search';
-import FilterMoney from './FilterMoney';
+
 
 function ListProduct(props) {
   return (
