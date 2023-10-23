@@ -32,9 +32,10 @@ function Carousel(props) {
   return (
     <div className='rounded-md'>
       <Slider {...settings}>
-        {similarProducts.map((item) => {
+        {similarProducts.map((item, index) => {
           return (
             <img
+              key={index}
               className='w-[1244px] h-[450px] rounded-lg'
               src={item.image}
               alt={item.name}

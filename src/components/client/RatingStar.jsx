@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-export default function Rating(props) {
+export default function Rating() {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const handleClickRating = (ratingValue) => {

@@ -7,10 +7,6 @@ const navs = [
     text: 'Home',
   },
   {
-    to: '/client/product-detail',
-    text: 'Product Details',
-  },
-  {
     to: '/client/contact',
     text: 'Contact',
   },

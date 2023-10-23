@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Error from './pages/Error';
+import Index from './pages/client/Index';
 
 // routes client
 const clientRoute = [
@@ -90,6 +91,10 @@ export default function App() {
   return (
     <>
       <Routes>
+        <Route
+          path='/'
+          element={<Index />}
+        />
         <Route
           path='/login'
           element={<Login />}
