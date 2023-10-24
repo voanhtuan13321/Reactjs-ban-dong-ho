@@ -19,7 +19,7 @@ function Brands() {
   return (
     <div className='mt-3 '>
       <p className='text-main-black text-4xl font-bold'>Popular Brands</p>
-      <div className='grid grid-cols-12 gap-4 mt-5  '>{renderData()}</div>
+      <div className='grid grid-cols-12 gap-4 mt-5'>{renderData()}</div>
     </div>
   );
 }

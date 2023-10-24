@@ -12,10 +12,8 @@ export default function Home() {
       <Carousel />
       <Brands />
       <Top5Product />
-      <div className='relative z-30'>
+      <div className='relative z-30 flex justify-center py-10 gap-4'>
         <Search />
-      </div>
-      <div className='relative z-40'>
         <FilterMoney />
       </div>
       <div className='relative z-10'>
