@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import undraw from "../assets/img/bg-01.jpg";
 
 export default function Login() {
+  
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="bg-white w-full max-w-screen-md rounded-lg overflow-hidden">
