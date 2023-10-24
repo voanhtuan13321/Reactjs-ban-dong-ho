@@ -134,25 +134,15 @@ export default function Contact() {
         </div>
       </div>
       <div className='w-container mx-auto mb-8 h-[500px]'>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: '' }}
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}
-        >
-          <AnyReactComponent
-            lat={16.060306}
-            lng={108.156889}
-            text='Địa chỉ'
-          />
-        </GoogleMapReact>
         <iframe
           src='https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d958.4504720381428!2d108.16994789999998!3d16.075767100000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1698031457544!5m2!1svi!2s'
-          width={600}
-          height={450}
+          width={1300}
+          height={500}
           style={{ border: 0 }}
           allowFullScreen
           loading='lazy'
           referrerPolicy='no-referrer-when-downgrade'
+          title='manhlon'
         />
       </div>
     </div>
