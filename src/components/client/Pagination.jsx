@@ -1,103 +1,30 @@
-import React, { useCallback, useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-function Button2({ content, onClick, active, disabled }) {
+import React from 'react';
+import ReactPaginate from 'react-paginate';
+import {GrNext,GrPrevious} from 'react-icons/gr'
+function Pagination(props) {
   return (
-    <button
-      className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg
-        ${active ? 'bg-red-700 text-white' : 'text-red-500'}
-        ${
-          !disabled
-            ? 'bg-white hover:bg-red-500 hover:text-white'
-            : 'text-red-300 bg-white cursor-not-allowed'
+    <div>
+      <ReactPaginate
+        breakLabel="..."
+        className='flex justify-center items-center gap-3 my-6'
+        nextLabel={
+          <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+            <GrNext/>
+          </span>
         }
-        `}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {content}
-    </button>
-  );
-}
-
-function PaginationNav1({ gotoPage, canPreviousPage, canNextPage, pageCount, pageIndex }) {
-  const renderPageLinks = useCallback(() => {
-    if (pageCount === 0) return null;
-    const visiblePageButtonCount = 3;
-    let numberOfButtons = pageCount < visiblePageButtonCount ? pageCount : visiblePageButtonCount;
-    const pageIndices = [pageIndex];
-    numberOfButtons--;
-    [...Array(numberOfButtons)].forEach((_item, itemIndex) => {
-      const pageNumberBefore = pageIndices[0] - 1;
-      const pageNumberAfter = pageIndices[pageIndices.length - 1] + 1;
-      if (
-        pageNumberBefore >= 0 &&
-        (itemIndex < numberOfButtons / 2 || pageNumberAfter > pageCount - 1)
-      ) {
-        pageIndices.unshift(pageNumberBefore);
-      } else {
-        pageIndices.push(pageNumberAfter);
-      }
-    });
-    return pageIndices.map((pageIndexToMap) => (
-      <li key={pageIndexToMap}>
-        <Button2
-          content={pageIndexToMap + 1}
-          onClick={() => gotoPage(pageIndexToMap)}
-          active={pageIndex === pageIndexToMap}
-        />
-      </li>
-    ));
-  }, [pageCount, pageIndex]);
-  return (
-    <ul className='flex gap-2'>
-      <li>
-        <Button2
-          content={
-            <div className='flex ml-1'>
-              <FaChevronLeft size='0.6rem' />
-              <FaChevronLeft
-                size='0.6rem'
-                className='-translate-x-1/2'
-              />
-            </div>
-          }
-          onClick={() => gotoPage(0)}
-          disabled={!canPreviousPage}
-        />
-      </li>
-      {renderPageLinks()}
-      <li>
-        <Button2
-          content={
-            <div className='flex ml-1'>
-              <FaChevronRight size='0.6rem' />
-              <FaChevronRight
-                size='0.6rem'
-                className='-translate-x-1/2'
-              />
-            </div>
-          }
-          onClick={() => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-        />
-      </li>
-    </ul>
-  );
-}
-
-function Pagination() {
-  const [pageIndex, setPageIndex] = useState(0);
-  const pageCount = 10;
-  return (
-    <div className='flex gap-3 flex-wrap p-6 py-12'>
-      <PaginationNav1
-        gotoPage={setPageIndex}
-        canPreviousPage={pageIndex > 0}
-        canNextPage={pageIndex < pageCount - 1}
-        pageCount={pageCount}
-        pageIndex={pageIndex}
+        pageRangeDisplayed={3}
+        pageCount={10}
+        previousLabel={
+          <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+            <GrPrevious/>
+          </span>
+        }
+        pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white'
+        activeClassName='bg-main-red text-white'
+        disabledClassName={true}
       />
     </div>
   );
 }
+
 export default Pagination;
