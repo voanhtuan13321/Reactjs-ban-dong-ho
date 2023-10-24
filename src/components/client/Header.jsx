@@ -8,10 +8,6 @@ const menuAvatar = [
     to: '/client/profile',
     text: 'Profile',
   },
-  {
-    to: '',
-    text: 'order',
-  },
 ];
 
 export default function Header() {
@@ -66,6 +62,10 @@ export default function Header() {
                   <div className='absolute top-5 right-0 z-50 transition-all duration-200 ease-in-out'>
                     <ul className='bg-white shadow-2xl w-36 rounded-md mt-5 overflow-hidden'>
                       {renderMenuAvatar()}
+                      <hr />
+                      <li className='p-2 hover:bg-red-100 transition-all duration-200 ease-in-out block cursor-pointer'>
+                        <button>Logout</button>
+                      </li>
                     </ul>
                   </div>
                 )}
