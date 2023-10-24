@@ -3,7 +3,7 @@ import axios from 'axios';
 import { localStorages } from './localStorage';
 
 const requestHandler = axios.create({
-  baseURL: 'https://abac-116-110-163-213.ngrok.io/',
+  baseURL: 'https://abac-116-110-163-213.ngrok.io/api/',
   timeout: 0,
   headers: {
     'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const requestHandler = axios.create({
 
 requestHandler.interceptors.request.use(
   (config) => {
-    config.headers['Authorization'] = `Bearer ${localStorages.getToken()}`;
+    // config.headers['Authorization'] = `Bearer ${localStorages.getToken()}`;
     return config;
   },
   (error) => Promise.reject(error)
