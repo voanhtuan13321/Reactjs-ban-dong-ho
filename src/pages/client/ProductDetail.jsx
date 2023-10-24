@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -38,6 +40,9 @@ const similarProducts = [
 ];
 
 export default function ProductDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -54,13 +59,21 @@ export default function ProductDetail() {
     ],
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const renderProductList = () => {
     return similarProducts.map((product) => (
       <div key={product.id}>
-        <img
-          src={product.image}
-          alt={product.name}
-        />
+        <div className='overflow-hidden'>
+          <img
+            src={product.image}
+            alt={product.name}
+            className='hover:scale-110 duration-200 ease-linear cursor-pointer'
+            onClick={() => navigate(`/client/product-detail/${product.id}`)}
+          />
+        </div>
         <h2 className='text-center'>{product.name}</h2>
       </div>
     ));
@@ -87,6 +100,7 @@ export default function ProductDetail() {
               <input
                 type='number'
                 className='w-14 py-2 px-3 border border-gray-300 rounded ml-3'
+                placeholder='1'
               />
             </div>
             <div className='flex flex-col md:flex-row md:space-x-4'>

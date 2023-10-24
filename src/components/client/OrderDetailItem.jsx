@@ -21,7 +21,7 @@ export default function OrderDetailItem({ item }) {
           <p className='basis-1/4'>Số lượng: {item.quantity} cái</p>
           <p className='basis-1/4 text-end'>
             Thành tiền:{' '}
-            {caculateTotal(item.price, item.quantity, item.discount).toLocaleString('vi-VN')} VND
+            {caculateTotal(item.price, item.quantity, item.discount).toLocaleString('en-US')} USD
           </p>
         </div>
         <p className='text-justify'>Mô tả: {item.decription}</p>
