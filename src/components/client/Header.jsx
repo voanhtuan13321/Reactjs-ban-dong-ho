@@ -12,7 +12,14 @@ const menuAvatar = [
 
 export default function Header() {
   const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
+  const [state, setState] = useState(true);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setState(!state)
+    // navigate('/login');
+  };
 
   const renderMenuAvatar = () => {
     return menuAvatar.map((item, index) => {
@@ -40,7 +47,7 @@ export default function Header() {
           <Navbar />
         </div>
         <div>
-          {true ? (
+          {state ? (
             <div className='flex items-center relative'>
               <FaShoppingCart
                 className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'
@@ -64,7 +71,7 @@ export default function Header() {
                       {renderMenuAvatar()}
                       <hr />
                       <li className='p-2 hover:bg-red-100 transition-all duration-200 ease-in-out block cursor-pointer'>
-                        <button>Logout</button>
+                        <button onClick={handleLogout}>Logout</button>
                       </li>
                     </ul>
                   </div>
