@@ -16,11 +16,11 @@ function CardItem({ item }) {
             discount {item?.discount}%
           </span>
         )}
-        <div className='cursor-pointer rounded-t-lg overflow-hidden'>
+        <div className='cursor-pointer rounded-t-lg overflow-hidden h-[310px]'>
           <img
-            className='hover:scale-150 duration-200 ease-linear'
+            className='hover:scale-125 duration-200 ease-linear'
             src={item?.img}
-            alt=''
+            alt='img product'
             onClick={() => handleNavigate(item.id)}
           />
         </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { localStorages } from './localStorage';
 
 const requestHandler = axios.create({
-  baseURL: 'https://abac-116-110-163-213.ngrok.io/api/',
+  baseURL: 'https://6d8d-113-176-99-216.ngrok.io/api/',
   timeout: 0,
   headers: {
     'Content-Type': 'application/json',

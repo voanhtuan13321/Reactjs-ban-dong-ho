@@ -132,7 +132,7 @@ function ListProduct({ products }) {
     setCurrentPage(selected);
   };
   const offset = currentPage * itemsPerPage;
-  const currentPageData = data.slice(offset, offset + itemsPerPage);
+  const currentPageData = products.slice(offset, offset + itemsPerPage);
   const renderCartItem = () => {
     return currentPageData.map((item, i) => {
       return (
@@ -156,16 +156,15 @@ function ListProduct({ products }) {
               <GrNext />
             </span>
           }
-          pageRangeDisplayed={3}
-          pageCount={Math.ceil(data.length / itemsPerPage)}
+          pageRangeDisplayed={4}
+          pageCount={Math.ceil(products.length / itemsPerPage)}
           previousLabel={
             <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
               <GrPrevious />
             </span>
           }
-          pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white'
+          pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
           activeClassName='bg-main-red text-white'
-          disabledClassName={true}
           onPageChange={handlePageChange}
         />
       </div>
