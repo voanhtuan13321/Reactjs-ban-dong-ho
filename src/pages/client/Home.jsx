@@ -134,20 +134,20 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   fetchProduct();
-  // }, []);
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
-  // const fetchProduct = async () => {
-  //   try {
-  //     const response = await requestHandle.get('product/');
-  //     const data = await response.data;
-  //     setProducts(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //     navigate('/error');
-  //   }
-  // };
+  const fetchProduct = async () => {
+    try {
+      const response = await requestHandle.get('product/');
+      const data = await response.data;
+      setProducts(data);
+    } catch (err) {
+      console.log(err);
+      navigate('/error');
+    }
+  };
 
   return (
     <div className='w-container m-auto mt-2'>
