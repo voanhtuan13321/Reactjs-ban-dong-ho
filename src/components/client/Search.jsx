@@ -2,24 +2,15 @@ import { Combobox, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
-const people = [
-  { id: 1, name: 'Wade Cooper' },
-  { id: 2, name: 'Arlene Mccoy' },
-  { id: 3, name: 'Devon Webb' },
-  { id: 4, name: 'Tom Cook' },
-  { id: 5, name: 'Tanya Fox' },
-  { id: 6, name: 'Hellen Schmidt' },
-];
-
-function Search() {
+function Search({ data }) {
   const [selected, setSelected] = useState([]);
   const [query, setQuery] = useState('');
 
   const filteredPeople =
     query === ''
-      ? people
-      : people.filter((person) =>
-          person.name
+      ? data
+      : data.filter((data) =>
+          data.name
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, ''))
@@ -59,9 +50,9 @@ function Search() {
                   Nothing found.
                 </div>
               ) : (
-                filteredPeople.map((person) => (
+                filteredPeople.map((person,index) => (
                   <Combobox.Option
-                    key={person.id}
+                    key={index}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
                         active ? 'bg-teal-600 text-white' : 'text-gray-900'
