@@ -25,6 +25,10 @@ const routes = [
     component: Dashboard, // view rendered
   },
   {
+    path: '/', // the url
+    component: Welcome, // view rendered
+  },
+  {
     path: '/welcome', // the url
     component: Welcome, // view rendered
   },
