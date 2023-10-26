@@ -3,10 +3,22 @@ import requestHandle from '../utils/requestHandle';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import undraw from '../assets/img/bg-01.jpg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Toast from '../components/Toast';
 
 export default function Login() {
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedMessage = localStorage.getItem('message');
+    if (storedMessage) {
+      setMessage(storedMessage);
+      setType("success");
+      localStorage.removeItem('message');
+    }
+  }, []);
 
   const initialValues = {
     email: '',
@@ -14,8 +26,8 @@ export default function Login() {
   };
 
   useEffect(() => {
-    localStorage.removeItem('token')
-  },[])
+    localStorage.removeItem('token');
+  }, []);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -36,7 +48,8 @@ export default function Login() {
         localStorage.setItem('token', accessToken);
         navigate('/client/cart');
       } else {
-        console.log('Đăng nhập không thành công');
+        setMessage("Email or password is incorrect")
+        setType("error")
       }
     } catch (err) {
       console.error('Lỗi:', err);
@@ -59,6 +72,13 @@ export default function Login() {
           onSubmit={handleLogin}
         >
           <Form className='w-full py-10 px-20'>
+            {message && (
+              <Toast
+                message={message}
+                type={type}
+                onClose={() => setMessage('')}
+              />
+            )}
             <div className='mb-6 grid grid-cols-8 gap-2'>
               <label
                 className='text-[#808080] text-sm font-bold self-center col-span-1'
@@ -73,7 +93,7 @@ export default function Login() {
                 className='w-full col-span-7 border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
                 placeholder='Enter email'
               />
-              <div className="col-span-1"></div>
+              <div className='col-span-1'></div>
               <ErrorMessage
                 name='email'
                 component='div'
@@ -95,7 +115,7 @@ export default function Login() {
                 className='w-full col-span-7 border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
                 placeholder='Enter password'
               />
-              <div className="col-span-1"></div>
+              <div className='col-span-1'></div>
               <ErrorMessage
                 name='password'
                 component='div'

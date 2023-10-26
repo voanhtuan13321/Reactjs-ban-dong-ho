@@ -29,6 +29,8 @@ export default function Register() {
       .required('Confirm Password is required'),
   });
 
+  // localStorage.setItem('message', "User register successfully");
+
   const handleRegister = async (values) => {
     try {
       const response = await requestHandle.post('register', values);
@@ -36,6 +38,7 @@ export default function Register() {
       const data = response.data;
 
       if (data.status === 'success') {
+        localStorage.setItem('message', data.message);
         navigate('/login');
       } else {
         console.log('Registration failed');
