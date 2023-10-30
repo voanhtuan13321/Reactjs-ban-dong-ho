@@ -9,7 +9,7 @@ export default function LayoutAdmin() {
         <div className='basis-1/5'>
           <Siderbar />
         </div>
-        <div className='basis-4/5'>
+        <div className='basis-4/5 p-10'>
           <Outlet />
         </div>
       </div>
