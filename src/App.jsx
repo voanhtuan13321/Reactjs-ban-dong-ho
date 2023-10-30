@@ -12,6 +12,9 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Error from './pages/Error';
 import Index from './pages/client/Index';
+import Brands from './pages/admin/Brands';
+import Products from './pages/admin/Products';
+import Orders from './pages/admin/Orders';
 
 // routes client
 const clientRoute = [
@@ -48,8 +51,16 @@ const clientRoute = [
 // routes admin
 const adminRoute = [
   {
-    path: '',
-    element: null,
+    path: 'brands',
+    element: <Brands />,
+  },
+  {
+    path: 'products',
+    element: <Products />,
+  },
+  {
+    path: 'orders',
+    element: <Orders />,
   },
 ];
 
