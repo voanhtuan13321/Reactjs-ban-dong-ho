@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Error from './pages/Error';
 import Index from './pages/client/Index';
+import ForgotPassword from './components/client/ForgotPassword';
 
 // routes client
 const clientRoute = [
@@ -102,6 +103,10 @@ export default function App() {
         <Route
           path='/register'
           element={<Register />}
+        />
+        <Route
+          path='/forgot-password'
+          element={<ForgotPassword />}
         />
 
         <Route

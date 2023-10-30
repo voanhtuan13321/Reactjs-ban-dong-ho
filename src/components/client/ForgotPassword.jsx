@@ -1,63 +1,37 @@
 import { Link, useNavigate } from 'react-router-dom';
-import requestHandle from '../utils/requestHandle';
+import requestHandle from '../../utils/requestHandle';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import undraw from '../assets/img/bg-01.jpg';
-import { useEffect, useState } from 'react';
-import Toast from '../components/Toast';
+import undraw from '../../assets/img/bg-01.jpg';
+import { useState } from 'react';
+import Toast from '../Toast';
 
-export default function Login() {
+export default function ForgotPassword() {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedMessage = localStorage.getItem('message');
-    if (storedMessage) {
-      setMessage(storedMessage);
-      setType('success');
-      localStorage.removeItem('message');
-    }
-  }, []);
-
   const initialValues = {
     email: '',
-    password: '',
   };
-
-  useEffect(() => {
-    localStorage.removeItem('token');
-  }, []);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
   });
 
-  const handleLogin = async (values) => {
+  const handleForgotPassword = async (values) => {
     try {
-      const response = await requestHandle.post('login', {
+      const response = await requestHandle.post('forgot-password', {
         email: values.email,
-        password: values.password,
       });
 
       const data = response.data;
-
-      if (data.status === 'success') {
-        const accessToken = data.accessToken;
-        localStorage.setItem('token', accessToken);
-        // if (data.data.roles.name === 'ROLE_USER') {
-        navigate('/client');
-        // } else {
-        //   navigate('/admin/dashboard');
-        // }
-      } else {
-        setMessage(data.message);
-        setType('error');
-      }
+      setMessage(data);
+      setType('success');
+      
     } catch (err) {
-      setMessage('Invalid email or password!');
-      setType('error');
+      console.error('Lỗi:', err);
+      navigate('/error');
     }
   };
 
@@ -68,12 +42,14 @@ export default function Login() {
           className='bg-cover bg-center bg-gray-400 py-16'
           style={{ backgroundImage: `url(${undraw})` }}
         >
-          <h1 className='text-4xl text-white font-bold uppercase text-center p-4'>Sign In</h1>
+          <h1 className='text-4xl text-white font-bold uppercase text-center p-4'>
+            Forgot Password
+          </h1>
         </div>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={handleLogin}
+          onSubmit={handleForgotPassword}
         >
           <Form className='w-full py-10 px-20'>
             {message && (
@@ -105,51 +81,22 @@ export default function Login() {
               />
             </div>
 
-            <div className='mb-6 grid grid-cols-8 gap-2'>
-              <label
-                className='block text-[#808080] text-sm font-bold self-center col-span-1'
-                htmlFor='password'
-              >
-                Password
-              </label>
-              <Field
-                type='password'
-                id='password'
-                name='password'
-                className='w-full col-span-7 border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
-                placeholder='Enter password'
-              />
-              <div className='col-span-1'></div>
-              <ErrorMessage
-                name='password'
-                component='div'
-                className='text-red-500 col-span-7'
-              />
-            </div>
-            <div className='col-span-2 text-right'>
-              <Link
-                to='/forgot-password'
-                className='text-[#5d84ef] text-sm'
-              >
-                Forgot your password?
-              </Link>
-            </div>
             <div className='mb-6 grid grid-cols-8 pt-7'>
               <div className='col-span-1'></div>
               <button
                 type='submit'
                 className='w-full col-span-7 bg-main-red text-white font-bold py-2 rounded-full hover:bg-main-black'
               >
-                Login
+                Send Email
               </button>
             </div>
             <div className='col-span-6 text-right text-sm'>
-              <span className=''>Don't have account? </span>
+              <span className=''>Return page </span>
               <Link
-                to='/register'
+                to='/login'
                 className='text-[#999999] font-bold'
               >
-                Register now
+                Login
               </Link>
             </div>
           </Form>
