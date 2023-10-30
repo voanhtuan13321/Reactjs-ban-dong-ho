@@ -1,45 +1,14 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { removeNotificationMessage } from "../../features/common/headerSlice"
-import { NotificationContainer, NotificationManager } from 'react-notifications';
-import { useEffect } from 'react';
-import PageContent from './PageContent';
-import LeftSidebar from './LeftSidebar';
-import RightSidebar from './RightSidebar';
-import ModalLayout from './ModalLayout';
+import Header from '../../components/admin/Header';
+import { Outlet } from 'react-router-dom';
+import Siderbar from '../../components/admin/Siderbar';
 
 export default function LayoutAdmin() {
-  const dispatch = useDispatch()
-  const { newNotificationMessage, newNotificationStatus } = useSelector(state => state.header)
-
-
-  useEffect(() => {
-    if (newNotificationMessage !== "") {
-      if (newNotificationStatus === 1) NotificationManager.success(newNotificationMessage, 'Success')
-      if (newNotificationStatus === 0) NotificationManager.error(newNotificationMessage, 'Error')
-      dispatch(removeNotificationMessage())
-    }
-  }, [newNotificationMessage])
-
   return (
     <>
-      { /* Left drawer - containing page content and side bar (always open) */}
-      <div className="drawer drawer-mobile">
-        <input id="left-sidebar-drawer" type="checkbox" className="drawer-toggle" />
-        <PageContent />
-        <LeftSidebar />
-      </div>
-
-      { /* Right drawer - containing secondary content like notifications list etc.. */}
-      <RightSidebar />
-
-
-      {/** Notification layout container */}
-      <NotificationContainer />
-
-      {/* Modal layout container */}
-      <ModalLayout />
-
+      <Header />
+      <Siderbar />
+      <Outlet />
     </>
-  )
+  );
 }
