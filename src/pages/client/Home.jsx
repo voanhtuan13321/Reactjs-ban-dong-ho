@@ -19,7 +19,7 @@ export default function Home() {
   const fetchProduct = async () => {
     try {
       const response = await requestHandle.get('product/');
-      const data = await response.data;
+      const data = await response.data.data;
       setProducts(data);
     } catch (err) {
       console.log(err);
