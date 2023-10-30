@@ -7,8 +7,14 @@ export default function LayoutAdmin() {
   return (
     <>
       <Header />
-      <Siderbar />
-      <Outlet />
+      <div className='flex'>
+        <div className='basis-1/4'>
+          <Siderbar />
+        </div>
+        <div className='basis-3/4'>
+          <Outlet />
+        </div>
+      </div>
     </>
   );
 }
