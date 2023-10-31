@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Siderbar from '../../components/admin/Siderbar';
+import Orders from './Orders';
 
 export default function LayoutAdmin() {
   return (
