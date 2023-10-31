@@ -3,6 +3,8 @@ import requestHandler from '../../utils/requestHandle';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Toast from '../../components/Toast';
+import ReactPaginate from 'react-paginate';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 export default function Brands() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,20 +13,9 @@ export default function Brands() {
   const [state, setState] = useState(false);
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
-
-  const openModal = () => {
-    setIsModalOpen(true);
-    setEditBrand(null);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditBrand(null);
-  };
-
-  const brandSchema = Yup.object().shape({
-    name: Yup.string().required('Brand name is required'),
-  });
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -39,6 +30,32 @@ export default function Brands() {
 
     fetchBrands();
   }, [state]);
+  useEffect(() => {
+    setPageCount(Math.ceil(brands.length / itemsPerPage));
+    setCurrentPage(0);
+  }, [brands]);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = brands.slice(offset, offset + itemsPerPage);
+  const openModal = () => {
+    setIsModalOpen(true);
+    setEditBrand(null);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditBrand(null);
+  };
+
+  const brandSchema = Yup.object().shape({
+    name: Yup.string().required('Brand name is required'),
+  });
+
+ 
 
   const handleEdit = (brand) => {
     setEditBrand(brand);
@@ -84,7 +101,7 @@ export default function Brands() {
           <div className='divider mt-2'></div>
           <div className='h-full w-full pb-6 bg-base-100'>
             <div className='overflow-x-auto w-full'>
-              <table className='table w-full'>
+              <table className='table w-full text-center'>
                 <thead>
                   <tr>
                     <th>Id</th>
@@ -95,19 +112,39 @@ export default function Brands() {
                   </tr>
                 </thead>
                 <tbody>
-                  {brands.map((brand) => (
+                  {currentPageData.map((brand) => (
                     <tr key={brand.id}>
                       <td>{brand.id}</td>
                       <td>{brand.name}</td>
                       <td>{brand.createDate}</td>
                       <td>{brand.updateDate}</td>
                       <td>
-                        <button onClick={() => handleEdit(brand)}>Edit</button>
+                        <button onClick={() => handleEdit(brand)} className='underline text-primary'>Edit</button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              <ReactPaginate
+            breakLabel='...'
+            className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+            nextLabel={
+              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                <GrNext />
+              </span>
+            }
+            pageRangeDisplayed={3}
+            pageCount={pageCount}
+            previousLabel={
+              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                <GrPrevious />
+              </span>
+            }
+            marginPagesDisplayed={10}
+            pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
+            activeClassName='bg-main-red text-white'
+            onPageChange={handlePageChange}
+          />
             </div>
           </div>
         </div>
