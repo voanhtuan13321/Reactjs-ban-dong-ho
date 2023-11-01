@@ -45,10 +45,12 @@ export default function Home() {
           searchTerm={searchTerm}
           handleSearch={handleSearch}
         />
-        <FilterMoney />
       </div>
       <div className='relative z-10'>
-        <ListProduct products={products} filteredList={filteredList}  />
+        <ListProduct
+          products={products}
+          filteredList={filteredList}
+        />
       </div>
     </div>
   );
