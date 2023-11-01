@@ -1,16 +1,32 @@
-import React from 'react';
-
-const data = ['Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple'];
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import requestHandle from '../../utils/requestHandle';
 
 function Brands() {
+  const [brands, setBrands] = useState([]);
+  const navigate = useNavigate();
+  const fecthBranh = async () => {
+    try {
+      const response = await requestHandle.get('brands/');
+      const data = await response.data.data;
+      console.log(data);
+      setBrands(data);
+    } catch (error) {
+      console.log(error);
+      navigate('/error');
+    }
+  };
+  useEffect(() => {
+    fecthBranh();
+  }, []);
   const renderData = () => {
-    return data.map((dt, index) => {
+    return brands.map((item, index) => {
       return (
         <div
           key={index}
           className='col-span-3 bg-main-black text-white text-lg text-center font-semibold px-4 py-3 rounded-lg cursor-pointer hover:opacity-90 transition-all duration-200 ease-in-out'
         >
-          {dt}
+          {item.name}
         </div>
       );
     });
