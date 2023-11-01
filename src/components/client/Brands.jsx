@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import requestHandle from '../../utils/requestHandle';
 
-function Brands() {
+function Brands({handleGetProductsByBrand}) {
   const [brands, setBrands] = useState([]);
   const navigate = useNavigate();
-  const fecthBranh = async () => {
+  const fecthBrand = async () => {
     try {
       const response = await requestHandle.get('brands/');
       const data = await response.data.data;
@@ -17,13 +17,14 @@ function Brands() {
     }
   };
   useEffect(() => {
-    fecthBranh();
+    fecthBrand();
   }, []);
   const renderData = () => {
     return brands.map((item, index) => {
       return (
         <div
           key={index}
+          onClick={() => handleGetProductsByBrand(item.id)}
           className='col-span-3 bg-main-black text-white text-lg text-center font-semibold px-4 py-3 rounded-lg cursor-pointer hover:opacity-90 transition-all duration-200 ease-in-out'
         >
           {item.name}
