@@ -1,48 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-const similarProducts = [
-  {
-    id: 1,
-    name: 'Product 1',
-    image: 'https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    image:
-      'https://bizweb.dktcdn.net/100/021/944/products/techwearvn-amazfit-gts-4den-1.jpg?v=1667843229057',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    image:
-      'https://bizweb.dktcdn.net/100/021/944/products/vn-galaxy-watch5-pro-den-4198d8e7-d2a8-4f73-9ea2-4ffebfeb6533.jpg?v=1672474572980',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    image: 'https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    image: 'https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    image: 'https://bizweb.dktcdn.net/100/021/944/products/techwearvn-gtr42.jpg?v=1666887735127',
-  },
-];
+import requestHandle from '../../utils/requestHandle';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [productDetail, setProductDetail] = useState(null);
+  const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -58,17 +25,28 @@ export default function ProductDetail() {
       },
     ],
   };
-
+  const fetchProduct = async () => {
+    try {
+      const response = await requestHandle.get(`product/${id}`);
+      const data = await response.data;
+      setProductDetail(data);
+      setSameBrandProducts(data.sameBrandProducts);
+    } catch (err) {
+      console.log(err);
+      navigate('/error');
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchProduct();
   }, []);
 
   const renderProductList = () => {
-    return similarProducts.map((product) => (
+    return sameBrandProducts.map((product) => (
       <div key={product.id}>
         <div className='overflow-hidden'>
           <img
-            src={product.image}
+            src={product.imageSource}
             alt={product.name}
             className='hover:scale-110 duration-200 ease-linear cursor-pointer'
             onClick={() => navigate(`/client/product-detail/${product.id}`)}
@@ -91,16 +69,16 @@ export default function ProductDetail() {
         </div>
         <div>
           <div className='border-b-4 border-main-black pb-7'>
-            <h1 className='text-lg font-semibold mb-4'>PATEK PHILIPPE</h1>
-            <h1 className='text-4xl font-semibold mb-4'>Grand Complications Perpetual Calendar</h1>
-            <p className='text-gray-600 mb-4'>REF 5140J-001</p>
-            <p className='text-xl font-bold text-main-red mb-4'>Price: $49,950</p>
+            <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
+            <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
+            <p className='text-gray-600 mb-4'>{productDetail?.model}</p>
+            <p className='text-xl font-bold text-main-red mb-4'>Price: ${productDetail?.price}</p>
             <div className='flex items-center py-4'>
               <p className='text-black-600 font-bold'>Quantity:</p>
               <input
                 type='number'
                 className='w-14 py-2 px-3 border border-gray-300 rounded ml-3'
-                placeholder='1'
+                value={1}
               />
             </div>
             <div className='flex flex-col md:flex-row md:space-x-4'>
@@ -140,13 +118,7 @@ export default function ProductDetail() {
           </div>
           <div className=' mb-4 mt-8'>
             <h1 className='text-2xl font-semibold '>Description</h1>
-            <p>
-              Pre-Owned Patek Philippe Grand Complications Perpetual Calendar (5140J001) self -
-              winding automatic watch, features a 37.2mm 18k yellow gold case surrounding a silver
-              dial on a black alligator strap with an 18k yellow gold Calatrava Cross deployant
-              buckle. Functions include hours, minutes, seconds, chronograph, date, day, month, moon
-              phase and perpetual calendar
-            </p>
+            <p>{productDetail?.description}</p>
           </div>
           <div className=' mb-4 mt-8'>
             <h1 className='text-2xl font-semibold '>Features</h1>
@@ -155,27 +127,27 @@ export default function ProductDetail() {
               <div className='flex flex-col'>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Color:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.color}</p>
                 </div>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Screen Size:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.screenSize}</p>
                 </div>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Origin:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.origin}</p>
                 </div>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Face Size:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.faceSize}</p>
                 </div>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Frame Material:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.frameMaterial}</p>
                 </div>
                 <div className='flex items-center mb-2'>
                   <h1 className='w-36 text-black-600 font-bold'>Wire Material:</h1>
-                  <p className='text-gray-600'>Red</p>
+                  <p className='text-gray-600'>{productDetail?.wireMaterial}</p>
                 </div>
               </div>
             </div>

@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
 import CardItem from './CardItem';
+import { useNavigate } from 'react-router-dom';
+import requestHandler from '../../utils/requestHandle';
 
 const data = [
   {
@@ -28,8 +31,24 @@ const data = [
 ];
 
 function Top5Product() {
+  const [top, setTop] = useState([]);
+  const navigate = useNavigate();
+  const fecthTop5 = async () => {
+    try {
+      const response = await requestHandler.get('product/top5');
+      const data = await response.data.data;
+      console.log(data);
+      setTop(data);
+    } catch (error) {
+      console.log(error);
+      navigate('/error');
+    }
+  };
+  useEffect(() => {
+    fecthTop5();
+  }, []);
   const renderCartItem = () => {
-    return data.map((item, i) => {
+    return top.map((item, i) => {
       return (
         <CardItem
           item={item}
