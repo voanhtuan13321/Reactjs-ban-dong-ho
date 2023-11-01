@@ -3,13 +3,17 @@ import requestHandle from '../utils/requestHandle';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import undraw from '../assets/img/bg-01.jpg';
+import { useState } from 'react';
+import Toast from '../components/Toast';
 
 export default function Register() {
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState('');
   const navigate = useNavigate();
 
   const initialValues = {
-    fullname: '',
-    birthday: '',
+    fullName: '',
+    birthDate: '',
     phone: '',
     address: '',
     email: '',
@@ -18,8 +22,8 @@ export default function Register() {
   };
 
   const validationSchema = Yup.object().shape({
-    fullname: Yup.string().required('Fullname is required'),
-    birthday: Yup.date().required('Birthday is required'),
+    fullName: Yup.string().required('Fullname is required'),
+    birthDate: Yup.date().required('Birthday is required'),
     phone: Yup.string().required('Phone is required'),
     address: Yup.string().required('Address is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -40,12 +44,13 @@ export default function Register() {
       if (data.status === 'success') {
         localStorage.setItem('message', data.message);
         navigate('/login');
-      } else {
-        console.log('Registration failed');
+      } else if (data.status === 'fail') {
+        setMessage(data.message);
+        setType('error');
       }
     } catch (err) {
-      console.error('Error:', err);
-      navigate('/error');
+      setMessage('Email already existed!');
+      setType('error');
     }
   };
 
@@ -64,22 +69,29 @@ export default function Register() {
           onSubmit={handleRegister}
         >
           <Form className='w-full py-10 px-20'>
+            {message && (
+              <Toast
+                message={message}
+                type={type}
+                onClose={() => setMessage('')}
+              />
+            )}
             <div className='mb-6'>
               <label
                 className='text-[#808080] text-sm font-bold self-center'
-                htmlFor='fullname'
+                htmlFor='fullName'
               >
                 Fullname
               </label>
               <Field
                 type='text'
-                id='fullname'
-                name='fullname'
+                id='fullName'
+                name='fullName'
                 className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
-                placeholder='Enter fullname'
+                placeholder='Enter fullName'
               />
               <ErrorMessage
-                name='fullname'
+                name='fullName'
                 component='div'
                 className='text-red-500'
               />
@@ -89,18 +101,18 @@ export default function Register() {
               <div className='col-span-1 mb-6'>
                 <label
                   className='text-[#808080] text-sm font-bold self-center'
-                  htmlFor='birthday'
+                  htmlFor='birthDate'
                 >
                   Birthday
                 </label>
                 <Field
                   type='date'
-                  id='birthday'
-                  name='birthday'
+                  id='birthDate'
+                  name='birthDate'
                   className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
                 />
                 <ErrorMessage
-                  name='birthday'
+                  name='birthDate'
                   component='div'
                   className='text-red-500'
                 />
@@ -220,12 +232,13 @@ export default function Register() {
                 Register
               </button>
             </div>
-            <div className='col-span-2 text-right'>
+            <div className='col-span-2 text-right text-sm'>
+              <span className=''>Already have an account? </span>
               <Link
                 to='/login'
-                className='text-[#999999] text-sm'
+                className='text-[#999999] font-bold'
               >
-                Login?
+                Login
               </Link>
             </div>
           </Form>

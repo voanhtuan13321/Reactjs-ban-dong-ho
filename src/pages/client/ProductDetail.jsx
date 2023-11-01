@@ -78,7 +78,7 @@ export default function ProductDetail() {
               <input
                 type='number'
                 className='w-14 py-2 px-3 border border-gray-300 rounded ml-3'
-                placeholder='1'
+                value={1}
               />
             </div>
             <div className='flex flex-col md:flex-row md:space-x-4'>

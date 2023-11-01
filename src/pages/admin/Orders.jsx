@@ -1,5 +1,166 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import LabelStatus from '../../components/admin/LabelStatus';
+import ReactPaginate from 'react-paginate';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
+const trans = [
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'waiting',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'cancel',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+  {
+    emailUser: 'manh@gmail.com',
+    amount: 1000,
+    status: 'accepted',
+    paymentDate: '2-2-2013',
+  },
+];
 export default function Orders() {
-  return <div>Orders</div>;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerPage = 5;
+
+  useEffect(() => {
+    setPageCount(Math.ceil(trans.length / itemsPerPage));
+    setCurrentPage(0);
+  }, [trans]);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = trans.slice(offset, offset + itemsPerPage);
+
+  return (
+    <main className='flex-1 overflow-y-auto pt-8 px-6  bg-base-200'>
+      <div className='card w-full p-6 bg-base-100 shadow-xl mt-2'>
+        <div className='text-xl font-semibold inline-block'>Order List</div>
+        <div className='divider mt-2'></div>
+        <div className='h-full w-full pb-6 bg-base-100'>
+          <div className='overflow-x-auto w-full'>
+            <table className='table w-full text-center'>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th>Payment Date</th>
+                  <th>Action</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentPageData.map((l, k) => {
+                  return (
+                    <tr key={k}>
+                      <td>{k+1}</td>
+                      <td className='font-bold text-lg'>{l.emailUser}</td>
+                      <td>
+                        <LabelStatus type={l.status}>{l.status}</LabelStatus>
+                      </td>
+                      <td className='text-lg'>${l.amount}</td>
+                      <td className='text-lg'>{l.paymentDate}</td>
+                      <td className='w-2/12'>
+                        {l.status === 'waiting' ? (
+                          <>
+                            <button className='text-center btn-success mr-2 py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'>
+                              Accept
+                            </button>
+                            <button className='text-center btn-error py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'>
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td>
+                        <p className='text-blue-500 underline cursor-pointer text-lg'>Detail</p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <ReactPaginate
+            breakLabel='...'
+            className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+            nextLabel={
+              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                <GrNext />
+              </span>
+            }
+            pageRangeDisplayed={3}
+            pageCount={pageCount}
+            previousLabel={
+              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                <GrPrevious />
+              </span>
+            }
+            marginPagesDisplayed={10}
+            pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
+            activeClassName='bg-main-red text-white'
+            onPageChange={handlePageChange}
+          />
+          </div>
+        </div>
+      </div>
+      <div className='h-16'></div>
+    </main>
+  );
 }
+
+// <div className='overflow-x-hidden rounded-sm m-5 w-full'>
+//       <table className='table text-center w-11/12 mx-auto'>
+
+//         <tbody>
+
+//         </tbody>
+//       </table>
+//     </div>
