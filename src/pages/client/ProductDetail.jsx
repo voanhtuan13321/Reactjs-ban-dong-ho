@@ -10,6 +10,8 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const [productDetail, setProductDetail] = useState(null);
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -25,6 +27,7 @@ export default function ProductDetail() {
       },
     ],
   };
+
   const fetchProduct = async () => {
     try {
       const response = await requestHandle.get(`product/${id}`);
@@ -41,6 +44,13 @@ export default function ProductDetail() {
     fetchProduct();
   }, []);
 
+  const handleQuantityChange = (e) => {
+    let value = parseInt(e.target.value);
+    value = Math.max(value, 1);
+    setQuantity(value);
+  };
+
+  const addToCart = () => {};
   const renderProductList = () => {
     return sameBrandProducts.map((product) => (
       <div key={product.id}>
@@ -78,7 +88,9 @@ export default function ProductDetail() {
               <input
                 type='number'
                 className='w-14 py-2 px-3 border border-gray-300 rounded ml-3'
-                value={1}
+                value={quantity}
+                onChange={handleQuantityChange}
+                min={1}
               />
             </div>
             <div className='flex flex-col md:flex-row md:space-x-4'>
