@@ -3,32 +3,8 @@ import CardItem from './CardItem';
 import { useNavigate } from 'react-router-dom';
 import requestHandler from '../../utils/requestHandle';
 
-const data = [
-  {
-    img: 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg',
-    discount: 0,
-    price: 100000,
-    name: 'Name watch Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti quiveniam explicabo quidem quaerat laudantium cum. Eos, atque mollitia recusandae officiis abcum? Explicabo at voluptas quos perspiciatis laborum!',
-  },
-  {
-    img: 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg',
-    discount: 10,
-    price: 100000,
-    name: 'Name watch Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti quiveniam explicabo quidem quaerat laudantium cum. Eos, atque mollitia recusandae officiis abcum? Explicabo at voluptas quos perspiciatis laborum!',
-  },
-  {
-    img: 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg',
-    discount: 0,
-    price: 100000,
-    name: 'Name watch Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti quiveniam explicabo quidem quaerat laudantium cum. Eos, atque mollitia recusandae officiis abcum? Explicabo at voluptas quos perspiciatis laborum!',
-  },
-  {
-    img: 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg',
-    discount: 10,
-    price: 100000,
-    name: 'Name watch Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis deleniti quiveniam explicabo quidem quaerat laudantium cum. Eos, atque mollitia recusandae officiis abcum? Explicabo at voluptas quos perspiciatis laborum!',
-  },
-];
+
+
 
 function Top5Product() {
   const [top, setTop] = useState([]);
@@ -47,6 +23,7 @@ function Top5Product() {
   useEffect(() => {
     fecthTop5();
   }, []);
+ 
   const renderCartItem = () => {
     return top.map((item, i) => {
       return (

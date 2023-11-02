@@ -16,6 +16,7 @@ import ForgotPassword from './components/client/ForgotPassword';
 import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
+import OrderSuccess from './pages/client/OrderSuccess';
 
 // routes client
 const clientRoute = [
@@ -47,6 +48,10 @@ const clientRoute = [
     path: 'profile',
     element: <Profile />,
   },
+  {
+    path: 'orderSuccess',
+    element: <OrderSuccess />,
+  }
 ];
 
 // routes admin
