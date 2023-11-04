@@ -17,6 +17,7 @@ import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import OrderSuccess from './pages/client/OrderSuccess';
+import Statistical from './pages/admin/Statistical';
 
 // routes client
 const clientRoute = [
@@ -51,7 +52,7 @@ const clientRoute = [
   {
     path: 'orderSuccess',
     element: <OrderSuccess />,
-  }
+  },
 ];
 
 // routes admin
@@ -67,6 +68,10 @@ const adminRoute = [
   {
     path: 'orders',
     element: <Orders />,
+  },
+  {
+    path: 'statistical',
+    element: <Statistical />,
   },
 ];
 

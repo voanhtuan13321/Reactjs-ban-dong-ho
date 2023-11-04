@@ -14,6 +14,10 @@ const navs = [
     to: '/admin/orders',
     text: 'Orders',
   },
+  {
+    to: '/admin/statistical',
+    text: 'Statistical',
+  },
 ];
 
 export default function Siderbar() {
