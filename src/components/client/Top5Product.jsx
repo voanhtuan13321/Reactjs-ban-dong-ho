@@ -1,15 +1,25 @@
 import { useEffect, useState } from 'react';
+import Slider from 'react-slick';
 import CardItem from './CardItem';
 import { useNavigate } from 'react-router-dom';
 import requestHandler from '../../utils/requestHandle';
 
-
-
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function Top5Product() {
   const [top, setTop] = useState([]);
   const navigate = useNavigate();
-  const fecthTop5 = async () => {
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4, // Số lượng hiển thị trên mỗi slide
+    slidesToScroll: 1, // Số lượng slide được cuộn mỗi lần
+  };
+
+  const fetchTop5 = async () => {
     try {
       const response = await requestHandler.get('product/top5');
       const data = await response.data.data;
@@ -20,11 +30,12 @@ function Top5Product() {
       navigate('/error');
     }
   };
+
   useEffect(() => {
-    fecthTop5();
+    fetchTop5();
   }, []);
- 
-  const renderCartItem = () => {
+
+  const renderCardItems = () => {
     return top.map((item, i) => {
       return (
         <CardItem
@@ -37,8 +48,15 @@ function Top5Product() {
 
   return (
     <div className='mt-4'>
-      <p className='text-main-black text-4xl font-bold'>Top 5 Best Saler</p>
-      <div className='grid grid-cols-12 gap-4 mt-4'>{renderCartItem()}</div>
+      <p className='text-main-black text-4xl font-bold py-5 border-b-2 border-gray-400'>
+        SẢN PHẨM BÁN CHẠY
+      </p>
+      <Slider
+        {...settings}
+        className='mt-3'
+      >
+        {renderCardItems()}
+      </Slider>
     </div>
   );
 }

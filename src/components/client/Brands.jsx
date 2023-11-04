@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import requestHandle from '../../utils/requestHandle';
 
-function Brands({handleGetProductsByBrand}) {
+function Brands({ handleGetProductsByBrand }) {
   const [brands, setBrands] = useState([]);
   const navigate = useNavigate();
   const fecthBrand = async () => {
@@ -25,7 +25,7 @@ function Brands({handleGetProductsByBrand}) {
         <div
           key={index}
           onClick={() => handleGetProductsByBrand(item.id)}
-          className='col-span-3 bg-main-black text-white text-lg text-center font-semibold px-4 py-3 rounded-lg cursor-pointer hover:opacity-90 transition-all duration-200 ease-in-out'
+          className='col-span-3 bg-white text-main-black text-lg text-center font-semibold px-4 py-3 rounded-lg cursor-pointer hover:opacity-90 transition-all duration-200 ease-in-out border-2'
         >
           {item.name}
         </div>
@@ -34,9 +34,11 @@ function Brands({handleGetProductsByBrand}) {
   };
 
   return (
-    <div className='mt-3 '>
-      <p className='text-main-black text-4xl font-bold'>Popular Brands</p>
-      <div className='grid grid-cols-12 gap-4 mt-5'>{renderData()}</div>
+    <div class='mt-3'>
+      <p class='text-main-black text-4xl font-bold py-5 border-b-2 border-gray-400'>
+        DANH MỤC SẢN PHẨM
+      </p>
+      <div class='grid grid-cols-12 gap-4 mt-5'>{renderData()}</div>
     </div>
   );
 }

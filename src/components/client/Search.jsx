@@ -1,4 +1,4 @@
-import {BsSearch } from 'react-icons/bs'
+import { BsSearch } from 'react-icons/bs';
 
 function Search({ handleSearch, searchTerm }) {
   return (
@@ -9,11 +9,9 @@ function Search({ handleSearch, searchTerm }) {
           name='search'
           value={searchTerm}
           onChange={handleSearch}
-          placeholder='Search'
+          placeholder='Bạn muốn tìm gì ?....'
         />
-        <BsSearch
-          className='absolute right-0 top-3  mr-4'
-        />
+        <BsSearch className='absolute right-0 top-3  mr-4' />
       </div>
     </div>
   );

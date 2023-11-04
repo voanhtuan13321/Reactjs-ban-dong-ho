@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { AiFillDelete } from 'react-icons/ai';
 export default function Cart() {
   const navigate = useNavigate();
   return (
@@ -6,7 +7,7 @@ export default function Cart() {
       <div className='bg-white p-8 rounded-lg shadow-lg'>
         <h2 className='text-3xl font-semibold mb-4 text-center'>Your cart</h2>
         <div className='bg-white p-6 shadow-md rounded-lg'>
-          <div className='flex justify-between border-b border-gray-300 p-3 bg-main-red'>
+          <div className='flex justify-center border-b border-gray-300 p-3 bg-slate-400'>
             <div className='w-2/5'>
               <p className='font-semibold'>Product</p>
             </div>
@@ -26,7 +27,6 @@ export default function Cart() {
               <p className='font-semibold'>Action</p>
             </div>
           </div>
-
           <div className='flex justify-between items-center p-3'>
             <div className='w-2/5'>
               <p>Tên sản phẩm 1</p>
@@ -38,11 +38,10 @@ export default function Cart() {
                 className='w-16 h-16'
               />
             </div>
-            <div className='w-1/5'>
-              <input
-                type='number'
-                className='w-20 py-2 px-3 border border-gray-300 rounded'
-              />
+            <div className='w-1/5 flex'>
+              <button className='bg-main-red text-amber-50 w-8 h-7 rounded-lg'>+</button>
+              <p className='ml-2 mr-2'>1</p>
+              <button className='bg-main-red text-amber-50 w-8 rounded-lg'>-</button>
             </div>
             <div className='w-1/5'>
               <p>$50</p>
@@ -51,38 +50,11 @@ export default function Cart() {
               <p>$50</p>
             </div>
             <div className='w-1/5'>
-              <p>$50</p>
+              <button className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'>
+                <AiFillDelete className='ml-2' />
+              </button>
             </div>
           </div>
-
-          <div className='flex justify-between items-center p-3'>
-            <div className='w-2/5'>
-              <p>Tên sản phẩm 2</p>
-            </div>
-            <div className='w-1/5'>
-              <img
-                src='https://bizweb.dktcdn.net/100/021/944/products/fitbit-sense-2-techwearvn-2.jpg?v=1695741879530'
-                alt='Hình ảnh sản phẩm 2'
-                className='w-16 h-16'
-              />
-            </div>
-            <div className='w-1/5'>
-              <input
-                type='number'
-                className='w-20 py-2 px-3 border border-gray-300 rounded'
-              />
-            </div>
-            <div className='w-1/5'>
-              <p>$70</p>
-            </div>
-            <div className='w-1/5'>
-              <p>$70</p>
-            </div>
-            <div className='w-1/5'>
-              <button>Delete</button>
-            </div>
-          </div>
-
           <div className='flex justify-between p-3'>
             <div className='w-2/5'></div>
             <div className='w-1/5'></div>
