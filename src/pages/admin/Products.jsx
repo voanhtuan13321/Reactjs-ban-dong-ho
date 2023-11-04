@@ -6,15 +6,33 @@ import requestHandler from '../../utils/requestHandle';
 import Toast from '../../components/Toast';
 
 const INIT_IMAGE = 'https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg';
+const initProduct = {
+  color: '',
+  description: '',
+  discount: 0,
+  faceMaterial: '',
+  faceSize: 0,
+  images: null,
+  frameMaterial: '',
+  idBrand: 1,
+  model: '',
+  name: '',
+  origin: '',
+  price: 0,
+  productWeight: 0,
+  quantity: 0,
+  screenSize: 0,
+  warrantyPeriod: 0,
+  wireMaterial: '',
+};
 
 export default function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
-  const [editProduct, setEditProduct] = useState(null);
+  const [editProduct, setEditProduct] = useState(initProduct);
   const [state, setState] = useState(false);
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
-  const [idDanhMuc, setIdDanhMuc] = useState(0);
   const [brands, setBrands] = useState([]);
   const [base64String, setBase64String] = useState(INIT_IMAGE);
   const navigate = useNavigate();
@@ -30,7 +48,8 @@ export default function Products() {
   };
 
   const productSchema = Yup.object().shape({
-    name: Yup.string().required('Brand name is required'),
+    name: Yup.string().required('Product name is required'),
+    images: Yup.string().required('Image is required'),
   });
 
   useEffect(() => {
@@ -52,40 +71,44 @@ export default function Products() {
     try {
       const response = await requestHandler.get('product/');
       const data = await response.data.data;
+      // console.log(data);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const handleEdit = (brand) => {
-    setEditProduct(brand);
+  const handleEdit = (product) => {
+    setEditProduct(product);
     setIsModalOpen(true);
   };
 
   const handleAddOrUpdateBrand = async (values) => {
-    const dataRequest = { ...values, idBrand: idDanhMuc };
-    console.log('data', dataRequest);
-    // try {
-    //   let response;
-    //   if (editProduct) {
-    //     response = await requestHandler.put(`brands/${editProduct.id}`, values);
-    //   } else {
-    //     response = await requestHandler.post('product/', values);
-    //   }
-    //   setState(!state);
-    //   setType('success');
-    //   closeModal();
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   navigate('/error');
-    // }
+    const formData = convertToFormData(values);
+
+    try {
+      // if (editProduct) {
+      //   await requestHandler.put(`product/${editProduct.id}`, values);
+      // } else {
+      // }
+      await requestHandler.post('product/', formData);
+      setState(!state);
+      setType('success');
+      closeModal();
+    } catch (error) {
+      console.error('Error:', error);
+      navigate('/error');
+    }
   };
 
-  // handle select brands
-  const handleSelect = (event) => {
-    const id = event.target.value;
-    setIdDanhMuc(Number(id));
+  const convertToFormData = (object) => {
+    const formData = new FormData();
+    Object.keys(object).forEach((key) => {
+      if (object[key] !== null && object[key] !== undefined) {
+        formData.append(key, object[key]);
+      }
+    });
+    return formData;
   };
 
   // render options
@@ -160,7 +183,18 @@ export default function Products() {
                       <td className='w-16'>{product.createDate}</td>
                       <td className='w-16'>{product.updateDate}</td>
                       <td className='w-16 text-center'>
-                        <button onClick={() => handleEdit(product)}>Edit</button>
+                        <button
+                          className='bg-orange-300 text-white px-2 rounded-lg hover:bg-orange-200'
+                          onClick={() => handleEdit(product)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className='bg-red-400 text-white px-2 rounded-lg hover:bg-red-300 ml-2'
+                          // onClick={() => handleEdit(product)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -190,7 +224,9 @@ export default function Products() {
               ✕
             </button>
             <Formik
-              initialValues={{ name: editProduct ? editProduct.name : '' }}
+              initialValues={
+                editProduct ? { ...editProduct, idBrand: editProduct.brandID } : initProduct
+              }
               validationSchema={productSchema}
               onSubmit={handleAddOrUpdateBrand}
             >
@@ -216,7 +252,7 @@ export default function Products() {
                 </div>
 
                 <div className='form-control w-full flex flex-row gap-5'>
-                  <div className='basis-1/4'>
+                  <div className='basis-1/3'>
                     <label className='label'>
                       <span className='label-text text-base-content undefined'>price</span>
                     </label>
@@ -231,7 +267,7 @@ export default function Products() {
                       className='text-error'
                     />
                   </div>
-                  <div className='basis-1/4'>
+                  <div className='basis-1/3'>
                     <label className='label'>
                       <span className='label-text text-base-content undefined'>discount</span>
                     </label>
@@ -246,7 +282,7 @@ export default function Products() {
                       className='text-error'
                     />
                   </div>
-                  <div className='basis-1/4'>
+                  <div className='basis-1/3'>
                     <label className='label'>
                       <span className='label-text text-base-content undefined'>quantity</span>
                     </label>
@@ -257,21 +293,6 @@ export default function Products() {
                     />
                     <ErrorMessage
                       name='quantity'
-                      component='div'
-                      className='text-error'
-                    />
-                  </div>
-                  <div className='basis-1/4'>
-                    <label className='label'>
-                      <span className='label-text text-base-content undefined'>soldQuantity</span>
-                    </label>
-                    <Field
-                      type='number'
-                      name='soldQuantity'
-                      className='input input-bordered w-full '
-                    />
-                    <ErrorMessage
-                      name='soldQuantity'
                       component='div'
                       className='text-error'
                     />
@@ -465,19 +486,24 @@ export default function Products() {
                       alt='hinh anh'
                       className='w-1/2 mx-auto my-3'
                     />
-                    <Field name='file'>
+                    <Field name='images'>
                       {({ field, form, meta }) => (
                         <input
                           id='file'
-                          name='file'
+                          name='images'
                           type='file'
                           onChange={(event) => {
                             handleOnChangeImage(event);
-                            form.setFieldValue('file', event.currentTarget.files[0]);
+                            form.setFieldValue('images', event.currentTarget.files[0]);
                           }}
                         />
                       )}
                     </Field>
+                    <ErrorMessage
+                      name='images'
+                      component='div'
+                      className='text-error'
+                    />
                   </div>
                   <div className='basis-1/2'>
                     <label className='label'>
@@ -485,9 +511,8 @@ export default function Products() {
                     </label>
                     <Field
                       as='select'
-                      name='brand'
+                      name='idBrand'
                       className='input input-bordered w-full '
-                      onChange={handleSelect}
                     >
                       {renderOptions()}
                     </Field>
