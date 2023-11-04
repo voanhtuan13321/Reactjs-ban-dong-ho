@@ -11,6 +11,7 @@ export default function Register() {
   const [type, setType] = useState('');
   const navigate = useNavigate();
 
+  const today = new Date();
   const initialValues = {
     fullName: '',
     birthDate: '',
@@ -23,8 +24,12 @@ export default function Register() {
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required('Fullname is required'),
-    birthDate: Yup.date().required('Birthday is required'),
-    phone: Yup.string().required('Phone is required'),
+    birthDate: Yup.date()
+      .max(today, 'Birthdate must be earlier than today')
+      .required('Birthday is required'),
+    phone: Yup.string()
+      .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/, 'Invalid phone number')
+      .required('Phone is required'),
     address: Yup.string().required('Address is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -81,14 +86,14 @@ export default function Register() {
                 className='text-[#808080] text-sm font-bold self-center'
                 htmlFor='fullName'
               >
-                Fullname
+                Full Name
               </label>
               <Field
                 type='text'
                 id='fullName'
                 name='fullName'
                 className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
-                placeholder='Enter fullName'
+                placeholder='Enter full name'
               />
               <ErrorMessage
                 name='fullName'

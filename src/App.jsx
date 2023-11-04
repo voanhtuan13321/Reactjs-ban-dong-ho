@@ -16,6 +16,7 @@ import ForgotPassword from './components/client/ForgotPassword';
 import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
+import ChangePassword from './pages/client/ChangePassword';
 
 // routes client
 const clientRoute = [
@@ -46,6 +47,10 @@ const clientRoute = [
   {
     path: 'profile',
     element: <Profile />,
+  },
+  {
+    path: 'change-password',
+    element: <ChangePassword />,
   },
 ];
 

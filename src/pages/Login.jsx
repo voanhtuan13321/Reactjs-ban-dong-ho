@@ -25,9 +25,9 @@ export default function Login() {
     password: '',
   };
 
-  useEffect(() => {
-    localStorage.removeItem('token');
-  }, []);
+  // useEffect(() => {
+  //   localStorage.removeItem('token');
+  // }, []);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -46,11 +46,11 @@ export default function Login() {
       if (data.status === 'success') {
         const accessToken = data.accessToken;
         localStorage.setItem('token', accessToken);
-        // if (data.data.roles.name === 'ROLE_USER') {
-        navigate('/client');
-        // } else {
-        //   navigate('/admin/dashboard');
-        // }
+        if (data.data.roles === 'ROLE_USER') {
+          navigate('/client');
+        } else {
+          navigate('/admin/dashboard');
+        }
       } else {
         setMessage(data.message);
         setType('error');
