@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import requestHandler from '../../utils/requestHandle';
 import Toast from '../../components/Toast';
+import Swal from 'sweetalert2';
 
 const INIT_IMAGE = 'https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg';
 const initProduct = {
@@ -49,7 +50,7 @@ export default function Products() {
 
   const productSchema = Yup.object().shape({
     name: Yup.string().required('Product name is required'),
-    images: Yup.string().required('Image is required'),
+    // images: Yup.string().required('Image is required'),
   });
 
   useEffect(() => {
@@ -83,21 +84,42 @@ export default function Products() {
     setIsModalOpen(true);
   };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xoá sản phẩm này?',
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: `Xoá`,
+      cancelButtonText: 'Huỷ',
+    }).then((result) => {
+      if (result.isDenied) {
+        requestHandler
+          .delete(`product/${id}`)
+          .then((response) => {
+            Swal.fire('Xoá thành công', '', 'success');
+            setState(!state);
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire('Xoá thất bại', '', 'error');
+          });
+      }
+    });
+  };
+
   const handleAddOrUpdateBrand = async (values) => {
     const formData = convertToFormData(values);
 
     try {
-      // if (editProduct) {
-      //   await requestHandler.put(`product/${editProduct.id}`, values);
-      // } else {
-      // }
       await requestHandler.post('product/', formData);
       setState(!state);
       setType('success');
       closeModal();
+      Swal.fire('Cập nhật thành công', '', 'success');
     } catch (error) {
       console.error('Error:', error);
-      navigate('/error');
+      Swal.fire('Thêm mới thì phải thêm hình ảnh', '', 'error');
     }
   };
 
@@ -191,7 +213,7 @@ export default function Products() {
                         </button>
                         <button
                           className='bg-red-400 text-white px-2 rounded-lg hover:bg-red-300 ml-2'
-                          // onClick={() => handleEdit(product)}
+                          onClick={() => handleDelete(product.id)}
                         >
                           Delete
                         </button>
