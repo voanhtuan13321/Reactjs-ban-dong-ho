@@ -26,9 +26,12 @@ export default function ForgotPassword() {
       });
 
       const data = response.data;
-      setMessage(data);
-      setType('success');
-      
+      if (data === 'Invalid email or email has not been registered!') {
+        setMessage(data);
+        setType('error');
+      } else {
+        navigate('/login');
+      }
     } catch (err) {
       console.error('Lỗi:', err);
       navigate('/error');

@@ -71,10 +71,11 @@ export default function Brands() {
         response = await requestHandler.post('brands/', values);
       }
       const data = response.data.data;
-      const updatedBrands = brands.map((brand) => (brand.id === data.id ? data : brand));
-      setBrands(updatedBrands);
+      // const updatedBrands = brands.map((brand) => (brand.id === data.data.id ? data.data : brand));
+      // setBrands(updatedBrands);
       setState(!state);
-      setType('success')
+      setMessage(data);
+      setType('success');
       closeModal();
     } catch (error) {
       console.error('Error:', error);

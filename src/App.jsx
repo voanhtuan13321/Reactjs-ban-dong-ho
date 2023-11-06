@@ -7,6 +7,7 @@ import LayoutClient from './pages/client/LayoutClient';
 import Profile from './pages/client/Profile';
 import OrderDetail from './pages/client/OrderDetail';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
+import ChangePassword from './pages/client/ChangePassword';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
@@ -16,7 +17,6 @@ import ForgotPassword from './components/client/ForgotPassword';
 import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
-import OrderSuccess from './pages/client/OrderSuccess';
 import Statistical from './pages/admin/Statistical';
 
 // routes client
@@ -50,8 +50,8 @@ const clientRoute = [
     element: <Profile />,
   },
   {
-    path: 'orderSuccess',
-    element: <OrderSuccess />,
+    path: 'change-password',
+    element: <ChangePassword />,
   },
 ];
 

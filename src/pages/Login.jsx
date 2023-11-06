@@ -25,9 +25,9 @@ export default function Login() {
     password: '',
   };
 
-  useEffect(() => {
-    localStorage.removeItem('token');
-  }, []);
+  // useEffect(() => {
+  //   localStorage.removeItem('token');
+  // }, []);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -47,7 +47,6 @@ export default function Login() {
         const accessToken = data.accessToken;
         const user_id = data.userId;
         localStorage.setItem('token', accessToken);
-        localStorage.setItem('user_id', user_id);
         // if (data.data.roles.name === 'ROLE_USER') {
         navigate('/client');
         // } else {
