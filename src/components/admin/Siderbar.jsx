@@ -1,5 +1,5 @@
 import React from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const navs = [
   {
@@ -14,10 +14,15 @@ const navs = [
     to: '/admin/orders',
     text: 'Orders',
   },
+  {
+    to: '/admin/statistical',
+    text: 'Statistical',
+  },
 ];
 
 export default function Siderbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClickLogout = () => {
     alert('Logout');
@@ -28,7 +33,9 @@ export default function Siderbar() {
       <div
         key={nav.to}
         onClick={() => navigate(nav.to)}
-        className='cursor-pointer hover:text-red-500 transition-all duration-150 ease-linear p-2 text-2xl'
+        className={`cursor-pointer hover:text-red-500 transition-all duration-150 ease-linear p-2 text-2xl ${
+          location.pathname === nav.to && 'text-red-500'
+        }`}
       >
         {nav.text}
       </div>

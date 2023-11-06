@@ -29,7 +29,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(!isLoggedIn);
-    // navigate('/login');
+    navigate('/client/home');
   };
 
   const renderMenuAvatar = () => {

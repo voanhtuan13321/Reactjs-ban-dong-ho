@@ -1,16 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Siderbar from '../../components/admin/Siderbar';
-import Orders from './Orders';
 
 export default function LayoutAdmin() {
   return (
     <>
       <div className='flex'>
-        <div className='basis-1/5'>
+        <div className='w-380px fixed top-0 left-0'>
           <Siderbar />
         </div>
-        <div className='basis-4/5 p-10'>
+        <div className='ml-380px p-10 w-full'>
           <Outlet />
         </div>
       </div>

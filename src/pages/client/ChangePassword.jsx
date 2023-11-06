@@ -4,6 +4,7 @@ import requestHandler from '../../utils/requestHandle';
 import Toast from '../../components/Toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function ChangePassword() {
   const [message, setMessage] = useState('');

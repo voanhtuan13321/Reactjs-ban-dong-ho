@@ -3,7 +3,7 @@ import CardItem from './CardItem';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import ReactPaginate from 'react-paginate';
 
-function ListProduct({ products,filteredList }) {
+function ListProduct({  filteredList }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 8;
@@ -22,7 +22,12 @@ function ListProduct({ products,filteredList }) {
 
   const renderCartItem = () => {
     return currentPageData.map((item, i) => {
-      return <CardItem item={item} key={i} />;
+      return (
+        <CardItem
+          item={item}
+          key={i}
+        />
+      );
     });
   };
 
