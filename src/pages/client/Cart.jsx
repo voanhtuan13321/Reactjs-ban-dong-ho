@@ -1,7 +1,65 @@
 import { useNavigate } from 'react-router-dom';
 import { AiFillDelete } from 'react-icons/ai';
+import requestHandler from '../../utils/requestHandle';
+import { useState, useEffect } from 'react';
+import requestHandle from '../../utils/requestHandle';
+import axios from 'axios';
+
 export default function Cart() {
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+
+  const renderCart = async () => {
+    const isLogin = localStorage.getItem('token');
+    if (isLogin) {
+      try {
+        const response = await requestHandler.get('cart/');
+        setCart(response.data.data);
+        let totalAmount = 0;
+        for (const item of response.data.data) {
+          totalAmount += item.quantity * item.products.price;
+        }
+        setTotal(totalAmount);
+      } catch (error) {
+        console.log('error cart');
+      }
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const deleteCart = async (prodId) => {
+    const user_id = JSON.parse(localStorage.getItem('user_id'));
+    try {
+      const response = await requestHandler.delete('cart/', {
+        userId: user_id,
+        productId: prodId,
+      });
+      renderCart();
+      console.log(response.data.data);
+    } catch (error) {
+      console.log('error delete cart');
+    }
+  };
+
+  const increaseQuantity = async (prod) => {
+    const id_user = JSON.parse(localStorage.getItem('user_id'));
+    try {
+      const response = await requestHandle.post('cart/', {
+        userId: id_user,
+        productId: prod.id,
+        amount: 1,
+      });
+      console.log('success', response.data);
+    } catch (error) {
+      console.log('error');
+    }
+  };
+  useEffect(() => {
+    renderCart();
+  }, []);
+
   return (
     <div className='w-container mx-auto mt-8'>
       <div className='bg-white p-8 rounded-lg shadow-lg'>
@@ -27,40 +85,54 @@ export default function Cart() {
               <p className='font-semibold'>Action</p>
             </div>
           </div>
-          <div className='flex justify-between items-center p-3'>
-            <div className='w-2/5'>
-              <p>Tên sản phẩm 1</p>
+          {cart.map((item) => (
+            <div
+              className='flex justify-between items-center p-3'
+              key={item.id}
+            >
+              <div className='w-2/5'>
+                <p>{item.products.name}</p>
+              </div>
+              <div className='w-1/5'>
+                <img
+                  src='https://cdn.tgdd.vn/Products/Images/7264/199523/casio-la680wga-1bdf-vang-600x600.jpg'
+                  alt={`Image of ${item.productName}`}
+                  className='w-16 h-16'
+                />
+              </div>
+              <div className='w-1/5 flex'>
+                <button className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'>-</button>
+                <p className='ml-2 mr-2'>{item.quantity}</p>
+                <button
+                  className='bg-main-red text-amber-50 w-11 rounded-lg'
+                  onClick={() => increaseQuantity(item)}
+                >
+                  +
+                </button>
+              </div>
+              <div className='w-1/5'>
+                <p>{item.products.price} VNĐ</p>
+              </div>
+              <div className='w-1/5'>
+                <p>{item.quantity * item.products.price} VNĐ</p>
+              </div>
+              <div className='w-1/5'>
+                <button
+                  className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'
+                  onClick={() => deleteCart(item.id)}
+                >
+                  <AiFillDelete className='ml-2' />
+                </button>
+              </div>
             </div>
-            <div className='w-1/5'>
-              <img
-                src='https://bizweb.dktcdn.net/100/021/944/products/dong-ho-ticwatch-e3-techwearvn-1-b27d4164-b949-4833-9d97-681a1fc77860.jpg?v=1634191229660'
-                alt='Hình ảnh sản phẩm 1'
-                className='w-16 h-16'
-              />
-            </div>
-            <div className='w-1/5 flex'>
-              <button className='bg-main-red text-amber-50 w-8 h-7 rounded-lg'>+</button>
-              <p className='ml-2 mr-2'>1</p>
-              <button className='bg-main-red text-amber-50 w-8 rounded-lg'>-</button>
-            </div>
-            <div className='w-1/5'>
-              <p>$50</p>
-            </div>
-            <div className='w-1/5'>
-              <p>$50</p>
-            </div>
-            <div className='w-1/5'>
-              <button className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'>
-                <AiFillDelete className='ml-2' />
-              </button>
-            </div>
-          </div>
+          ))}
+
           <div className='flex justify-between p-3'>
             <div className='w-2/5'></div>
             <div className='w-1/5'></div>
             <div className='w-2/5'></div>
             <div className='w-1/5'>
-              <div className='font-semibold'>Tổng cộng: $120</div>
+              <div className='font-semibold'>Tổng cộng: {total} VNĐ</div>
             </div>
           </div>
 

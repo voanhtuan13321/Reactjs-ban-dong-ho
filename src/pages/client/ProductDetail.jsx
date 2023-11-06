@@ -4,6 +4,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import requestHandle from '../../utils/requestHandle';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -11,6 +14,11 @@ export default function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState([]);
+
+  const notify = () => {
+    toast('🙌 Thêm sản phẩm thành công !');
+  };
 
   const carouselSettings = {
     dots: true,
@@ -50,7 +58,25 @@ export default function ProductDetail() {
     setQuantity(value);
   };
 
-  const addToCart = () => {};
+  const addToCart = async (prod, quantity = 1) => {
+    const id_user = JSON.parse(localStorage.getItem('user_id'));
+    const isLogin = localStorage.getItem('token');
+    if (isLogin) {
+      try {
+        const response = await axios.post('http://localhost:8080/api/cart/', {
+          userId: id_user,
+          productId: prod.id,
+          amount: quantity,
+        });
+        notify();
+        console.log('them gio hang thanh cong', response.data);
+      } catch (error) {
+        console.log('da co loi xay ra');
+      }
+    } else {
+      navigate('/login');
+    }
+  };
   const renderProductList = () => {
     return sameBrandProducts.map((product) => (
       <div key={product.id}>
@@ -69,6 +95,7 @@ export default function ProductDetail() {
 
   return (
     <div className='w-container mx-auto mt-8'>
+      <ToastContainer />
       <div className='bg-white p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8'>
         <div>
           <img
@@ -94,7 +121,10 @@ export default function ProductDetail() {
               />
             </div>
             <div className='flex flex-col md:flex-row md:space-x-4'>
-              <button className='bg-main-black text-white py-3 px-6 hover:bg-main-red flex-1 mx-2 h-16 font-bold'>
+              <button
+                className='bg-main-black text-white py-3 px-6 hover:bg-main-red flex-1 mx-2 h-16 font-bold'
+                onClick={() => addToCart(productDetail, quantity)}
+              >
                 ADD TO CART
               </button>
               <button className='bg-yellow-5 py-3 px-6 hover:bg-main-red flex-1 mx-2 border border-black text-black font-bold'>

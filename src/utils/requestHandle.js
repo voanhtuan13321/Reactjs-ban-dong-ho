@@ -13,7 +13,14 @@ const requestHandler = axios.create({
 
 requestHandler.interceptors.request.use(
   (config) => {
-    // config.headers['Authorization'] = `Bearer ${localStorages.getToken()}`;
+    // Lấy token từ Local Storage
+    const token = localStorages.getToken();
+
+    // Nếu token tồn tại, thêm vào header Authorization
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
