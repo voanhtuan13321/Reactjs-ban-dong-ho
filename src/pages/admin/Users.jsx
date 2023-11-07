@@ -6,41 +6,44 @@ import Toast from '../../components/Toast';
 import ReactPaginate from 'react-paginate';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
+const ITEMS_PER_PAGE = 10;
+
 export const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [brands, setBrands] = useState([]);
+  const [users, setUsers] = useState([]);
   const [editBrand, setEditBrand] = useState(null);
   const [state, setState] = useState(false);
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const itemsPerPage = 5;
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await requestHandler.get('brands/');
-        const data = response.data.data;
-        setBrands(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchBrands();
+    fetchUsers();
   }, [state]);
+
   useEffect(() => {
-    setPageCount(Math.ceil(brands.length / itemsPerPage));
+    setPageCount(Math.ceil(users.length / ITEMS_PER_PAGE));
     setCurrentPage(0);
-  }, [brands]);
+  }, [users]);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  const offset = currentPage * itemsPerPage;
-  const currentPageData = brands.slice(offset, offset + itemsPerPage);
+  const fetchUsers = async () => {
+    try {
+      const response = await requestHandler.get('users');
+      const data = response.data.data;
+      console.log(data);
+      setUsers(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const offset = currentPage * ITEMS_PER_PAGE;
+  const currentPageData = users.slice(offset, offset + ITEMS_PER_PAGE);
   const openModal = () => {
     setIsModalOpen(true);
     setEditBrand(null);
@@ -51,7 +54,7 @@ export const Users = () => {
     setEditBrand(null);
   };
 
-  const brandSchema = Yup.object().shape({
+  const userschema = Yup.object().shape({
     name: Yup.string().required('Brand name is required'),
   });
 
@@ -64,13 +67,13 @@ export const Users = () => {
     try {
       let response;
       if (editBrand) {
-        response = await requestHandler.put(`brands/${editBrand.id}`, values);
+        response = await requestHandler.put(`users/${editBrand.id}`, values);
       } else {
-        response = await requestHandler.post('brands/', values);
+        response = await requestHandler.post('users/', values);
       }
       const data = response.data.data;
-      const updatedBrands = brands.map((brand) => (brand.id === data.id ? data : brand));
-      setBrands(updatedBrands);
+      const updatedusers = users.map((brand) => (brand.id === data.id ? data : brand));
+      setUsers(updatedusers);
       setState(!state);
       setType('success');
       closeModal();
@@ -99,29 +102,31 @@ export const Users = () => {
           <div className='divider mt-2'></div>
           <div className='h-full w-full pb-6 bg-base-100'>
             <div className='overflow-x-auto w-full'>
-              <table className='table w-full text-center'>
+              <table className='table w-full'>
                 <thead>
                   <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Create Date</th>
-                    <th>Update Date</th>
+                    <th>Full name</th>
+                    <th>BirthDAte</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentPageData.map((brand) => (
-                    <tr key={brand.id}>
-                      <td>{brand.id}</td>
-                      <td>{brand.name}</td>
-                      <td>{brand.createDate}</td>
-                      <td>{brand.updateDate}</td>
+                  {currentPageData.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.fullName}</td>
+                      <td>{user.birthDate}</td>
+                      <td>{user.address}</td>
+                      <td>{user.email}</td>
+                      <td>{user.phone}</td>
                       <td>
                         <button
-                          onClick={() => handleEdit(brand)}
-                          className='underline text-primary'
+                          onClick={() => handleEdit(user)}
+                          className='bg-red-500 text-white font-bold px-3 py-2 rounded-lg hover:bg-red-400'
                         >
-                          Edit
+                          DELETE
                         </button>
                       </td>
                     </tr>
@@ -173,7 +178,7 @@ export const Users = () => {
             </button>
             <Formik
               initialValues={{ name: editBrand ? editBrand.name : '' }}
-              validationSchema={brandSchema}
+              validationSchema={userschema}
               onSubmit={handleAddOrUpdateBrand}
             >
               <Form>

@@ -247,29 +247,27 @@ export default function Products() {
                   </tr>
                 </thead>
                 <tbody>{renderProducts()}</tbody>
-                <caption>
-                  <ReactPaginate
-                    breakLabel='...'
-                    className='flex justify-center items-center gap-3 my-6 float-right mr-5'
-                    nextLabel={
-                      <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
-                        <GrNext />
-                      </span>
-                    }
-                    pageRangeDisplayed={3}
-                    pageCount={pageCount}
-                    previousLabel={
-                      <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
-                        <GrPrevious />
-                      </span>
-                    }
-                    marginPagesDisplayed={10}
-                    pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
-                    activeClassName='bg-main-red text-white'
-                    onPageChange={handlePageChange}
-                  />
-                </caption>
               </table>
+              <ReactPaginate
+                breakLabel='...'
+                className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+                nextLabel={
+                  <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                    <GrNext />
+                  </span>
+                }
+                pageRangeDisplayed={3}
+                pageCount={pageCount}
+                previousLabel={
+                  <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                    <GrPrevious />
+                  </span>
+                }
+                marginPagesDisplayed={10}
+                pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
+                activeClassName='bg-main-red text-white'
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
         </div>
