@@ -3,9 +3,6 @@ import CardItem from './CardItem';
 import { useNavigate } from 'react-router-dom';
 import requestHandler from '../../utils/requestHandle';
 
-
-
-
 function Top5Product() {
   const [top, setTop] = useState([]);
   const navigate = useNavigate();
@@ -23,7 +20,7 @@ function Top5Product() {
   useEffect(() => {
     fecthTop5();
   }, []);
- 
+
   const renderCartItem = () => {
     return top.map((item, i) => {
       return (

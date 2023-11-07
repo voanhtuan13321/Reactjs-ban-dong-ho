@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import Navbar from './Navbar';
@@ -8,17 +8,28 @@ const menuAvatar = [
     to: '/client/profile',
     text: 'Profile',
   },
+  {
+    to: '/client/change-password',
+    text: 'Change password',
+  },
 ];
 
 export default function Header() {
   const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
-  const [state, setState] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(!isLoggedIn);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setState(!state)
-    // navigate('/login');
+    setIsLoggedIn(!isLoggedIn);
+    navigate('/client/home');
   };
 
   const renderMenuAvatar = () => {
@@ -47,7 +58,7 @@ export default function Header() {
           <Navbar />
         </div>
         <div>
-          {state ? (
+          {isLoggedIn ? (
             <div className='flex items-center relative'>
               <FaShoppingCart
                 className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'

@@ -69,9 +69,10 @@ export default function Brands() {
         response = await requestHandler.post('brands/', values);
       }
       const data = response.data.data;
-      const updatedBrands = brands.map((brand) => (brand.id === data.id ? data : brand));
-      setBrands(updatedBrands);
+      // const updatedBrands = brands.map((brand) => (brand.id === data.data.id ? data.data : brand));
+      // setBrands(updatedBrands);
       setState(!state);
+      setMessage(data);
       setType('success');
       closeModal();
     } catch (error) {
@@ -119,7 +120,7 @@ export default function Brands() {
                       <td>
                         <button
                           onClick={() => handleEdit(brand)}
-                          className='underline text-primary'
+                          className='bg-orange-300 text-white px-2 rounded-lg hover:bg-orange-200'
                         >
                           Edit
                         </button>

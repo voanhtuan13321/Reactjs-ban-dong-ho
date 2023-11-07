@@ -13,7 +13,7 @@ const requestHandler = axios.create({
 
 requestHandler.interceptors.request.use(
   (config) => {
-    // config.headers['Authorization'] = `Bearer ${localStorages.getToken()}`;
+    config.headers['Authorization'] = `Bearer ${localStorages.getToken()}`;
     return config;
   },
   (error) => Promise.reject(error)
