@@ -45,12 +45,13 @@ export default function Login() {
 
       if (data.status === 'success') {
         const accessToken = data.accessToken;
+        const user_id = data.userId;
         localStorage.setItem('token', accessToken);
-        if (data.data.roles === 'ROLE_USER') {
-          navigate('/client');
-        } else {
-          navigate('/admin/dashboard');
-        }
+        // if (data.data.roles.name === 'ROLE_USER') {
+        navigate('/client');
+        // } else {
+        //   navigate('/admin/dashboard');
+        // }
       } else {
         setMessage(data.message);
         setType('error');

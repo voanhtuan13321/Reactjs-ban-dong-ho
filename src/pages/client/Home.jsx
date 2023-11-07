@@ -29,14 +29,14 @@ export default function Home() {
   };
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
-    filterProducts(event.target.value); 
+    filterProducts(event.target.value);
   };
 
   const filterProducts = (searchTerm) => {
     const filteredList = products.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredList(filteredList); 
+    setFilteredList(filteredList);
   };
   const handleGetProductsByBrand = (id) => {
     requestHandle
@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div className='w-container m-auto mt-2'>
       <Carousel />
-      <Brands handleGetProductsByBrand={handleGetProductsByBrand}/>
+      <Brands handleGetProductsByBrand={handleGetProductsByBrand} />
       <Top5Product />
       <div className='relative z-30 flex justify-center py-10 gap-4'>
         <Search

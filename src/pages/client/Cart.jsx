@@ -1,12 +1,89 @@
 import { useNavigate } from 'react-router-dom';
+import { AiFillDelete } from 'react-icons/ai';
+import requestHandler from '../../utils/requestHandle';
+import { useState, useEffect } from 'react';
+import requestHandle from '../../utils/requestHandle';
+import axios from 'axios';
+
 export default function Cart() {
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+
+  const renderCart = async () => {
+    const isLogin = localStorage.getItem('token');
+    if (isLogin) {
+      try {
+        const response = await requestHandler.get('cart/');
+        setCart(response.data.data);
+        let totalAmount = 0;
+        for (const item of response.data.data) {
+          totalAmount += item.quantity * item.products.price;
+        }
+        setTotal(totalAmount);
+      } catch (error) {
+        console.log('error cart');
+      }
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const deleteCart = async (prodId) => {
+    const user_id = JSON.parse(localStorage.getItem('user_id'));
+    console.log(user_id);
+    console.log(prodId.products.id);
+    try {
+      const response = await requestHandler.delete('cart/', {
+        userId: user_id,
+        productId: prodId.products.id,
+      });
+      renderCart();
+    } catch (error) {
+      console.log(error, 'error delete cart');
+    }
+  };
+
+  const increaseQuantity = async (prod) => {
+    const id_user = JSON.parse(localStorage.getItem('user_id'));
+    console.log(prod);
+    try {
+      const response = await requestHandle.post('cart/', {
+        userId: id_user,
+        productId: prod.products.id,
+        amount: 1,
+      });
+      console.log('success', response.data);
+      renderCart();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const decreaseQuantity = async (prod) => {
+    const id_user = JSON.parse(localStorage.getItem('user_id'));
+    console.log(prod);
+    try {
+      const response = await requestHandle.post('cart/', {
+        userId: id_user,
+        productId: prod.products.id,
+        amount: -1,
+      });
+      console.log('success', response.data);
+      renderCart();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    renderCart();
+  }, []);
+
   return (
     <div className='w-container mx-auto mt-8'>
       <div className='bg-white p-8 rounded-lg shadow-lg'>
         <h2 className='text-3xl font-semibold mb-4 text-center'>Your cart</h2>
         <div className='bg-white p-6 shadow-md rounded-lg'>
-          <div className='flex justify-between border-b border-gray-300 p-3 bg-main-red'>
+          <div className='flex justify-center border-b border-gray-300 p-3 bg-slate-400'>
             <div className='w-2/5'>
               <p className='font-semibold'>Product</p>
             </div>
@@ -26,69 +103,60 @@ export default function Cart() {
               <p className='font-semibold'>Action</p>
             </div>
           </div>
-
-          <div className='flex justify-between items-center p-3'>
-            <div className='w-2/5'>
-              <p>Tên sản phẩm 1</p>
+          {cart.map((item) => (
+            <div
+              className='flex justify-between items-center p-3'
+              key={item.id}
+            >
+              <div className='w-2/5'>
+                <p>{item.products.name}</p>
+              </div>
+              <div className='w-1/5'>
+                <img
+                  src='https://cdn.tgdd.vn/Products/Images/7264/199523/casio-la680wga-1bdf-vang-600x600.jpg'
+                  alt={`Image of ${item.productName}`}
+                  className='w-16 h-16'
+                />
+              </div>
+              <div className='w-1/5 flex'>
+                <button
+                  className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'
+                  onClick={() => decreaseQuantity(item)}
+                >
+                  -
+                </button>
+                <p className='ml-2 mr-2'>{item.quantity}</p>
+                <button
+                  className='bg-main-red text-amber-50 w-11 rounded-lg'
+                  data-value={item.id}
+                  onClick={() => increaseQuantity(item)}
+                >
+                  +
+                </button>
+              </div>
+              <div className='w-1/5'>
+                <p>{item.products.price} VNĐ</p>
+              </div>
+              <div className='w-1/5'>
+                <p>{item.quantity * item.products.price} VNĐ</p>
+              </div>
+              <div className='w-1/5'>
+                <button
+                  className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'
+                  onClick={() => deleteCart(item)}
+                >
+                  <AiFillDelete className='ml-2' />
+                </button>
+              </div>
             </div>
-            <div className='w-1/5'>
-              <img
-                src='https://bizweb.dktcdn.net/100/021/944/products/dong-ho-ticwatch-e3-techwearvn-1-b27d4164-b949-4833-9d97-681a1fc77860.jpg?v=1634191229660'
-                alt='Hình ảnh sản phẩm 1'
-                className='w-16 h-16'
-              />
-            </div>
-            <div className='w-1/5'>
-              <input
-                type='number'
-                className='w-20 py-2 px-3 border border-gray-300 rounded'
-              />
-            </div>
-            <div className='w-1/5'>
-              <p>$50</p>
-            </div>
-            <div className='w-1/5'>
-              <p>$50</p>
-            </div>
-            <div className='w-1/5'>
-              <p>$50</p>
-            </div>
-          </div>
-
-          <div className='flex justify-between items-center p-3'>
-            <div className='w-2/5'>
-              <p>Tên sản phẩm 2</p>
-            </div>
-            <div className='w-1/5'>
-              <img
-                src='https://bizweb.dktcdn.net/100/021/944/products/fitbit-sense-2-techwearvn-2.jpg?v=1695741879530'
-                alt='Hình ảnh sản phẩm 2'
-                className='w-16 h-16'
-              />
-            </div>
-            <div className='w-1/5'>
-              <input
-                type='number'
-                className='w-20 py-2 px-3 border border-gray-300 rounded'
-              />
-            </div>
-            <div className='w-1/5'>
-              <p>$70</p>
-            </div>
-            <div className='w-1/5'>
-              <p>$70</p>
-            </div>
-            <div className='w-1/5'>
-              <button>Delete</button>
-            </div>
-          </div>
+          ))}
 
           <div className='flex justify-between p-3'>
             <div className='w-2/5'></div>
             <div className='w-1/5'></div>
             <div className='w-2/5'></div>
             <div className='w-1/5'>
-              <div className='font-semibold'>Tổng cộng: $120</div>
+              <div className='font-semibold'>Tổng cộng: {total} VNĐ</div>
             </div>
           </div>
 

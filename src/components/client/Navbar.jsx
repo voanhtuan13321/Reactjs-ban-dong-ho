@@ -4,11 +4,15 @@ import { NavLink } from 'react-router-dom';
 const navs = [
   {
     to: '/client/',
-    text: 'Home',
+    text: 'Trang chủ',
   },
   {
     to: '/client/contact',
-    text: 'Contact',
+    text: 'Liên hệ',
+  },
+  {
+    to: '/client/about',
+    text: 'Giới thiệu',
   },
 ];
 
