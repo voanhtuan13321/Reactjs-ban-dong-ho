@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Swal from 'sweetalert2';
+import ReactPaginate from 'react-paginate';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 import requestHandler from '../../utils/requestHandle';
 import Toast from '../../components/Toast';
-import Swal from 'sweetalert2';
 
 const INIT_IMAGE = 'https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg';
 const initProduct = {
@@ -26,6 +27,7 @@ const initProduct = {
   warrantyPeriod: 0,
   wireMaterial: '',
 };
+const itemsPerPage = 10;
 
 export default function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +38,9 @@ export default function Products() {
   const [type, setType] = useState('');
   const [brands, setBrands] = useState([]);
   const [base64String, setBase64String] = useState(INIT_IMAGE);
-  const navigate = useNavigate();
+  const [images, setImages] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -46,17 +50,24 @@ export default function Products() {
   const closeModal = () => {
     setIsModalOpen(false);
     setEditProduct(null);
+    setBase64String(INIT_IMAGE);
   };
 
   const productSchema = Yup.object().shape({
     name: Yup.string().required('Product name is required'),
-    // images: Yup.string().required('Image is required'),
   });
 
   useEffect(() => {
     fetchProducts();
     fetchBrands();
   }, [state]);
+
+  useEffect(() => {
+    setPageCount(Math.ceil(products.length / itemsPerPage));
+  }, [products]);
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = products.slice(offset, offset + itemsPerPage);
 
   const fetchBrands = async () => {
     try {
@@ -81,6 +92,8 @@ export default function Products() {
 
   const handleEdit = (product) => {
     setEditProduct(product);
+    setImages(product.imageSource[0]);
+    setBase64String(`http://localhost:8080/api/image/${product.imageSource[0]}`);
     setIsModalOpen(true);
   };
 
@@ -109,10 +122,18 @@ export default function Products() {
   };
 
   const handleAddOrUpdateBrand = async (values) => {
-    const formData = convertToFormData(values);
-
     try {
+      let formData;
+      if (editProduct) {
+        formData = convertToFormData({
+          ...values,
+          images: typeof images === 'string' ? null : images,
+        });
+      } else {
+        formData = convertToFormData(values);
+      }
       await requestHandler.post('product/', formData);
+
       setState(!state);
       setType('success');
       closeModal();
@@ -148,10 +169,47 @@ export default function Products() {
   const handleOnChangeImage = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setBase64String(reader.result);
-      reader.readAsDataURL(file);
+      setImages(file);
+      setBase64String(URL.createObjectURL(file));
     }
+  };
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const renderProducts = () => {
+    return currentPageData.map((product) => (
+      <tr key={product.id}>
+        <td className='w-36 text-center'>
+          <img
+            src={`http://localhost:8080/api/image/${product.imageSource[0]}`}
+            alt='chưa có ảnh'
+          />
+        </td>
+        <td>{product.name}</td>
+        <td className='w-16 text-center'>{product.price}</td>
+        <td className='w-16 text-center'>{product.discount}</td>
+        <td className='w-16 text-center'>{product.quantity}</td>
+        <td className='w-16 text-center'>{product.soldQuantity}</td>
+        <td className='w-16'>{product.createDate}</td>
+        <td className='w-16'>{product.updateDate}</td>
+        <td className='w-16 text-center'>
+          <button
+            className='bg-orange-300 text-white px-2 rounded-lg hover:bg-orange-200'
+            onClick={() => handleEdit(product)}
+          >
+            Edit
+          </button>
+          <button
+            className='bg-red-400 text-white px-2 rounded-lg hover:bg-red-300 ml-2'
+            onClick={() => handleDelete(product.id)}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ));
   };
 
   return (
@@ -188,39 +246,29 @@ export default function Products() {
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id}>
-                      <td className='w-36 text-center'>
-                        <img
-                          src='https://picsum.photos/200'
-                          alt='product'
-                        />
-                      </td>
-                      <td>{product.name}</td>
-                      <td className='w-16 text-center'>{product.price}</td>
-                      <td className='w-16 text-center'>{product.discount}</td>
-                      <td className='w-16 text-center'>{product.quantity}</td>
-                      <td className='w-16 text-center'>{product.soldQuantity}</td>
-                      <td className='w-16'>{product.createDate}</td>
-                      <td className='w-16'>{product.updateDate}</td>
-                      <td className='w-16 text-center'>
-                        <button
-                          className='bg-orange-300 text-white px-2 rounded-lg hover:bg-orange-200'
-                          onClick={() => handleEdit(product)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className='bg-red-400 text-white px-2 rounded-lg hover:bg-red-300 ml-2'
-                          onClick={() => handleDelete(product.id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                <tbody>{renderProducts()}</tbody>
+                <caption>
+                  <ReactPaginate
+                    breakLabel='...'
+                    className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+                    nextLabel={
+                      <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                        <GrNext />
+                      </span>
+                    }
+                    pageRangeDisplayed={3}
+                    pageCount={pageCount}
+                    previousLabel={
+                      <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                        <GrPrevious />
+                      </span>
+                    }
+                    marginPagesDisplayed={10}
+                    pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
+                    activeClassName='bg-main-red text-white'
+                    onPageChange={handlePageChange}
+                  />
+                </caption>
               </table>
             </div>
           </div>

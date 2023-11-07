@@ -6,7 +6,7 @@ import Toast from '../../components/Toast';
 import ReactPaginate from 'react-paginate';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
-export default function Brands() {
+export const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brands, setBrands] = useState([]);
   const [editBrand, setEditBrand] = useState(null);
@@ -84,7 +84,7 @@ export default function Brands() {
       <main className='flex-1 overflow-y-auto pt-8 px-6  bg-base-200'>
         <div className='card w-full p-6 bg-base-100 shadow-xl mt-2'>
           <div className='text-xl font-semibold inline-block'>
-            Brands
+            Users
             <div className='inline-block float-right'>
               <div className='inline-block float-right'>
                 <button
@@ -217,4 +217,4 @@ export default function Brands() {
       )}
     </>
   );
-}
+};
