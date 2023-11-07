@@ -31,29 +31,47 @@ export default function Cart() {
 
   const deleteCart = async (prodId) => {
     const user_id = JSON.parse(localStorage.getItem('user_id'));
+    console.log(user_id);
+    console.log(prodId.products.id);
     try {
       const response = await requestHandler.delete('cart/', {
         userId: user_id,
-        productId: prodId,
+        productId: prodId.products.id,
       });
       renderCart();
-      console.log(response.data.data);
     } catch (error) {
-      console.log('error delete cart');
+      console.log(error, 'error delete cart');
     }
   };
 
   const increaseQuantity = async (prod) => {
     const id_user = JSON.parse(localStorage.getItem('user_id'));
+    console.log(prod);
     try {
       const response = await requestHandle.post('cart/', {
         userId: id_user,
-        productId: prod.id,
+        productId: prod.products.id,
         amount: 1,
       });
       console.log('success', response.data);
+      renderCart();
     } catch (error) {
-      console.log('error');
+      console.log(error);
+    }
+  };
+  const decreaseQuantity = async (prod) => {
+    const id_user = JSON.parse(localStorage.getItem('user_id'));
+    console.log(prod);
+    try {
+      const response = await requestHandle.post('cart/', {
+        userId: id_user,
+        productId: prod.products.id,
+        amount: -1,
+      });
+      console.log('success', response.data);
+      renderCart();
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -101,10 +119,16 @@ export default function Cart() {
                 />
               </div>
               <div className='w-1/5 flex'>
-                <button className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'>-</button>
+                <button
+                  className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'
+                  onClick={() => decreaseQuantity(item)}
+                >
+                  -
+                </button>
                 <p className='ml-2 mr-2'>{item.quantity}</p>
                 <button
                   className='bg-main-red text-amber-50 w-11 rounded-lg'
+                  data-value={item.id}
                   onClick={() => increaseQuantity(item)}
                 >
                   +
@@ -119,7 +143,7 @@ export default function Cart() {
               <div className='w-1/5'>
                 <button
                   className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'
-                  onClick={() => deleteCart(item.id)}
+                  onClick={() => deleteCart(item)}
                 >
                   <AiFillDelete className='ml-2' />
                 </button>

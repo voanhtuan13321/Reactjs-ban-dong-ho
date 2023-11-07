@@ -22,6 +22,7 @@ const menuAvatar = [
 export default function Header() {
   const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [state, setState] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,7 +147,7 @@ export default function Header() {
           </div>
         </div>
         <div>
-          {state ? (
+          {isLoggedIn ? (
             <div className='flex items-center relative'>
               <FaShoppingCart
                 className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'
