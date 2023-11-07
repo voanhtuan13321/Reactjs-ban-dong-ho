@@ -48,14 +48,14 @@ export default function ChangePassword() {
 
   return (
     <div className='w-container mx-auto mt-20'>
-      <div className='flex ml-56'>
+      <div className='flex ml-5'>
         <button className='bg-main-red text-white px-4 py-2 rounded-tl-lg rounded-tr-lg'>
           Change Password
         </button>
       </div>
       <div className='pb-16 bg-blueGray-200'>
         <div className='w-container mx-auto'>
-          <section className='px-52 bg-blueGray-200'>
+          <section className='py-16 bg-blueGray-200'>
             <div className='mx-auto px-4'>
               <div className='flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg'>
                 <div className='px-6'>
@@ -70,7 +70,7 @@ export default function ChangePassword() {
                       </div>
                     </div>
                   </div>
-                  <div className='text-center mt-12'>
+                  <div className='text-center mt-40'>
                     <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
