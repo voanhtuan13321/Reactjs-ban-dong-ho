@@ -16,6 +16,7 @@ export default function Home() {
   useEffect(() => {
     fetchProduct();
   }, []);
+
   const fetchProduct = async () => {
     try {
       const response = await requestHandle.get('product/');
@@ -27,6 +28,7 @@ export default function Home() {
       navigate('/error');
     }
   };
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     filterProducts(event.target.value);
@@ -38,6 +40,7 @@ export default function Home() {
     );
     setFilteredList(filteredList);
   };
+
   const handleGetProductsByBrand = (id) => {
     requestHandle
       .get(`product/?brandId=${id}`)

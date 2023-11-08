@@ -35,8 +35,10 @@ export default function Cart() {
     console.log(prodId.products.id);
     try {
       const response = await requestHandler.delete('cart/', {
-        userId: user_id,
-        productId: prodId.products.id,
+        data: {
+          userId: user_id,
+          productId: prodId.products.id,
+        },
       });
       renderCart();
     } catch (error) {

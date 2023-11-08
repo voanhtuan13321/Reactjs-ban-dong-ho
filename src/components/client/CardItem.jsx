@@ -19,7 +19,7 @@ function CardItem({ item }) {
         <div className='cursor-pointer rounded-t-lg overflow-hidden h-[310px]'>
           <img
             className='hover:scale-125 duration-200 ease-linear'
-            src={item?.img}
+            src={`http://localhost:8080/api/image/${item.imageSource[0]}`}
             alt='img product'
             onClick={() => handleNavigate(item.id)}
           />

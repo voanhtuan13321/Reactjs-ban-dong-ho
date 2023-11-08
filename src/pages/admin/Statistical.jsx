@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import 'react-datepicker/dist/react-datepicker.css';
+import requestHandle from '../../utils/requestHandle';
 
 Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 registerLocale('vi', vi);
@@ -38,15 +39,16 @@ export default function Statistical() {
   }, []);
 
   const getTopGoodPriceFromApi = async () => {
-    // const response = await axiosInstent.get(pathApi.topGoodPrice);
-    // const result = await response.data;
-    // const labels = [];
-    // const datas = [];
-    // result.forEach((book) => {
-    //   labels.push(book.title);
-    //   datas.push(book.price);
-    // });
-    // setTopGoodPrice({ ...topGoodPrice, labels, datas });
+    const response = await requestHandle.get('statistical/top-5-best-sellers');
+    const result = await response.data.data;
+    // console.log(result);
+    const labels = [];
+    const datas = [];
+    result.forEach((product) => {
+      labels.push(product.productName);
+      datas.push(product.quantitySold);
+    });
+    setTopGoodPrice({ ...topGoodPrice, labels, datas });
   };
 
   const getTopBestSellingFromApi = async () => {
@@ -62,8 +64,9 @@ export default function Statistical() {
   };
 
   const getTopUserByTheMost = async () => {
-    // const response = await axiosInstent.get(pathApi.topUserBuyTheMost);
-    // const result = await response.data;
+    const response = await requestHandle.get('statistical/top-5-best-customers');
+    const result = await response.data;
+    console.log(result);
     // const labels = [];
     // const datas = [];
     // result.forEach((rs) => {
@@ -115,19 +118,21 @@ export default function Statistical() {
           <h1 className='text-2xl my-5 text-gray-800'>Statistical</h1>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-3'>
             <div className='shadow-xl rounded-lg h-full'>
-              <div className='py-3 text-2xl text-center font-bold'>Sách bán chạy nhất</div>
+              <div className='py-3 text-2xl text-center font-bold'>Sản phẩm bán chạy nhất</div>
               <div className='p-4'>
                 <Pie
                   data={{
-                    labels: ['Red', 'Blue', 'Yellow'],
+                    labels: topGoodPrice.labels,
                     datasets: [
                       {
-                        label: 'My First Dataset',
-                        data: [300, 50, 100],
+                        label: 'quantity sold',
+                        data: topGoodPrice.datas,
                         backgroundColor: [
                           'rgb(255, 99, 132)',
                           'rgb(54, 162, 235)',
                           'rgb(255, 205, 86)',
+                          'rgb(255, 134, 86)',
+                          'rgb(4, 205, 86)',
                         ],
                         hoverOffset: 4,
                       },
