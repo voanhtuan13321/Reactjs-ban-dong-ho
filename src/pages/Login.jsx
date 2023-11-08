@@ -47,6 +47,7 @@ export default function Login() {
         const accessToken = data.accessToken;
         const user_id = data.userId;
         localStorage.setItem('token', accessToken);
+        localStorage.setItem('user_id', user_id);
         // if (data.data.roles.name === 'ROLE_USER') {
         navigate('/client');
         // } else {
