@@ -46,6 +46,7 @@ export default function Profile() {
       setSubmitting(false);
     }
   };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
