@@ -47,11 +47,11 @@ export default function Login() {
         const accessToken = data.accessToken;
         const user_id = data.userId;
         localStorage.setItem('token', accessToken);
-        // if (data.data.roles.name === 'ROLE_USER') {
+        if (data.data.roles.name === 'ROLE_USER') {
         navigate('/client');
-        // } else {
-        //   navigate('/admin/dashboard');
-        // }
+        } else {
+          navigate('/admin/statistical');
+        }
       } else {
         setMessage(data.message);
         setType('error');
