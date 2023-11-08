@@ -1,12 +1,60 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import requestHandler from '../../utils/requestHandle';
 
 export default function Profile() {
   const [isStatusEdit, setIsStatusEdit] = useState(false);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [user, setUser] = useState({
+    fullname: '',
+    email: '',
+    birthday: '',
+    phone: '',
+    address: '',
+  });
+
+  const validationSchema = Yup.object().shape({
+    fullname: Yup.string().required('Fullname is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    birthday: Yup.date(),
+    phone: Yup.string()
+      .matches(/^[0-9]{10}$/, 'Invalid phone number')
+      .required('Phone is required'),
+    address: Yup.string().required('Address is required'),
+  });
+
+  const initialValues = {
+    fullname: '',
+    email: '',
+    birthday: '',
+    phone: '',
+    address: '',
+  };
+
+  const onSubmit = async (values, { setSubmitting }) => {
+    const user_Id = JSON.parse(localStorage.getItem('user_id'));
+    try {
+      const response = await requestHandler.put(
+        `http://localhost:8080/api/users/${user_Id}`,
+        values
+      );
+      console.log('Successfully:', response.data);
+    } catch (error) {
+      console.error('Error profile:', error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
 
   const handleClickEdit = () => {
     setIsStatusEdit(!isStatusEdit);
   };
-  const [activeTab, setActiveTab] = useState('profile');
 
   const switchToProfile = () => {
     setActiveTab('profile');
@@ -15,6 +63,28 @@ export default function Profile() {
   const switchToHistoryOrder = () => {
     setActiveTab('historyOrder');
   };
+
+  const renderUser = async () => {
+    const user_Id = JSON.parse(localStorage.getItem('user_id'));
+    try {
+      const response = await requestHandler.get(`users/${user_Id}`);
+      const data = await response.data.data;
+      console.log(data);
+      setUser(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    renderUser();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      formik.setValues(user);
+    }
+  }, [user]);
   const orders = [
     {
       id: 1,
@@ -85,7 +155,10 @@ export default function Profile() {
                       <div className='w-full lg:w-4/12 px-4 lg:order-1'></div>
                     </div>
                     <div className='text-center mt-28'>
-                      <form className='w-full py-10 px-20'>
+                      <form
+                        className='w-full py-10 px-20'
+                        onSubmit={formik.handleSubmit}
+                      >
                         <div className='grid grid-cols-2 col-span-2 gap-10'>
                           <div className='col-span-1 mb-6'>
                             <label
@@ -96,12 +169,20 @@ export default function Profile() {
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
+                              {...formik.getFieldProps('fullname')}
+                              className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
+                                formik.touched.fullname && formik.errors.fullname
+                                  ? 'focus:border-main-red'
+                                  : ''
+                              }`}
                               type='text'
                               id='fullname'
                               name='fullname'
                               placeholder='Enter fullname'
                             />
+                            {formik.touched.fullname && formik.errors.fullname && (
+                              <div className='text-main-red'>{formik.errors.fullname}</div>
+                            )}
                           </div>
 
                           <div className='col-span-1 mb-6'>
@@ -113,12 +194,20 @@ export default function Profile() {
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
-                              type='email'
+                              {...formik.getFieldProps('email')}
+                              className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
+                                formik.touched.email && formik.errors.email
+                                  ? 'focus:border-main-red'
+                                  : ''
+                              }`}
+                              type='text'
                               id='email'
                               name='email'
-                              placeholder='Enter email'
+                              placeholder='Enter Email'
                             />
+                            {formik.touched.email && formik.errors.email && (
+                              <div className='text-main-red'>{formik.errors.email}</div>
+                            )}
                           </div>
                         </div>
 
@@ -132,11 +221,20 @@ export default function Profile() {
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
+                              {...formik.getFieldProps('birthday')}
+                              className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
+                                formik.touched.birthday && formik.errors.birthday
+                                  ? 'focus:border-main-red'
+                                  : ''
+                              }`}
                               type='date'
                               id='birthday'
                               name='birthday'
+                              placeholder='Enter Birthday'
                             />
+                            {formik.touched.birthday && formik.errors.birthday && (
+                              <div className='text-main-red'>{formik.errors.birthday}</div>
+                            )}
                           </div>
 
                           <div className='col-span-1 mb-6'>
@@ -148,12 +246,20 @@ export default function Profile() {
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
+                              {...formik.getFieldProps('phone')}
+                              className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
+                                formik.touched.phone && formik.errors.phone
+                                  ? 'focus:border-main-red'
+                                  : ''
+                              }`}
                               type='text'
                               id='phone'
                               name='phone'
-                              placeholder='Enter phone'
+                              placeholder='Enter Phone'
                             />
+                            {formik.touched.phone && formik.errors.phone && (
+                              <div className='text-main-red'>{formik.errors.phone}</div>
+                            )}
                           </div>
                         </div>
 
@@ -166,15 +272,26 @@ export default function Profile() {
                           </label>
                           <input
                             readOnly={!isStatusEdit}
-                            className='w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 focus:border-main-red'
+                            {...formik.getFieldProps('address')}
+                            className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
+                              formik.touched.address && formik.errors.address
+                                ? 'focus:border-main-red'
+                                : ''
+                            }`}
                             type='text'
                             id='address'
                             name='address'
                             placeholder='Enter address'
                           />
+                          {formik.touched.address && formik.errors.address && (
+                            <div className='text-main-red'>{formik.errors.address}</div>
+                          )}
                         </div>
                         {isStatusEdit && (
-                          <button className='bg-main-black text-white py-2 px-4 rounded-xl hover:opacity-90'>
+                          <button
+                            type='submit'
+                            className='bg-main-black text-white py-2 px-4 rounded-xl hover:opacity-90'
+                          >
                             Save
                           </button>
                         )}

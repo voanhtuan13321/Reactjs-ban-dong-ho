@@ -18,6 +18,7 @@ import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Statistical from './pages/admin/Statistical';
+import { Users } from './pages/admin/Users';
 
 // routes client
 const clientRoute = [
@@ -72,6 +73,10 @@ const adminRoute = [
   {
     path: 'statistical',
     element: <Statistical />,
+  },
+  {
+    path: 'users',
+    element: <Users />,
   },
 ];
 
