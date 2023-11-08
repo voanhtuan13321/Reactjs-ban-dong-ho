@@ -1,36 +1,30 @@
-import React from 'react';
-import GoogleMapReact from 'google-map-react';
-
-const AnyReactComponent = ({ text }) => (
-  <div className='text-red-600'>
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='30'
-      height='30'
-      viewBox='0 0 30 30'
-    >
-      <path
-        d='M15 0C8.371 0 3 5.373 3 12c0 3.537 1.442 5.509 3.783 9.78 1.104 1.762 3.02 4.211 5.217 7.22a1.008 1.008 0 0 0 1.021.286c.395-.15 7.56-6.48 7.56-12.504C20.58 5.373 15 0 15 0zm0 19.68c-1.75-2.722-3.21-4.911-3.33-5.099a.976.976 0 0 1 .638-1.628c.37 0 1.094.262 2.061.791 1.034.521 2.319 1.394 3.58 2.499 1.672 1.685 3.281 3.735 4.242 6.028-1.764-2.785-3.16-5.336-3.48-5.783a.977.977 0 0 1-.128-1.188.994.994 0 0 1 1.188-.127c.246.124 5.949 3.093 5.949 8.078 0 5.045-5.958 9.197-6.12 9.293a.994.994 0 0 1-1.187-.126.976.976 0 0 1-.128-1.187c.32-.446 1.726-2.997 3.49-5.783z'
-        fill='#D80A0A'
-        fillRule='evenodd'
-      />
-    </svg>
-    {text}
-  </div>
-);
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Contact() {
-  const defaultProps = {
-    center: {
-      lat: 16.0757722,
-      lng: 108.167373,
-    },
-    zoom: 15,
+  const form = useRef();
+  const notify = () => {
+    toast('🙌 Cảm ơn bạn đã liên hệ với chúng tôi !');
   };
-
+  const sendEmail = (e) => {
+    e.preventDefault();
+    emailjs.sendForm('service_zf96rw6', 'template_v9z8cqz', form.current, 'v3jjJZa_b1U7WD62k').then(
+      (result) => {
+        console.log(result.text);
+        notify();
+      },
+      (error) => {
+        console.log(error.text);
+      }
+    );
+    e.target.reset();
+  };
   return (
     <div>
       <div className='w-container mx-auto mt-8 h-[500px] flex mb-3'>
+        <ToastContainer />
         <div className='w-1/2 p-4 bg-slate-100 rounded-lg mr-3'>
           <div className='mb-4 flex items-center'>
             <p className='text-gray-700 flex'>
@@ -84,7 +78,11 @@ export default function Contact() {
           </div>
         </div>
         <div className='w-1/2 p-4 bg-slate-100 rounded-lg'>
-          <form className='w-full max-w-lg'>
+          <form
+            className='w-full max-w-lg'
+            ref={form}
+            onSubmit={sendEmail}
+          >
             <div className='mb-4'>
               <label
                 htmlFor='name'
@@ -95,7 +93,7 @@ export default function Contact() {
               <input
                 type='text'
                 id='name'
-                name='name'
+                name='user_name'
                 className='w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-main-red'
               />
             </div>
@@ -109,7 +107,7 @@ export default function Contact() {
               <input
                 type='email'
                 id='email'
-                name='email'
+                name='user_email'
                 className='w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-main-red'
               />
             </div>
@@ -127,9 +125,11 @@ export default function Contact() {
                 className='w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-main-red'
               />
             </div>
-            <button className='bg-main-red text-white py-2 px-4 rounded-lg hover:bg-main-red-dark'>
-              Gửi
-            </button>
+            <input
+              className='bg-main-red text-white py-2 px-4 rounded-lg hover:bg-main-red-dark'
+              type='submit'
+              value='Send'
+            />
           </form>
         </div>
       </div>
