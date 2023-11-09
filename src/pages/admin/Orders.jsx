@@ -3,6 +3,7 @@ import LabelStatus from '../../components/admin/LabelStatus';
 import ReactPaginate from 'react-paginate';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
+
 const trans = [
   {
     emailUser: 'manh@gmail.com',
@@ -60,6 +61,17 @@ const trans = [
   },
 ];
 export default function Orders() {
+  // const fetchListOrder = async () => {
+  //   // await axios.get('http://localhost:8080/api/order/',
+  //   // {headers: {
+  //   //   "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5oZHVuZzExMTEyQGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwibmFtZSI6IkxlTWFuaER1bmcxIiwiaWQiOjIsImV4cCI6MTY5OTUyNzI2OX0.C5joC8q2QmvbaRQOiekbktpw2NG9MMTR-VYW134fW6E'   
+  //   // }}).then((resp) => {console.log(resp.data);});
+    
+  // };
+  // useEffect(()=>{
+  //   fetchListOrder()
+  // },[])
+  
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 5;
@@ -99,7 +111,7 @@ export default function Orders() {
                 {currentPageData.map((l, k) => {
                   return (
                     <tr key={k}>
-                      <td>{k+1}</td>
+                      <td>{k + 1}</td>
                       <td className='font-bold text-lg'>{l.emailUser}</td>
                       <td>
                         <LabelStatus type={l.status}>{l.status}</LabelStatus>
@@ -129,25 +141,25 @@ export default function Orders() {
               </tbody>
             </table>
             <ReactPaginate
-            breakLabel='...'
-            className='flex justify-center items-center gap-3 my-6 float-right mr-5'
-            nextLabel={
-              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
-                <GrNext />
-              </span>
-            }
-            pageRangeDisplayed={3}
-            pageCount={pageCount}
-            previousLabel={
-              <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
-                <GrPrevious />
-              </span>
-            }
-            marginPagesDisplayed={10}
-            pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
-            activeClassName='bg-main-red text-white'
-            onPageChange={handlePageChange}
-          />
+              breakLabel='...'
+              className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+              nextLabel={
+                <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                  <GrNext />
+                </span>
+              }
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel={
+                <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
+                  <GrPrevious />
+                </span>
+              }
+              marginPagesDisplayed={10}
+              pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
+              activeClassName='bg-main-red text-white'
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </div>
