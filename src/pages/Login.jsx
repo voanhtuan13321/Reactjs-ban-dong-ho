@@ -13,10 +13,16 @@ export default function Login() {
 
   useEffect(() => {
     const storedMessage = localStorage.getItem('message');
+    const forgotPassword = localStorage.getItem('forgot-password');
     if (storedMessage) {
       setMessage(storedMessage);
       setType('success');
       localStorage.removeItem('message');
+    }
+    if (forgotPassword) {
+      setMessage(forgotPassword);
+      setType('success');
+      localStorage.removeItem('forgot-password');
     }
   }, []);
 
@@ -45,8 +51,9 @@ export default function Login() {
 
       if (data.status === 'success') {
         const accessToken = data.accessToken;
-        const user_id = data.userId;
+        const user_id = data.userID;
         localStorage.setItem('token', accessToken);
+        localStorage.setItem('user_id', user_id);
         if (data.data.roles === 'ROLE_USER') {
           navigate('/client');
         } else {

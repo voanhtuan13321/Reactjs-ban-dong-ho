@@ -30,6 +30,7 @@ export default function ForgotPassword() {
         setMessage(data);
         setType('error');
       } else {
+        localStorage.setItem('forgot-password', data);
         navigate('/login');
       }
     } catch (err) {

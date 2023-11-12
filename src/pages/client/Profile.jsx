@@ -2,22 +2,33 @@ import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import requestHandler from '../../utils/requestHandle';
+import { useNavigate } from 'react-router-dom';
+import ChangePassword from './ChangePassword';
+import HistoryOrder from './HistoryOrder';
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [isStatusEdit, setIsStatusEdit] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [user, setUser] = useState({
     fullname: '',
     email: '',
-    birthday: '',
+    birthDate: '',
     phone: '',
     address: '',
   });
 
+  useEffect(() => {
+    const isLogin = localStorage.getItem('token');
+    if (!isLogin) {
+      navigate('/login');
+    }
+  }, []);
+
   const validationSchema = Yup.object().shape({
-    fullname: Yup.string().required('Fullname is required'),
+    fullName: Yup.string().required('Fullname is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
-    birthday: Yup.date(),
+    birthDate: Yup.date(),
     phone: Yup.string()
       .matches(/^[0-9]{10}$/, 'Invalid phone number')
       .required('Phone is required'),
@@ -25,9 +36,9 @@ export default function Profile() {
   });
 
   const initialValues = {
-    fullname: '',
+    fullName: '',
     email: '',
-    birthday: '',
+    birthDate: '',
     phone: '',
     address: '',
   };
@@ -65,6 +76,10 @@ export default function Profile() {
     setActiveTab('historyOrder');
   };
 
+  const switchToChangePassword = () => {
+    setActiveTab('changePassword');
+  };
+
   const renderUser = async () => {
     const user_Id = JSON.parse(localStorage.getItem('user_id'));
     try {
@@ -86,23 +101,6 @@ export default function Profile() {
       formik.setValues(user);
     }
   }, [user]);
-  const orders = [
-    {
-      id: 1,
-      date: '2023-10-24',
-      items: [
-        { name: 'Apple Watch', price: 20, quantity: 2 },
-        { name: 'Mi Band 5', price: 15, quantity: 1 },
-      ],
-      total: 55,
-    },
-    {
-      id: 2,
-      date: '2023-10-22',
-      items: [{ name: 'Apple Watch C3', price: 30, quantity: 3 }],
-      total: 90,
-    },
-  ];
 
   return (
     <div className='w-container mx-auto mt-20'>
@@ -122,6 +120,14 @@ export default function Profile() {
           onClick={switchToHistoryOrder}
         >
           History Order
+        </button>
+        <button
+          className={`${
+            activeTab === 'changePassword' ? 'bg-main-red text-white' : 'bg-gray-300 text-gray-700'
+          } px-4 py-2 rounded-tl-lg rounded-tr-lg`}
+          onClick={switchToChangePassword}
+        >
+          Change Password
         </button>
       </div>
 
@@ -164,25 +170,25 @@ export default function Profile() {
                           <div className='col-span-1 mb-6'>
                             <label
                               className='text-[#808080] text-sm font-bold self-center'
-                              htmlFor='fullname'
+                              htmlFor='fullName'
                             >
                               Fullname
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              {...formik.getFieldProps('fullname')}
+                              {...formik.getFieldProps('fullName')}
                               className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
-                                formik.touched.fullname && formik.errors.fullname
+                                formik.touched.fullName && formik.errors.fullName
                                   ? 'focus:border-main-red'
                                   : ''
                               }`}
                               type='text'
-                              id='fullname'
-                              name='fullname'
-                              placeholder='Enter fullname'
+                              id='fullName'
+                              name='fullName'
+                              placeholder='Enter fullName'
                             />
-                            {formik.touched.fullname && formik.errors.fullname && (
-                              <div className='text-main-red'>{formik.errors.fullname}</div>
+                            {formik.touched.fullName && formik.errors.fullName && (
+                              <div className='text-main-red'>{formik.errors.fullName}</div>
                             )}
                           </div>
 
@@ -194,7 +200,7 @@ export default function Profile() {
                               Email
                             </label>
                             <input
-                              readOnly={!isStatusEdit}
+                              readOnly={true}
                               {...formik.getFieldProps('email')}
                               className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
                                 formik.touched.email && formik.errors.email
@@ -216,25 +222,25 @@ export default function Profile() {
                           <div className='col-span-1 mb-6'>
                             <label
                               className='text-[#808080] text-sm font-bold self-center'
-                              htmlFor='birthday'
+                              htmlFor='birthDate'
                             >
                               Birthday
                             </label>
                             <input
                               readOnly={!isStatusEdit}
-                              {...formik.getFieldProps('birthday')}
+                              {...formik.getFieldProps('birthDate')}
                               className={`w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-b-2 ${
-                                formik.touched.birthday && formik.errors.birthday
+                                formik.touched.birthDate && formik.errors.birthDate
                                   ? 'focus:border-main-red'
                                   : ''
                               }`}
                               type='date'
-                              id='birthday'
-                              name='birthday'
-                              placeholder='Enter Birthday'
+                              id='birthDate'
+                              name='birthDate'
+                              placeholder='Enter birthDate'
                             />
-                            {formik.touched.birthday && formik.errors.birthday && (
-                              <div className='text-main-red'>{formik.errors.birthday}</div>
+                            {formik.touched.birthDate && formik.errors.birthDate && (
+                              <div className='text-main-red'>{formik.errors.birthDate}</div>
                             )}
                           </div>
 
@@ -307,68 +313,14 @@ export default function Profile() {
       )}
 
       {activeTab === 'historyOrder' && (
-        <div className='pb-16 bg-blueGray-200'>
-          <div className='w-container mx-auto'>
-            <section className='py-16 bg-blueGray-200'>
-              <div className='mx-auto px-4'>
-                <h1 className='text-3xl font-semibold mb-6'>Order History</h1>
-                {orders.map((order) => (
-                  <div
-                    key={order.id}
-                    className='bg-white shadow-xl rounded-lg p-4 mb-4'
-                  >
-                    <div className='flex justify-between mb-2 border-b pb-2'>
-                      <p className='text-lg font-semibold'>Product</p>
-                      <p className='text-lg font-semibold ml-3'>Name</p>
-                      <p className='text-gray-600'>{order.date}</p>
-                    </div>
-                    <ul>
-                      {order.items.map((item, index) => (
-                        <li
-                          key={index}
-                          className='flex justify-between items-center mb-2'
-                        >
-                          <img
-                            src='https://bizweb.dktcdn.net/100/021/944/products/fitbit-sense-2-techwearvn-2.jpg?v=1695741879530'
-                            alt='Hình ảnh sản phẩm 2'
-                            className='w-16 h-16 object-cover'
-                          />
-                          <p>{item.name}</p>
-                          <p>
-                            ${item.price} x {item.quantity}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className='flex justify-between mt-2'>
-                      <p className='font-semibold'>Total:</p>
-                      <p className='flex items-center'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          height='1em'
-                          viewBox='0 0 640 512'
-                          className='text-green-500 w-6 h-6 mr-2 fill-current'
-                        >
-                          <path d='M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z' />
-                        </svg>
-                        <span className='text-green-500 text-lg font-semibold'>
-                          Vận chuyển thành công
-                        </span>
-                      </p>
-
-                      <p className='text-main-red font-bold'>${order.total}</p>
-                    </div>
-                  </div>
-                ))}
-                <div className='flex justify-end'>
-                  <button className='bg-main-red text-white py-2 px-4 rounded-xl mt-4'>
-                    Tiếp tục mua hàng
-                  </button>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
+        <>
+          <HistoryOrder />
+        </>
+      )}
+      {activeTab === 'changePassword' && (
+        <>
+          <ChangePassword />
+        </>
       )}
     </div>
   );
