@@ -1,39 +1,40 @@
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import CardItem from './CardItem';
 import { useNavigate } from 'react-router-dom';
 import requestHandler from '../../utils/requestHandle';
+import CardItem from './CardItem';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4, // Số lượng hiển thị trên mỗi slide
+  slidesToScroll: 1, // Số lượng slide được cuộn mỗi lần
+};
 
 function Top5Product() {
   const [top, setTop] = useState([]);
   const navigate = useNavigate();
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4, // Số lượng hiển thị trên mỗi slide
-    slidesToScroll: 1, // Số lượng slide được cuộn mỗi lần
-  };
+  useEffect(() => {
+    fetchTop5();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchTop5 = async () => {
     try {
       const response = await requestHandler.get('product/top5');
       const data = await response.data.data;
-      console.log(data);
+      // console.log(data);
       setTop(data);
     } catch (error) {
       console.log(error);
       navigate('/error');
     }
   };
-
-  useEffect(() => {
-    fetchTop5();
-  }, []);
 
   const renderCardItems = () => {
     return top.map((item, i) => {

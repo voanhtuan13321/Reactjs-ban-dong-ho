@@ -55,8 +55,10 @@ export default function Login() {
         localStorage.setItem('token', accessToken);
         localStorage.setItem('user_id', user_id);
         if (data.data.roles === 'ROLE_USER') {
+          localStorage.setItem('user_id', user_id);
           navigate('/client');
         } else {
+          localStorage.setItem('admin_id', user_id);
           navigate('/admin/statistical');
         }
       } else {

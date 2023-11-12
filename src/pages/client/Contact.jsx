@@ -5,14 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Contact() {
   const form = useRef();
+
   const notify = () => {
     toast('🙌 Cảm ơn bạn đã liên hệ với chúng tôi !');
   };
+
   const sendEmail = (e) => {
     e.preventDefault();
     emailjs.sendForm('service_zf96rw6', 'template_v9z8cqz', form.current, 'v3jjJZa_b1U7WD62k').then(
       (result) => {
-        console.log(result.text);
+        // console.log(result.text);
         notify();
       },
       (error) => {

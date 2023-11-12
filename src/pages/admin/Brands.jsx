@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import requestHandler from '../../utils/requestHandle';
+import { useEffect, useState } from 'react';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import Toast from '../../components/Toast';
 import ReactPaginate from 'react-paginate';
-import { GrNext, GrPrevious } from 'react-icons/gr';
+import Toast from '../../components/Toast';
+import requestHandler from '../../utils/requestHandle';
 
 export default function Brands() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,7 +103,6 @@ export default function Brands() {
               <table className='table w-full text-center'>
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Create Date</th>
                     <th>Update Date</th>
@@ -113,7 +112,6 @@ export default function Brands() {
                 <tbody>
                   {currentPageData.map((brand) => (
                     <tr key={brand.id}>
-                      <td>{brand.id}</td>
                       <td>{brand.name}</td>
                       <td>{brand.createDate}</td>
                       <td>{brand.updateDate}</td>

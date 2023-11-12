@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import requestHandler from '../../utils/requestHandle';
+import { useEffect, useState } from 'react';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import Toast from '../../components/Toast';
 import ReactPaginate from 'react-paginate';
-import { GrNext, GrPrevious } from 'react-icons/gr';
+import requestHandler from '../../utils/requestHandle';
+import Toast from '../../components/Toast';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -35,7 +35,7 @@ export const Users = () => {
     try {
       const response = await requestHandler.get('users');
       const data = response.data.data;
-      console.log(data);
+      // console.log(data);
       setUsers(data);
     } catch (error) {
       console.error('Error fetching data:', error);

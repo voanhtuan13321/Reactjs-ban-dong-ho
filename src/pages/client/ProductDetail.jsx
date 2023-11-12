@@ -1,12 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import requestHandle from '../../utils/requestHandle';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import requestHandler from '../../utils/requestHandle';
+import { setCountCart } from '../../utils/counterCartSlice';
+import { isUserLogin } from '../../utils/functionCommon';
+
+const carouselSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+  ],
+};
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -14,43 +33,30 @@ export default function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
 
   const notify = () => {
     toast('🙌 Thêm sản phẩm thành công !');
   };
 
-  const carouselSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-    ],
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchProduct = async () => {
     try {
       const response = await requestHandle.get(`product/${id}`);
       const data = await response.data;
       setProductDetail(data);
+      // console.log(data);
       setSameBrandProducts(data.sameBrandProducts);
     } catch (err) {
       console.log(err);
       navigate('/error');
     }
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchProduct();
-  }, []);
 
   const handleQuantityChange = (e) => {
     let value = parseInt(e.target.value);
@@ -60,23 +66,24 @@ export default function ProductDetail() {
 
   const addToCart = async (prod, quantity = 1) => {
     const id_user = JSON.parse(localStorage.getItem('user_id'));
-    const isLogin = localStorage.getItem('token');
-    if (isLogin) {
+    if (isUserLogin()) {
       try {
-        const response = await axios.post('http://localhost:8080/api/cart/', {
-          userId: id_user,
-          productId: prod.id,
-          amount: quantity,
-        });
+        const dataReq = { userId: id_user, productId: prod.id, amount: quantity };
+        await requestHandler.post('cart/', dataReq);
         notify();
-        console.log('them gio hang thanh cong', response.data);
-      } catch (error) {
-        console.log('da co loi xay ra');
+        // console.log('them gio hang thanh cong', response.data);
+
+        const res = await requestHandler.get('cart/');
+        const carts = await res.data.data;
+        dispatch(setCountCart(carts.length));
+      } catch (e) {
+        console.error(e);
       }
     } else {
       navigate('/login');
     }
   };
+
   const renderProductList = () => {
     return sameBrandProducts.map((product) => (
       <div key={product.id}>
@@ -99,7 +106,7 @@ export default function ProductDetail() {
       <div className='bg-white p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8'>
         <div>
           <img
-            src='https://watchbox-cdn.imgix.net/posted-product-images/638252971950586375_PATE323200_4792644_92915_37_1.jpg?h=1540&w=1540&auto=compress,format'
+            src={`http://localhost:8080/api/image/${productDetail?.imageSource[0]}`}
             alt='Hình ảnh sản phẩm'
             className='w-full'
           />
@@ -109,7 +116,9 @@ export default function ProductDetail() {
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
             <p className='text-gray-600 mb-4'>{productDetail?.model}</p>
-            <p className='text-xl font-bold text-main-red mb-4'>Price: ${productDetail?.price}</p>
+            <p className='text-xl font-bold text-main-red mb-4'>
+              Price: {productDetail?.price} VND
+            </p>
             <div className='flex items-center py-4'>
               <p className='text-black-600 font-bold'>Quantity:</p>
               <input
@@ -126,9 +135,6 @@ export default function ProductDetail() {
                 onClick={() => addToCart(productDetail, quantity)}
               >
                 ADD TO CART
-              </button>
-              <button className='bg-yellow-5 py-3 px-6 hover:bg-main-red flex-1 mx-2 border border-black text-black font-bold'>
-                BUY NOW
               </button>
             </div>
           </div>

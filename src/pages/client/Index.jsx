@@ -6,6 +6,7 @@ export default function Index() {
 
   useEffect(() => {
     navigate('/client/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <div>Index</div>;
