@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-export default function Rating() {
-  const [rating, setRating] = useState(0);
+export default function Rating({ isDisable, ratingStar }) {
+  const [rating, setRating] = useState(ratingStar ? ratingStar : 0);
   const [hover, setHover] = useState(null);
   const handleClickRating = (ratingValue) => {
     setRating(ratingValue);
@@ -22,12 +22,15 @@ export default function Rating() {
               onClick={() => {
                 handleClickRating(ratingValue);
               }}
+              disabled={isDisable}
             />
             <FaStar
               className='transition  cursor-pointer'
               color={ratingValue <= (rating || hover) ? 'gold' : 'gray'}
               onMouseEnter={() => {
-                setHover(ratingValue);
+                if (!isDisable) {
+                  setHover(ratingValue);
+                }
               }}
               onMouseLeave={() => setHover(null)}
               size={20}

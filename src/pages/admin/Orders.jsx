@@ -7,6 +7,17 @@ import requestHandle from '../../utils/requestHandle';
 const itemsPerPage = 10;
 
 export default function Orders() {
+  // const fetchListOrder = async () => {
+  //   // await axios.get('http://localhost:8080/api/order/',
+  //   // {headers: {
+  //   //   "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5oZHVuZzExMTEyQGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwibmFtZSI6IkxlTWFuaER1bmcxIiwiaWQiOjIsImV4cCI6MTY5OTUyNzI2OX0.C5joC8q2QmvbaRQOiekbktpw2NG9MMTR-VYW134fW6E'   
+  //   // }}).then((resp) => {console.log(resp.data);});
+    
+  // };
+  // useEffect(()=>{
+  //   fetchListOrder()
+  // },[])
+  
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [orders, setOrders] = useState([]);
