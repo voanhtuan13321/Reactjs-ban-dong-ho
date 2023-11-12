@@ -66,7 +66,7 @@ export default function Statistical() {
   const getTopUserByTheMost = async () => {
     const response = await requestHandle.get('statistical/top-5-best-customers');
     const result = await response.data;
-    console.log(result);
+    // console.log(result);
     // const labels = [];
     // const datas = [];
     // result.forEach((rs) => {

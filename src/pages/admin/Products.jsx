@@ -132,7 +132,9 @@ export default function Products() {
       } else {
         formData = convertToFormData(values);
       }
-      await requestHandler.post('product/', formData);
+
+      const config = { headers: { 'content-type': 'multipart/form-data' } };
+      await requestHandler.post('product/', formData, config);
 
       setState(!state);
       setType('success');

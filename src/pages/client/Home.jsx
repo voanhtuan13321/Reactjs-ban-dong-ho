@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Carousel from '../../components/client/Carousel';
 import Brands from '../../components/client/Brands';
 import Top5Product from '../../components/client/Top5Product';
 import Search from '../../components/client/Search';
 import ListProduct from '../../components/client/ListProduct';
 import requestHandle from '../../utils/requestHandle';
+import { setCountCart } from '../../utils/counterCartSlice';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchProduct();
+    fetchCountCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProduct = async () => {
@@ -26,6 +31,16 @@ export default function Home() {
     } catch (err) {
       console.log(err);
       navigate('/error');
+    }
+  };
+
+  const fetchCountCart = async () => {
+    try {
+      const response = await requestHandle.get('cart/');
+      const carts = await response.data.data;
+      dispatch(setCountCart(carts.length));
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -45,7 +60,7 @@ export default function Home() {
     requestHandle
       .get(`product/?brandId=${id}`)
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setFilteredList(res.data.data);
       })
       .catch((err) => console.log(err));

@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCountCart } from './utils/counterCartSlice';
+
 import Home from './pages/client/Home';
 import Cart from './pages/client/Cart';
 import Contact from './pages/client/Contact';
@@ -6,6 +10,7 @@ import ProductDetail from './pages/client/ProductDetail';
 import LayoutClient from './pages/client/LayoutClient';
 import Profile from './pages/client/Profile';
 import OrderDetail from './pages/client/OrderDetail';
+import OrderSuccess from './pages/client/OrderSuccess';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
 import ChangePassword from './pages/client/ChangePassword';
 import Login from './pages/Login';
@@ -19,68 +24,48 @@ import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Statistical from './pages/admin/Statistical';
 import { Users } from './pages/admin/Users';
+import requestHandler from './utils/requestHandle';
 
 // routes client
 const clientRoute = [
-  {
-    path: '',
-    element: <Home />,
-  },
-  {
-    path: 'home',
-    element: <Home />,
-  },
-  {
-    path: 'product-detail/:id',
-    element: <ProductDetail />,
-  },
-  {
-    path: 'order-detail',
-    element: <OrderDetail />,
-  },
-  {
-    path: 'cart',
-    element: <Cart />,
-  },
-  {
-    path: 'contact',
-    element: <Contact />,
-  },
-  {
-    path: 'profile',
-    element: <Profile />,
-  },
-  {
-    path: 'change-password',
-    element: <ChangePassword />,
-  },
+  { path: '', element: <Home /> },
+  { path: 'home', element: <Home /> },
+  { path: 'product-detail/:id', element: <ProductDetail /> },
+  { path: 'order-detail', element: <OrderDetail /> },
+  { path: 'order-success', element: <OrderSuccess /> },
+  { path: 'cart', element: <Cart /> },
+  { path: 'contact', element: <Contact /> },
+  { path: 'profile', element: <Profile /> },
+  { path: 'change-password', element: <ChangePassword /> },
 ];
 
 // routes admin
 const adminRoute = [
-  {
-    path: 'brands',
-    element: <Brands />,
-  },
-  {
-    path: 'products',
-    element: <Products />,
-  },
-  {
-    path: 'orders',
-    element: <Orders />,
-  },
-  {
-    path: 'statistical',
-    element: <Statistical />,
-  },
-  {
-    path: 'users',
-    element: <Users />,
-  },
+  { path: 'brands', element: <Brands /> },
+  { path: 'products', element: <Products /> },
+  { path: 'orders', element: <Orders /> },
+  { path: 'statistical', element: <Statistical /> },
+  { path: 'users', element: <Users /> },
 ];
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchCountCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchCountCart = async () => {
+    try {
+      const response = await requestHandler.get('cart/');
+      const carts = await response.data.data;
+      dispatch(setCountCart(carts.length));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   /**
    * Render the routes.
    *

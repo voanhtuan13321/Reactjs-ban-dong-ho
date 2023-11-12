@@ -1,26 +1,26 @@
-import { Link, useNavigate } from 'react-router-dom';
-import requestHandle from '../utils/requestHandle';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import undraw from '../assets/img/bg-01.jpg';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import requestHandle from '../utils/requestHandle';
+import undraw from '../assets/img/bg-01.jpg';
 import Toast from '../components/Toast';
+
+const initialValues = {
+  fullName: '',
+  birthDate: '',
+  phone: '',
+  address: '',
+  email: '',
+  password: '',
+  rePassword: '',
+};
 
 export default function Register() {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const navigate = useNavigate();
-
   const today = new Date();
-  const initialValues = {
-    fullName: '',
-    birthDate: '',
-    phone: '',
-    address: '',
-    email: '',
-    password: '',
-    rePassword: '',
-  };
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required('Fullname is required'),
@@ -38,12 +38,9 @@ export default function Register() {
       .required('Confirm Password is required'),
   });
 
-  // localStorage.setItem('message', "User register successfully");
-
   const handleRegister = async (values) => {
     try {
       const response = await requestHandle.post('register', values);
-
       const data = response.data;
 
       if (data.status === 'success') {

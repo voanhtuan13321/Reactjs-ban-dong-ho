@@ -2,12 +2,14 @@ import { Listbox, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import { AiOutlineCheck } from 'react-icons/ai';
+
 const people = [
   { name: 'dưới 500.000đ' },
   { name: '500.000đ đến 1.000.000đ' },
   { name: '500.000đ đến 1.000.000đ' },
   { name: '500.000đ đến 1.000.000đ' },
 ];
+
 function FilterMoney(props) {
   const [selected, setSelected] = useState(people[0]);
 

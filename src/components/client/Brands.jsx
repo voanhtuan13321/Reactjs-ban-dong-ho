@@ -8,21 +8,22 @@ function Brands({ handleGetProductsByBrand }) {
   const [brands, setBrands] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchBrands();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const fetchBrands = async () => {
     try {
       const response = await requestHandle.get('brands/');
       const data = await response.data.data;
-      console.log(data);
+      // console.log(data);
       setBrands(data);
     } catch (error) {
       console.log(error);
       navigate('/error');
     }
   };
-
-  useEffect(() => {
-    fetchBrands();
-  }, []);
 
   const renderData = () => {
     const brandIcons = {

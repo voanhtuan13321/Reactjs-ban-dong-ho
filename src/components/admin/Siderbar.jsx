@@ -2,26 +2,11 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const navs = [
-  {
-    to: '/admin/brands',
-    text: 'Brands',
-  },
-  {
-    to: '/admin/products',
-    text: 'Products',
-  },
-  {
-    to: '/admin/orders',
-    text: 'Orders',
-  },
-  {
-    to: '/admin/statistical',
-    text: 'Statistical',
-  },
-  {
-    to: '/admin/Users',
-    text: 'Users',
-  },
+  { to: '/admin/brands', text: 'Brands' },
+  { to: '/admin/products', text: 'Products' },
+  { to: '/admin/orders', text: 'Orders' },
+  { to: '/admin/statistical', text: 'Statistical' },
+  { to: '/admin/Users', text: 'Users' },
 ];
 
 export default function Siderbar() {

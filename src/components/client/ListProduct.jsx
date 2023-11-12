@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import CardItem from './CardItem';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import ReactPaginate from 'react-paginate';
+import CardItem from './CardItem';
 
-function ListProduct({  filteredList }) {
+function ListProduct({ filteredList }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 8;

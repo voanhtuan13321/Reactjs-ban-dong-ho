@@ -1,8 +1,15 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Siderbar from '../../components/admin/Siderbar';
 
 export default function LayoutAdmin() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const adminId = localStorage.getItem('admin_id');
+    // adminId || navigate('/login');
+  });
+
   return (
     <>
       <div className='flex'>
