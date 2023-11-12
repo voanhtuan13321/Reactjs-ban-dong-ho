@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import RatingStar from '../../components/client/RatingStar';
 import requestHandle from '../../utils/requestHandle';
 import 'react-toastify/dist/ReactToastify.css';
 import requestHandler from '../../utils/requestHandle';
@@ -33,6 +34,7 @@ export default function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [getRating, setGetRating] = useState();
   const dispatch = useDispatch();
 
   const notify = () => {
@@ -42,6 +44,7 @@ export default function ProductDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchProduct();
+    getRatingByUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,7 +60,22 @@ export default function ProductDetail() {
       navigate('/error');
     }
   };
-
+  const getRatingByUser = async () => {
+    const user_id = localStorage.getItem('user_id');
+    requestHandle
+      .get(`rating/`, {
+        params: {
+          userId: user_id,
+          productId: id,
+        },
+      })
+      .then((response) => {
+        setGetRating(response.data.data.star);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleQuantityChange = (e) => {
     let value = parseInt(e.target.value);
     value = Math.max(value, 1);
@@ -115,7 +133,14 @@ export default function ProductDetail() {
           <div className='border-b-4 border-main-black pb-7'>
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
-            <p className='text-gray-600 mb-4'>{productDetail?.model}</p>
+            <p className='float-left '>
+              <RatingStar
+                ratingStar={getRating}
+                productId={productDetail?.id}
+              />
+            </p>
+            <br />
+            <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
             <p className='text-xl font-bold text-main-red mb-4'>
               Price: {productDetail?.price} VND
             </p>

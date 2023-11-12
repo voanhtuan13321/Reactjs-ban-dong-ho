@@ -5,6 +5,8 @@ import requestHandler from '../../utils/requestHandle';
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from './ChangePassword';
 import HistoryOrder from './HistoryOrder';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -17,7 +19,9 @@ export default function Profile() {
     phone: '',
     address: '',
   });
-
+  const notify = () => {
+    toast('🙌 Update successfully!!');
+  };
   useEffect(() => {
     const isLogin = localStorage.getItem('token');
     if (!isLogin) {
@@ -51,6 +55,8 @@ export default function Profile() {
         values
       );
       console.log('Successfully:', response.data);
+      setIsStatusEdit(!isStatusEdit);
+      notify();
     } catch (error) {
       console.error('Error profile:', error);
     } finally {
@@ -104,6 +110,7 @@ export default function Profile() {
 
   return (
     <div className='w-container mx-auto mt-20'>
+      <ToastContainer />
       <div className='flex ml-5'>
         <button
           className={`${

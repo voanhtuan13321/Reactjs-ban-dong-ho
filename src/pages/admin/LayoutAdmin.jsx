@@ -7,7 +7,7 @@ export default function LayoutAdmin() {
 
   useEffect(() => {
     const adminId = localStorage.getItem('admin_id');
-    // adminId || navigate('/login');
+    adminId || navigate('/login');
   });
 
   return (
