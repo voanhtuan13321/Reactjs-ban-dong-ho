@@ -132,8 +132,11 @@ export default function Cart() {
               </div>
               <div className='w-1/5 flex'>
                 <button
-                  className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'
+                  className={`bg-main-red text-amber-50 w-11 h-7 rounded-lg ${
+                    item.quantity === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   onClick={() => decreaseQuantity(item)}
+                  disabled={item.quantity === 1}
                 >
                   -
                 </button>
