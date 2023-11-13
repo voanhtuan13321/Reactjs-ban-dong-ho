@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pie, Doughnut, Bar } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import vi from 'date-fns/locale/vi';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
@@ -20,7 +20,6 @@ registerLocale('vi', vi);
 export default function Statistical() {
   const [startDate, setStartDate] = useState(new Date());
   const [topGoodPrice, setTopGoodPrice] = useState({ labels: [], datas: [] });
-  const [topBestSelling, setTopBestSelling] = useState({ labels: [], datas: [] });
   const [topUserBuyTheMost, setTopUserBuyTheMost] = useState({ labels: [], datas: [] });
   const [statistical, setStatistical] = useState({ labels: [], datas: [] });
   const [statisticalByYear, setStatisticalByYear] = useState(0);
@@ -64,34 +63,40 @@ export default function Statistical() {
   };
 
   const getTopUserByTheMost = async () => {
-    const response = await requestHandle.get('statistical/top-5-best-customers');
-    const result = await response.data;
-    // console.log(result);
-    // const labels = [];
-    // const datas = [];
-    // result.forEach((rs) => {
-    //   labels.push(rs.user.name);
-    //   datas.push(rs.quantity);
-    // });
-    // setTopUserBuyTheMost({ ...topUserBuyTheMost, labels, datas });
+    try {
+      const response = await requestHandle.get('statistical/top-buy-the-most');
+      const result = await response.data;
+      const labels = [];
+      const datas = [];
+      result.forEach((rs) => {
+        labels.push(rs.users.fullName);
+        datas.push(rs.quantity);
+      });
+      setTopUserBuyTheMost({ ...topUserBuyTheMost, labels, datas });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const getStatistical = async (m, y) => {
-    // const date = new Date();
-    // m === 0 && (m = date.getMonth() + 1);
-    // y === 0 && (y = date.getFullYear());
-    // const urlApi = `${pathApi.statistical}/${m}/${y}`;
-    // // console.log(m, y, urlApi);
-    // const response = await axiosInstent.get(urlApi);
-    // const result = await response.data;
-    // const labels = [];
-    // // console.log(response);
-    // // console.log(result);
-    // result.forEach((rs, index) => {
-    //   labels.push(index + 1);
-    // });
-    // // console.log(labels);
-    // setStatistical({ ...statistical, labels, datas: result });
+    try {
+      const date = new Date();
+      m === 0 && (m = date.getMonth() + 1);
+      y === 0 && (y = date.getFullYear());
+      // console.log(m, y, urlApi);
+      const response = await requestHandle.get(`statistical/${m}/${y}`);
+      const result = await response.data;
+      const labels = [];
+      // console.log(response);
+      // console.log(result);
+      result.forEach((rs, index) => {
+        labels.push(index + 1);
+      });
+      // console.log(labels);
+      setStatistical({ ...statistical, labels, datas: result });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getStatisticalByYear = async (y) => {
@@ -141,30 +146,7 @@ export default function Statistical() {
                 />
               </div>
             </div>
-            <div className='shadow-xl rounded-lg h-full'>
-              <div className='py-3 text-2xl text-center font-bold'>Sách có giá tốt nhất</div>
-              <div className='p-4'>
-                <Doughnut
-                  data={{
-                    labels: ['Red', 'Blue', 'Yellow'],
-                    datasets: [
-                      {
-                        label: 'Giá sách',
-                        data: [2, 2, 2],
-                        backgroundColor: [
-                          'rgba(255, 99, 132)',
-                          'rgba(54, 162, 235)',
-                          'rgba(255, 206, 86)',
-                          'rgba(75, 192, 192)',
-                          'rgba(153, 102, 255)',
-                          'rgba(255, 159, 64)',
-                        ],
-                      },
-                    ],
-                  }}
-                />
-              </div>
-            </div>
+
             <div className='shadow-xl rounded-lg h-full'>
               <div className='py-3 text-2xl text-center font-bold'>
                 Khách hàng mua sách nhiều nhất
@@ -172,11 +154,11 @@ export default function Statistical() {
               <div className='p-4 flex items-center'>
                 <Bar
                   data={{
-                    labels: ['Red', 'Blue', 'Yellow'],
+                    labels: topUserBuyTheMost.labels,
                     datasets: [
                       {
-                        label: 'Số lượng sách',
-                        data: [3, 4, 6],
+                        label: 'Số lượng đã mua',
+                        data: topUserBuyTheMost.datas,
                         backgroundColor: 'rgba(54, 162, 235)',
                       },
                     ],
@@ -224,22 +206,11 @@ export default function Statistical() {
                     width={100}
                     height={50}
                     data={{
-                      labels: [
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                        'label',
-                      ],
+                      labels: statistical.labels,
                       datasets: [
                         {
                           label: 'Doanh thu',
-                          data: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
+                          data: statistical.datas,
                           backgroundColor: 'rgba(54, 162, 235)',
                         },
                       ],

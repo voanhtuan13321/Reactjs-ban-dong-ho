@@ -5,18 +5,27 @@ import Button from '../../components/Button';
 import OrderDetailItem from '../../components/client/OrderDetailItem';
 import requestHandler from '../../utils/requestHandle';
 import { lamTronGia, isUserLogin } from '../../utils/functionCommon';
+import { useDispatch } from 'react-redux';
+import { setCountCart } from '../../utils/counterCartSlice';
+import Swal from 'sweetalert2';
+
+const INIT_USER = {
+  id: 0,
+  address: '',
+  birthDate: '',
+  email: '',
+  fullName: '',
+  phone: '',
+  roles: '',
+  delete: false,
+};
 
 export default function OrderDetail() {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState({
-    address: '',
-    birthDate: '',
-    email: '',
-    fullName: '',
-    phone: '',
-    roles: '',
-  });
+  const [user, setUser] = useState(INIT_USER);
+  const [typePayment, setTypePayment] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     isUserLogin() || navigate('/login');
@@ -48,6 +57,10 @@ export default function OrderDetail() {
     }
   };
 
+  const handleChangeTypePayment = (e) => {
+    setTypePayment(Number(e.target.value));
+  };
+
   const caculateTotalPrice = cart.reduce((preValue, curValue) => {
     const { price, discount } = curValue.products;
     return preValue + curValue.quantity * (price - (price * discount) / 100);
@@ -55,12 +68,31 @@ export default function OrderDetail() {
 
   const handlerThanhToan = async () => {
     try {
-      const dataReq = {
-        total: caculateTotalPrice,
-        urlReturn: 'http://localhost:3000/client/order-success',
-      };
-      const response = await requestHandler.post('vn-pay/create-payment', dataReq);
-      window.location.href = response.data.url;
+      if (typePayment === 1) {
+        // thanh toan khi nhan hang
+        const idUser = Number(localStorage.getItem('user_id'));
+        const orderReqDTO = {
+          userId: idUser,
+          status: 'waiting',
+          total: caculateTotalPrice,
+        };
+
+        await requestHandler.post('order/', orderReqDTO);
+        await requestHandler.delete(`cart/all/${idUser}`);
+        const response = await requestHandler.get('cart/');
+        const carts = await response.data.data;
+        dispatch(setCountCart(carts.length));
+
+        Swal.fire('Thanh toán thành công', '', 'success');
+      } else {
+        // thanh toan online
+        const dataReq = {
+          total: caculateTotalPrice,
+          urlReturn: 'http://localhost:3000/client/order-success',
+        };
+        const response = await requestHandler.post('vn-pay/create-payment', dataReq);
+        window.location.href = response.data.url;
+      }
     } catch (error) {
       console.error(error);
     }
@@ -115,6 +147,17 @@ export default function OrderDetail() {
       <div className='w-container px-10 mx-auto shadow-xl rounded-xl mb-10'>
         <div>{renderItemDetail()}</div>
         <div className='text-end font-bold'>Tổng tiền: {lamTronGia(caculateTotalPrice)} VND</div>
+        <div className='text-end my-4'>
+          <span className='font-bold'>Chọn phương thức thanh toán: </span>
+          <select
+            className='border-2 border-red-300 border-solid outline-none rounded-md'
+            value={typePayment}
+            onChange={handleChangeTypePayment}
+          >
+            <option value='1'>Thanh toán khi nhận hàng</option>
+            <option value='2'>Thanh toán online</option>
+          </select>
+        </div>
         <div className='text-end py-5'>
           <Button onClick={() => navigate('/client/cart')}>Trở lại</Button>
           <Button

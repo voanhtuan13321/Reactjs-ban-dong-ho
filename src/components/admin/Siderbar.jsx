@@ -14,7 +14,8 @@ export default function Siderbar() {
   const location = useLocation();
 
   const handleClickLogout = () => {
-    alert('Logout');
+    localStorage.removeItem('admin_id');
+    navigate('/login');
   };
 
   const renderNav = (nav) => {

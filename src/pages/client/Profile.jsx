@@ -86,7 +86,7 @@ export default function Profile() {
     setActiveTab('changePassword');
   };
 
-  const renderUser = async () => {
+  const fetchUser = async () => {
     const user_Id = JSON.parse(localStorage.getItem('user_id'));
     try {
       const response = await requestHandler.get(`users/${user_Id}`);
@@ -99,7 +99,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    renderUser();
+    fetchUser();
   }, []);
 
   useEffect(() => {

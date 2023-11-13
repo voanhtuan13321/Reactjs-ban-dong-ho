@@ -51,8 +51,8 @@ export default function Login() {
 
       if (data.status === 'success') {
         const accessToken = data.accessToken;
-        const user_id = data.userID;
         localStorage.setItem('token', accessToken);
+        const user_id = data.userID;
         localStorage.setItem('user_id', user_id);
         if (data.data.roles === 'ROLE_USER') {
           localStorage.setItem('user_id', user_id);

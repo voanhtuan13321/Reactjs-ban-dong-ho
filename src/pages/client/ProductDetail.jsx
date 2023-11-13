@@ -53,32 +53,36 @@ export default function ProductDetail() {
       const response = await requestHandle.get(`product/${id}`);
       const data = await response.data;
       setProductDetail(data);
-      // console.log(data);
+      console.log(data);
       setSameBrandProducts(data.sameBrandProducts);
     } catch (err) {
       console.log(err);
       navigate('/error');
     }
   };
+
   const getRatingByUser = async () => {
     const user_id = localStorage.getItem('user_id');
-    requestHandle
-      .get(`rating/`, {
-        params: {
-          userId: user_id,
-          productId: id,
-        },
-      })
-      .then((response) => {
-        setGetRating(response.data.data.star);
-      })
-      .catch((err) => {
-        console.log(err);
+
+    try {
+      const response = await requestHandle.get('rating/', {
+        params: { userId: user_id, productId: id },
       });
+      const star = await response.data.data.star;
+      setGetRating(star);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   const handleQuantityChange = (e) => {
     let value = parseInt(e.target.value);
-    value = Math.max(value, 1);
+    if (value) {
+      value = Math.max(value, 1);
+      value = value > productDetail.quantity ? productDetail.quantity : value;
+    } else {
+      value = 1;
+    }
     setQuantity(value);
   };
 
@@ -133,22 +137,25 @@ export default function ProductDetail() {
           <div className='border-b-4 border-main-black pb-7'>
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
-            <p className='float-left '>
+            <div className='float-left '>
               <RatingStar
                 ratingStar={getRating}
                 productId={productDetail?.id}
               />
-            </p>
+            </div>
             <br />
             <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
             <p className='text-xl font-bold text-main-red mb-4'>
               Price: {productDetail?.price} VND
             </p>
+            <p className='text-xl font-bold mb-4'>
+              Số lượng hiện có: {productDetail?.quantity} sản phẩm
+            </p>
             <div className='flex items-center py-4'>
               <p className='text-black-600 font-bold'>Quantity:</p>
               <input
                 type='number'
-                className='w-14 py-2 px-3 border border-gray-300 rounded ml-3'
+                className='w-24 py-2 px-3 border border-gray-300 rounded ml-3'
                 value={quantity}
                 onChange={handleQuantityChange}
                 min={1}
