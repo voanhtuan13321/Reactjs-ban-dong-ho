@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import { BiArrowFromLeft } from 'react-icons/bi';
 
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
@@ -29,7 +30,6 @@ export default function Header() {
     if (token) {
       setIsLoggedIn(!isLoggedIn);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
@@ -106,8 +106,14 @@ export default function Header() {
                     <ul className='bg-white shadow-2xl w-36 rounded-md mt-5 overflow-hidden'>
                       {renderMenuAvatar()}
                       <hr />
-                      <li className='p-2 hover:bg-red-100 transition-all duration-200 ease-in-out block cursor-pointer'>
-                        <button onClick={handleLogout}>Logout</button>
+                      <li className='p-2 hover:bg-red-100 transition-all duration-200 ease-in-out block cursor-pointer font-bold'>
+                        <button
+                          onClick={handleLogout}
+                          className='flex items-center'
+                        >
+                          <BiArrowFromLeft className='text-red-500' />
+                          <p className='ml-2'>Logout</p>
+                        </button>
                       </li>
                     </ul>
                   </div>
@@ -118,13 +124,14 @@ export default function Header() {
             <div>
               <Link
                 to='/login'
-                className='ml-3 bg-white py-1 px-2 rounded-md hover:opacity-95'
+                className='ml-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
               >
                 Login
               </Link>
+
               <Link
                 to='/register'
-                className='ml-3 bg-white py-1 px-2 rounded-md hover:opacity-95'
+                className='ml-3 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800 font-bold'
               >
                 Register
               </Link>

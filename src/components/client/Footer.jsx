@@ -7,37 +7,40 @@ export default function Footer() {
         <div className='md:flex md:justify-between'>
           <div className='mb-6 md:mb-0'>
             <a
-              href='https://flowbite.com/'
+              href='https://your-ecommerce-site.com'
               className='flex items-center'
             >
               <img
                 src='https://flowbite.com/docs/images/logo.svg'
                 className='h-8 mr-3'
-                alt='FlowBite Logo'
+                alt='Your Logo'
               />
               <span className='self-center text-2xl font-semibold whitespace-nowrap text-white'>
-                LOGO
+                Watch Shop
               </span>
             </a>
+            <p className='mt-2 text-gray-400 text-sm'>
+              Discover the latest trends in our online store.
+            </p>
           </div>
           <div className='grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3'>
             <div>
-              <h2 className='mb-6 text-sm font-semibold  uppercase text-white'>Resources</h2>
-              <ul className=' text-gray-400 font-medium'>
+              <h2 className='mb-6 text-sm font-semibold uppercase text-white'>Resources</h2>
+              <ul className='text-gray-400 font-medium'>
                 <li className='mb-4'>
                   <a
-                    href='https://flowbite.com/'
+                    href='https://your-ecommerce-site.com'
                     className='hover:underline'
                   >
-                    Flowbite
+                    Shop
                   </a>
                 </li>
                 <li>
                   <a
-                    href='https://tailwindcss.com/'
+                    href='https://your-ecommerce-site.com/blog'
                     className='hover:underline'
                   >
-                    Tailwind CSS
+                    Blog
                   </a>
                 </li>
               </ul>
@@ -47,12 +50,12 @@ export default function Footer() {
         <hr className='my-6 sm:mx-auto border-gray-700 lg:my-8' />
         <div className='sm:flex sm:items-center sm:justify-between'>
           <span className='text-sm sm:text-center text-gray-400'>
-            © 2023{' '}
+            © {new Date().getFullYear()}{' '}
             <a
-              href='https://flowbite.com/'
+              href='https://your-ecommerce-site.com'
               className='hover:underline'
             >
-              Flowbite™
+              WatchShop
             </a>
             . All Rights Reserved.
           </span>

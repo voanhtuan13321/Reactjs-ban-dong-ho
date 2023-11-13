@@ -35,9 +35,9 @@ function Brands({ handleGetProductsByBrand }) {
 
     return brands.map((item, index) => {
       const colors = [
-        'text-black-500 font-extrabold',
+        'text-black-500 font-extrabold font-bold',
         'text-blue-700 font-extrabold',
-        'text-[#fb923c] font-extrabold',
+        'text-[#ff780a] font-extrabold',
         'text-red-500 font-extrabold',
       ];
       const textClass = colors[index % colors.length];
