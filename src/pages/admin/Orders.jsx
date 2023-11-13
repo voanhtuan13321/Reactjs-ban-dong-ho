@@ -3,24 +3,15 @@ import { GrNext, GrPrevious } from 'react-icons/gr';
 import ReactPaginate from 'react-paginate';
 import LabelStatus from '../../components/admin/LabelStatus';
 import requestHandle from '../../utils/requestHandle';
+import { useNavigate } from 'react-router-dom';
 
 const itemsPerPage = 10;
 
 export default function Orders() {
-  // const fetchListOrder = async () => {
-  //   // await axios.get('http://localhost:8080/api/order/',
-  //   // {headers: {
-  //   //   "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5oZHVuZzExMTEyQGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwibmFtZSI6IkxlTWFuaER1bmcxIiwiaWQiOjIsImV4cCI6MTY5OTUyNzI2OX0.C5joC8q2QmvbaRQOiekbktpw2NG9MMTR-VYW134fW6E'   
-  //   // }}).then((resp) => {console.log(resp.data);});
-    
-  // };
-  // useEffect(()=>{
-  //   fetchListOrder()
-  // },[])
-  
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPageCount(Math.ceil(orders.length / itemsPerPage));
@@ -36,9 +27,9 @@ export default function Orders() {
   const fetchOrders = async () => {
     try {
       const response = await requestHandle.get('order/');
-      const data = response.data.data;
+      const data = await response.data.data;
+      setOrders(data.reverse());
       // console.log(data);
-      setOrders(data);
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +53,7 @@ export default function Orders() {
       return (
         <tr key={k}>
           <td>{l.orderCode}</td>
-          <td className='font-bold text-lg'>{l.emailUser}</td>
+          <td className='font-bold text-lg'>{l.username}</td>
           <td>
             <LabelStatus type={l.status}>{l.status}</LabelStatus>
           </td>
@@ -87,7 +78,14 @@ export default function Orders() {
             )}
           </td>
           <td>
-            <p className='text-blue-500 underline cursor-pointer text-lg'>Detail</p>
+            {l.status === 'waiting' && (
+              <p
+                className='text-blue-500 underline cursor-pointer text-lg'
+                onClick={() => navigate(`/admin/order-detail/${l.id}`)}
+              >
+                Detail
+              </p>
+            )}
           </td>
         </tr>
       );
@@ -105,7 +103,7 @@ export default function Orders() {
               <thead>
                 <tr>
                   <th>orderCode</th>
-                  <th>Email</th>
+                  <th>Name</th>
                   <th>Status</th>
                   <th>Amount</th>
                   <th>Payment Date</th>

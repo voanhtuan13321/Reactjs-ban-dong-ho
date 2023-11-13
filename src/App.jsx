@@ -22,6 +22,7 @@ import ForgotPassword from './components/client/ForgotPassword';
 import Brands from './pages/admin/Brands';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
+import OrderDetail2 from './pages/admin/OrderDetail';
 import Statistical from './pages/admin/Statistical';
 import { Users } from './pages/admin/Users';
 import requestHandler from './utils/requestHandle';
@@ -44,6 +45,7 @@ const adminRoute = [
   { path: 'brands', element: <Brands /> },
   { path: 'products', element: <Products /> },
   { path: 'orders', element: <Orders /> },
+  { path: 'order-detail/:id', element: <OrderDetail2 /> },
   { path: 'statistical', element: <Statistical /> },
   { path: 'users', element: <Users /> },
 ];

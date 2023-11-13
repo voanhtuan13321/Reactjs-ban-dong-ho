@@ -1,26 +1,18 @@
 import { useEffect, useState } from 'react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import ReactPaginate from 'react-paginate';
 import requestHandler from '../../utils/requestHandle';
-import Toast from '../../components/Toast';
 
 const ITEMS_PER_PAGE = 10;
 
 export const Users = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
-  const [editBrand, setEditBrand] = useState(null);
-  const [state, setState] = useState(false);
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
     fetchUsers();
-  }, [state]);
+  }, []);
 
   useEffect(() => {
     setPageCount(Math.ceil(users.length / ITEMS_PER_PAGE));
@@ -44,41 +36,13 @@ export const Users = () => {
 
   const offset = currentPage * ITEMS_PER_PAGE;
   const currentPageData = users.slice(offset, offset + ITEMS_PER_PAGE);
-  const openModal = () => {
-    setIsModalOpen(true);
-    setEditBrand(null);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditBrand(null);
-  };
-
-  const userschema = Yup.object().shape({
-    name: Yup.string().required('Brand name is required'),
-  });
-
-  const handleEdit = (brand) => {
-    setEditBrand(brand);
-    setIsModalOpen(true);
-  };
-
-  const handleAddOrUpdateBrand = async (values) => {
+  const handleChangeStatus = async (id) => {
     try {
-      let response;
-      if (editBrand) {
-        response = await requestHandler.put(`users/${editBrand.id}`, values);
-      } else {
-        response = await requestHandler.post('users/', values);
-      }
-      const data = response.data.data;
-      const updatedusers = users.map((brand) => (brand.id === data.id ? data : brand));
-      setUsers(updatedusers);
-      setState(!state);
-      setType('success');
-      closeModal();
+      await requestHandler.delete(`users/${id}`);
+      fetchUsers();
     } catch (error) {
-      console.error('Error:', error);
+      console.error(error);
     }
   };
 
@@ -86,19 +50,7 @@ export const Users = () => {
     <>
       <main className='flex-1 overflow-y-auto pt-8 px-6  bg-base-200'>
         <div className='card w-full p-6 bg-base-100 shadow-xl mt-2'>
-          <div className='text-xl font-semibold inline-block'>
-            Users
-            <div className='inline-block float-right'>
-              <div className='inline-block float-right'>
-                <button
-                  className='btn px-6 btn-sm normal-case btn-primary'
-                  onClick={openModal}
-                >
-                  Add New
-                </button>
-              </div>
-            </div>
-          </div>
+          <div className='text-xl font-semibold inline-block'>Users</div>
           <div className='divider mt-2'></div>
           <div className='h-full w-full pb-6 bg-base-100'>
             <div className='overflow-x-auto w-full'>
@@ -123,10 +75,12 @@ export const Users = () => {
                       <td>{user.phone}</td>
                       <td>
                         <button
-                          onClick={() => handleEdit(user)}
-                          className='bg-red-500 text-white font-bold px-3 py-2 rounded-lg hover:bg-red-400'
+                          onClick={() => handleChangeStatus(user.id)}
+                          className={`${
+                            user.deleted ? 'bg-green-400' : 'bg-red-500'
+                          } text-white font-bold px-3 py-2 rounded-lg hover:opacity-90`}
                         >
-                          DELETE
+                          {user.deleted ? 'ACTIVE' : 'DISABLE'}
                         </button>
                       </td>
                     </tr>
@@ -159,7 +113,7 @@ export const Users = () => {
         <div className='h-16'></div>
       </main>
 
-      {message && (
+      {/* {message && (
         <Toast
           message={message}
           type={type}
@@ -219,7 +173,7 @@ export const Users = () => {
             </Formik>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };

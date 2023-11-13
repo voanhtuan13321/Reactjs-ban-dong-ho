@@ -13,10 +13,6 @@ const menuAvatar = [
     to: '/client/profile',
     text: 'Profile',
   },
-  {
-    to: '/client/change-password',
-    text: 'Change password',
-  },
 ];
 
 export default function Header() {
