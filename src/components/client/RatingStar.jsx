@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import requestHandler from '../../utils/requestHandle';
+import { useEffect } from 'react';
 
 export default function Rating({ isDisable, ratingStar, productId }) {
-  console.log(ratingStar);
-  const [rating, setRating] = useState(ratingStar ? ratingStar : 0);
+  const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
 
+  useEffect(() => {
+    if (ratingStar) {
+      setRating(ratingStar);
+    } else {
+      setRating(0);
+    }
+  }, [ratingStar]);
   const handleClickRating = (ratingValue) => {
     console.log(ratingValue);
     setRating(ratingValue);

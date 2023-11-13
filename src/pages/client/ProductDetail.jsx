@@ -63,13 +63,13 @@ export default function ProductDetail() {
 
   const getRatingByUser = async () => {
     const user_id = localStorage.getItem('user_id');
-
     try {
       const response = await requestHandle.get('rating/', {
         params: { userId: user_id, productId: id },
       });
       const star = await response.data.data.star;
       setGetRating(star);
+      console.log('getStar', star);
     } catch (err) {
       console.error(err);
     }
@@ -138,12 +138,17 @@ export default function ProductDetail() {
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
             <div className='float-left '>
-              <RatingStar
-                ratingStar={getRating}
-                productId={productDetail?.id}
-              />
+              {localStorage.getItem('user_id') && (
+                <>
+                  <RatingStar
+                    ratingStar={getRating}
+                    productId={productDetail?.id}
+                  />
+                  <br />
+                </>
+              )}
             </div>
-            <br />
+
             <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
             <p className='text-xl font-bold text-main-red mb-4'>
               Price: {productDetail?.price} VND
