@@ -66,8 +66,14 @@ export default function Login() {
         setType('error');
       }
     } catch (err) {
-      setMessage('Invalid email or password!');
-      setType('error');
+      const statusCode = err.response.status;
+      if (statusCode === 401) {
+        setMessage('Account is disabled');
+        setType('error');
+      } else {
+        setMessage('Invalid email or password!');
+        setType('error');
+      }
     }
   };
 
