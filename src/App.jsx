@@ -13,6 +13,7 @@ import OrderDetail from './pages/client/OrderDetail';
 import OrderSuccess from './pages/client/OrderSuccess';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
 import ChangePassword from './pages/client/ChangePassword';
+import About from './pages/client/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
@@ -37,9 +38,10 @@ const clientRoute = [
   { path: 'cart', element: <Cart /> },
   { path: 'contact', element: <Contact /> },
   { path: 'profile', element: <Profile /> },
-  { path: 'change-password', element: <ChangePassword /> },
+  { path: 'change-password', element: <ChangePassword  /> },
+  { path: 'about', element: <About /> },
 ];
-
+  
 // routes admin
 const adminRoute = [
   { path: 'brands', element: <Brands /> },
