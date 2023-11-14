@@ -1,12 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import requestHandle from '../utils/requestHandle';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import undraw from '../assets/img/bg-01.jpg';
-import { useEffect, useState } from 'react';
 import Toast from '../components/Toast';
+import undraw from '../assets/img/bg-01.jpg';
+import requestHandle from '../utils/requestHandle';
 
-export default function Login() {
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const Login = () => {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const navigate = useNavigate();
@@ -26,15 +31,6 @@ export default function Login() {
     }
   }, []);
 
-  const initialValues = {
-    email: '',
-    password: '',
-  };
-
-  // useEffect(() => {
-  //   localStorage.removeItem('token');
-  // }, []);
-
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -42,18 +38,19 @@ export default function Login() {
 
   const handleLogin = async (values) => {
     try {
-      const response = await requestHandle.post('login', {
+      const dataReq = {
         email: values.email,
         password: values.password,
-      });
-
-      const data = response.data;
+      };
+      const response = await requestHandle.post('login', dataReq);
+      const data = await response.data;
 
       if (data.status === 'success') {
         const accessToken = data.accessToken;
         localStorage.setItem('token', accessToken);
         const user_id = data.userID;
         localStorage.setItem('user_id', user_id);
+
         if (data.data.roles === 'ROLE_USER') {
           localStorage.setItem('user_id', user_id);
           navigate('/client');
@@ -174,4 +171,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;

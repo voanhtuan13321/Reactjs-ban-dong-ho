@@ -5,7 +5,7 @@ import requestHandler from '../../utils/requestHandle';
 
 const ITEMS_PER_PAGE = 10;
 
-export const Users = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -177,3 +177,5 @@ export const Users = () => {
     </>
   );
 };
+
+export default Users;

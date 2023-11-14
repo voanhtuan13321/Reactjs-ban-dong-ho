@@ -1,22 +1,24 @@
 import React from 'react';
 
-function LabelStatus({ type, children }) {
+const LabelStatus = ({ type, children }) => {
   const generateClassByType = (type) => {
-    if (type === 'accepted') return 'bg-success';
-    if (type === 'cancel') return 'bg-error';
-    if (type === 'waiting') return 'bg-warning';
-    return '';
+    const typeToClass = {
+      accepted: 'bg-success',
+      cancel: 'bg-error',
+      waiting: 'bg-warning',
+    };
+
+    return typeToClass[type] || '';
   };
 
   return (
     <label
-      className={`rounded-2xl text-center text-white font-semibold px-2 text-base py-1 uppercase ${generateClassByType(
-        type
-      )}`}
+      className={`rounded-2xl text-center text-white font-semibold
+       px-2 text-base py-1 uppercase ${generateClassByType(type)}`}
     >
       {children}
     </label>
   );
-}
+};
 
 export default LabelStatus;

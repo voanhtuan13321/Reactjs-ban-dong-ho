@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AiFillDelete } from 'react-icons/ai';
@@ -7,18 +7,18 @@ import requestHandle from '../../utils/requestHandle';
 import { lamTronGia } from '../../utils/functionCommon';
 import { setCountCart } from '../../utils/counterCartSlice';
 
-export default function Cart() {
+const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    renderCart();
+    fetchCart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderCart = async () => {
+  const fetchCart = async () => {
     const isLogin = localStorage.getItem('token');
     if (isLogin) {
       try {
@@ -27,7 +27,7 @@ export default function Cart() {
         setCart(data);
         dispatch(setCountCart(data.length));
         let totalAmount = 0;
-        for (const item of response.data.data) {
+        for (const item of data) {
           totalAmount += item.quantity * item.products.price;
         }
         setTotal(totalAmount);
@@ -44,13 +44,14 @@ export default function Cart() {
     // console.log(user_id);
     // console.log(prodId.products.id);
     try {
-      await requestHandler.delete('cart/', {
+      const dataReq = {
         data: {
           userId: user_id,
           productId: prodId.products.id,
         },
-      });
-      renderCart();
+      };
+      await requestHandler.delete('cart/', dataReq);
+      fetchCart();
     } catch (error) {
       console.log(error, 'error delete cart');
     }
@@ -67,7 +68,7 @@ export default function Cart() {
       };
       await requestHandle.post('cart/', dataReq);
       // console.log('success', response.data);
-      renderCart();
+      fetchCart();
     } catch (error) {
       console.log(error);
     }
@@ -84,10 +85,60 @@ export default function Cart() {
       };
       await requestHandle.post('cart/', dataReq);
       // console.log('success', response.data);
-      renderCart();
+      fetchCart();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const renderCart = () => {
+    return cart?.map((item) => (
+      <div
+        className='flex justify-between items-center p-3'
+        key={item.id}
+      >
+        <div className='w-2/5'>
+          <p>{item.products.name}</p>
+        </div>
+        <div className='w-1/5'>
+          <img
+            src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
+            alt=''
+            className='w-16 h-16'
+          />
+        </div>
+        <div className='w-1/5 flex'>
+          <button
+            className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'
+            onClick={() => decreaseQuantity(item)}
+          >
+            -
+          </button>
+          <p className='ml-2 mr-2'>{item.quantity}</p>
+          <button
+            className='bg-main-red text-amber-50 w-11 rounded-lg'
+            data-value={item.id}
+            onClick={() => increaseQuantity(item)}
+          >
+            +
+          </button>
+        </div>
+        <div className='w-1/5'>
+          <p>{item.products.price} VNĐ</p>
+        </div>
+        <div className='w-1/5'>
+          <p>{lamTronGia(item.quantity * item.products.price)} VNĐ</p>
+        </div>
+        <div className='w-1/5'>
+          <button
+            className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'
+            onClick={() => deleteCart(item)}
+          >
+            <AiFillDelete className='ml-2' />
+          </button>
+        </div>
+      </div>
+    ));
   };
 
   return (
@@ -115,53 +166,8 @@ export default function Cart() {
               <p className='font-semibold'>Action</p>
             </div>
           </div>
-          {cart?.map((item) => (
-            <div
-              className='flex justify-between items-center p-3'
-              key={item.id}
-            >
-              <div className='w-2/5'>
-                <p>{item.products.name}</p>
-              </div>
-              <div className='w-1/5'>
-                <img
-                  src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
-                  alt=''
-                  className='w-16 h-16'
-                />
-              </div>
-              <div className='w-1/5 flex'>
-                <button
-                  className='bg-main-red text-amber-50 w-11 h-7 rounded-lg'
-                  onClick={() => decreaseQuantity(item)}
-                >
-                  -
-                </button>
-                <p className='ml-2 mr-2'>{item.quantity}</p>
-                <button
-                  className='bg-main-red text-amber-50 w-11 rounded-lg'
-                  data-value={item.id}
-                  onClick={() => increaseQuantity(item)}
-                >
-                  +
-                </button>
-              </div>
-              <div className='w-1/5'>
-                <p>{item.products.price} VNĐ</p>
-              </div>
-              <div className='w-1/5'>
-                <p>{lamTronGia(item.quantity * item.products.price)} VNĐ</p>
-              </div>
-              <div className='w-1/5'>
-                <button
-                  className='bg-red-500 text-amber-50 w-8 rounded-lg h-8 items-center'
-                  onClick={() => deleteCart(item)}
-                >
-                  <AiFillDelete className='ml-2' />
-                </button>
-              </div>
-            </div>
-          ))}
+
+          {renderCart()}
 
           <div className='flex justify-between p-3'>
             <div className='w-2/5'></div>
@@ -222,4 +228,6 @@ export default function Cart() {
       </div>
     </div>
   );
-}
+};
+
+export default Cart;

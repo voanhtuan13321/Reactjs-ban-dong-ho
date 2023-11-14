@@ -15,11 +15,11 @@ const INIT_USER = {
   delete: false,
 };
 
-export default function OrderDetail() {
+const OrderDetail = () => {
   const [orderDetai, setOrderDetai] = useState([]);
   const [user, setUser] = useState(INIT_USER);
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrderDetails();
@@ -151,4 +151,6 @@ export default function OrderDetail() {
       </div>
     </>
   );
-}
+};
+
+export default OrderDetail;

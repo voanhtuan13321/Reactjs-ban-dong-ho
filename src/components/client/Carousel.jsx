@@ -29,7 +29,7 @@ const settings = {
   cssEase: 'linear',
 };
 
-function Carousel() {
+const Carousel = () => {
   return (
     <div className='rounded-md'>
       <Slider {...settings}>
@@ -46,6 +46,6 @@ function Carousel() {
       </Slider>
     </div>
   );
-}
+};
 
 export default Carousel;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -16,7 +16,7 @@ const initialValues = {
   rePassword: '',
 };
 
-export default function Register() {
+const Register = () => {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function Register() {
   const handleRegister = async (values) => {
     try {
       const response = await requestHandle.post('register', values);
-      const data = response.data;
+      const data = await response.data;
 
       if (data.status === 'success') {
         localStorage.setItem('message', data.message);
@@ -249,4 +249,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;

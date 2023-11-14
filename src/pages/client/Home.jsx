@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Carousel from '../../components/client/Carousel';
@@ -9,7 +9,7 @@ import ListProduct from '../../components/client/ListProduct';
 import requestHandle from '../../utils/requestHandle';
 import { setCountCart } from '../../utils/counterCartSlice';
 
-export default function Home() {
+const Home = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
@@ -56,14 +56,14 @@ export default function Home() {
     setFilteredList(filteredList);
   };
 
-  const handleGetProductsByBrand = (id) => {
-    requestHandle
-      .get(`product/?brandId=${id}`)
-      .then((res) => {
-        // console.log(res.data.data);
-        setFilteredList(res.data.data);
-      })
-      .catch((err) => console.log(err));
+  const handleGetProductsByBrand = async (id) => {
+    try {
+      const response = await requestHandle.get(`product/?brandId=${id}`);
+      const data = await response.data.data;
+      setFilteredList(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -86,4 +86,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

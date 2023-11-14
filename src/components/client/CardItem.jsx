@@ -1,7 +1,8 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Rating from './RatingStar';
 
-function CardItem({ item }) {
+const CardItem = ({ item }) => {
   const navigate = useNavigate();
 
   const handleNavigate = (id) => {
@@ -13,7 +14,7 @@ function CardItem({ item }) {
       <div className='relative'>
         {item?.discount > 0 && (
           <span className='absolute z-50 bg-main-red  rounded-b-md rounded-r-md py-2 px-4 font-bold capitalize shadow-lg right-[0%] opacity-80 hover:opacity-100 '>
-            discount {item?.discount}%
+            discount {item?.discount} %
           </span>
         )}
         <div className='cursor-pointer rounded-t-lg overflow-hidden h-[310px]'>
@@ -32,7 +33,10 @@ function CardItem({ item }) {
         >
           {item?.name}
         </h5>
-        <Rating isDisable={true} ratingStar={item.star}/>
+        <Rating
+          isDisable={true}
+          ratingStar={item.star}
+        />
         <div className='flex gap-4 justify-center'>
           <p className='mb-4 text-lg font-semibold text-main-red '>{item?.price}đ</p>
           {item?.discount > 0 && (
@@ -42,6 +46,6 @@ function CardItem({ item }) {
       </div>
     </div>
   );
-}
+};
 
 export default CardItem;

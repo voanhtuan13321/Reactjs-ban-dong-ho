@@ -17,7 +17,7 @@ import requestHandle from '../../utils/requestHandle';
 Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 registerLocale('vi', vi);
 
-export default function Statistical() {
+const Statistical = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [topGoodPrice, setTopGoodPrice] = useState({ labels: [], datas: [] });
   const [topUserBuyTheMost, setTopUserBuyTheMost] = useState({ labels: [], datas: [] });
@@ -31,10 +31,10 @@ export default function Statistical() {
     window.scrollTo(0, 0);
 
     getTopGoodPriceFromApi();
-    getTopBestSellingFromApi();
     getTopUserByTheMost();
     getStatistical(monthSelect, yearSelect);
     getStatisticalByYear(yearSelect);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTopGoodPriceFromApi = async () => {
@@ -48,18 +48,6 @@ export default function Statistical() {
       datas.push(product.quantitySold);
     });
     setTopGoodPrice({ ...topGoodPrice, labels, datas });
-  };
-
-  const getTopBestSellingFromApi = async () => {
-    // const response = await axiosInstent.get(pathApi.topBestSelling);
-    // const result = await response.data;
-    // const labels = [];
-    // const datas = [];
-    // result.forEach((order) => {
-    //   labels.push(order.book.title);
-    //   datas.push(order.quantity);
-    // });
-    // setTopBestSelling({ ...topBestSelling, labels, datas });
   };
 
   const getTopUserByTheMost = async () => {
@@ -224,4 +212,6 @@ export default function Statistical() {
       </div>
     </main>
   );
-}
+};
+
+export default Statistical;

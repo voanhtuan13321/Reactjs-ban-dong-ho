@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -39,7 +39,6 @@ function OrderSuccess() {
     } else {
       Swal.fire('Thanh toán thất bại', '', 'error');
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

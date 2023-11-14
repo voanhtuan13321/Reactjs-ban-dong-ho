@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 // navs
@@ -7,19 +8,13 @@ const navs = [
   { to: '/client/about', text: 'Giới thiệu' },
 ];
 
-export default function Navbar() {
-  /**
-   * Render navbar.
-   * @returns
-   */
+const Navbar = () => {
+  const handleClassName = ({ isActive }) => {
+    return `mx-3 transition-all duration-200 ease-in-out ${isActive && ' font-bold'}`;
+  };
+
   const renderNavs = () => {
     return navs.map((nav, index) => {
-      const handleClassName = ({ isActive }) => {
-        let className = 'mx-3 transition-all duration-200 ease-in-out';
-        isActive && (className += ' font-bold');
-        return className;
-      };
-
       return (
         <NavLink
           key={index}
@@ -33,4 +28,6 @@ export default function Navbar() {
   };
 
   return <>{renderNavs()}</>;
-}
+};
+
+export default Navbar;

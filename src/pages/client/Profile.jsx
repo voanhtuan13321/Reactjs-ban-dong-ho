@@ -1,32 +1,43 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import requestHandler from '../../utils/requestHandle';
+import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import requestHandler from '../../utils/requestHandle';
 import ChangePassword from './ChangePassword';
 import HistoryOrder from './HistoryOrder';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
 
-export default function Profile() {
+const INIT_USER = {
+  fullname: '',
+  email: '',
+  birthDate: '',
+  phone: '',
+  address: '',
+};
+
+const initialValues = {
+  fullName: '',
+  email: '',
+  birthDate: '',
+  phone: '',
+  address: '',
+};
+
+const Profile = () => {
   const navigate = useNavigate();
   const [isStatusEdit, setIsStatusEdit] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
-  const [user, setUser] = useState({
-    fullname: '',
-    email: '',
-    birthDate: '',
-    phone: '',
-    address: '',
-  });
+  const [user, setUser] = useState(INIT_USER);
+
   const notify = () => {
     toast('🙌 Update successfully!!');
   };
+
   useEffect(() => {
     const isLogin = localStorage.getItem('token');
-    if (!isLogin) {
-      navigate('/login');
-    }
+    !isLogin && navigate('/login');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const validationSchema = Yup.object().shape({
@@ -38,14 +49,6 @@ export default function Profile() {
       .required('Phone is required'),
     address: Yup.string().required('Address is required'),
   });
-
-  const initialValues = {
-    fullName: '',
-    email: '',
-    birthDate: '',
-    phone: '',
-    address: '',
-  };
 
   const onSubmit = async (values, { setSubmitting }) => {
     const user_Id = JSON.parse(localStorage.getItem('user_id'));
@@ -103,9 +106,8 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      formik.setValues(user);
-    }
+    user && formik.setValues(user);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
@@ -331,4 +333,6 @@ export default function Profile() {
       )}
     </div>
   );
-}
+};
+
+export default Profile;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,14 +6,12 @@ import requestHandle from '../../utils/requestHandle';
 import undraw from '../../assets/img/bg-01.jpg';
 import Toast from '../Toast';
 
-export default function ForgotPassword() {
+const initialValues = { email: '' };
+
+const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [type, setType] = useState('');
   const navigate = useNavigate();
-
-  const initialValues = {
-    email: '',
-  };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -21,11 +19,8 @@ export default function ForgotPassword() {
 
   const handleForgotPassword = async (values) => {
     try {
-      const response = await requestHandle.post('forgot-password', {
-        email: values.email,
-      });
-
-      const data = response.data;
+      const response = await requestHandle.post('forgot-password', { email: values.email });
+      const data = await response.data;
       if (data === 'Invalid email or email has not been registered!') {
         setMessage(data);
         setType('error');
@@ -95,7 +90,7 @@ export default function ForgotPassword() {
               </button>
             </div>
             <div className='col-span-6 text-right text-sm'>
-              <span className=''>Return page </span>
+              <span className=''>Return page</span>
               <Link
                 to='/login'
                 className='text-[#999999] font-bold'
@@ -109,4 +104,6 @@ export default function ForgotPassword() {
       </div>
     </div>
   );
-}
+};
+
+export default ForgotPassword;

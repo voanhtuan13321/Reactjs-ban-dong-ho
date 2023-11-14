@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const itemsPerPage = 10;
 
-export default function Orders() {
+const Orders = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -139,4 +139,6 @@ export default function Orders() {
       <div className='h-16'></div>
     </main>
   );
-}
+};
+
+export default Orders;

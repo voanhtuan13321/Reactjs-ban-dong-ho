@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import OrderDetailItem from '../../components/client/OrderDetailItem';
 import requestHandler from '../../utils/requestHandle';
 import { lamTronGia, isUserLogin } from '../../utils/functionCommon';
-import { useDispatch } from 'react-redux';
 import { setCountCart } from '../../utils/counterCartSlice';
-import Swal from 'sweetalert2';
 
 const INIT_USER = {
   id: 0,
@@ -20,7 +19,7 @@ const INIT_USER = {
   delete: false,
 };
 
-export default function OrderDetail() {
+const OrderDetail = () => {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(INIT_USER);
   const [typePayment, setTypePayment] = useState(1);
@@ -171,4 +170,6 @@ export default function OrderDetail() {
       </div>
     </>
   );
-}
+};
+
+export default OrderDetail;
