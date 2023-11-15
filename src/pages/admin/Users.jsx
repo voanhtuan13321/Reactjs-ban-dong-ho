@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import ReactPaginate from 'react-paginate';
 import requestHandler from '../../utils/requestHandle';
+import Swal from 'sweetalert2';
 
 const ITEMS_PER_PAGE = 10;
 
-export const Users = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -37,10 +38,25 @@ export const Users = () => {
   const offset = currentPage * ITEMS_PER_PAGE;
   const currentPageData = users.slice(offset, offset + ITEMS_PER_PAGE);
 
-  const handleChangeStatus = async (id) => {
+  const handleChangeStatus = async (id, isDeleted) => {
     try {
-      await requestHandler.delete(`users/${id}`);
-      fetchUsers();
+      if (!isDeleted) {
+        Swal.fire({
+          title: 'Bạn có chắc muốn disable tài khoản này?',
+          showConfirmButton: false,
+          showDenyButton: true,
+          showCancelButton: true,
+          denyButtonText: `Xoá`,
+          cancelButtonText: 'Huỷ',
+        }).then((result) => {
+          if (result.isDenied) {
+            requestHandler.delete(`users/${id}`).then(() => fetchUsers());
+          }
+        });
+      } else {
+        await requestHandler.delete(`users/${id}`);
+        fetchUsers();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -75,7 +91,7 @@ export const Users = () => {
                       <td>{user.phone}</td>
                       <td>
                         <button
-                          onClick={() => handleChangeStatus(user.id)}
+                          onClick={() => handleChangeStatus(user.id, user.deleted)}
                           className={`${
                             user.deleted ? 'bg-green-400' : 'bg-red-500'
                           } text-white font-bold px-3 py-2 rounded-lg hover:opacity-90`}
@@ -177,3 +193,5 @@ export const Users = () => {
     </>
   );
 };
+
+export default Users;

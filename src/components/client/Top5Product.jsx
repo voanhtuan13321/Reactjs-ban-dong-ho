@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import requestHandler from '../../utils/requestHandle';
 import CardItem from './CardItem';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -15,7 +14,7 @@ const settings = {
   slidesToScroll: 1, // Số lượng slide được cuộn mỗi lần
 };
 
-function Top5Product() {
+const Top5Product = () => {
   const [top, setTop] = useState([]);
   const navigate = useNavigate();
 
@@ -60,6 +59,6 @@ function Top5Product() {
       </Slider>
     </div>
   );
-}
+};
 
 export default Top5Product;

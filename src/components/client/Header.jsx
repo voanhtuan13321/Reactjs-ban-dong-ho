@@ -3,29 +3,32 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+<<<<<<< HEAD
 import { BiArrowFromLeft } from 'react-icons/bi';
 
+=======
+>>>>>>> 66067547772161f891e1555689edda75f43f85bf
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
 
-const menuAvatar = [
-  {
-    to: '/client/profile',
-    text: 'Profile',
-  },
-];
+const menuAvatar = [{ to: '/client/profile', text: 'Profile' }];
 
-export default function Header() {
+const Header = () => {
   const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
   const counterCart = useSelector((state) => state.counterCart.value);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+<<<<<<< HEAD
     if (token) {
       setIsLoggedIn(!isLoggedIn);
     }
+=======
+    token && setIsLoggedIn(!isLoggedIn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+>>>>>>> 66067547772161f891e1555689edda75f43f85bf
   }, []);
 
   const handleLogout = () => {
@@ -85,7 +88,10 @@ export default function Header() {
                 className='mr-4 text-white text-3xl cursor-pointer hover:opacity-85'
                 onClick={() => navigate('/client/cart')}
               />
-              <span className='absolute top-0 right-12 bg-white rounded-full text-xs text-center font-semibold w-5 h-5 leading-4 border-2 border-main-red'>
+              <span
+                className='absolute top-0 right-12 bg-white rounded-full text-xs text-center font-semibold
+                w-5 h-5 leading-4 border-2 border-main-red'
+              >
                 {counterCart}
               </span>
               <div
@@ -146,4 +152,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;

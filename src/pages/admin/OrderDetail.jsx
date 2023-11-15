@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import requestHandle from '../../utils/requestHandle';
 import { lamTronGia } from '../../utils/functionCommon';
+import Swal from 'sweetalert2';
 
 const INIT_USER = {
   id: 0,
@@ -15,11 +16,11 @@ const INIT_USER = {
   delete: false,
 };
 
-export default function OrderDetail() {
+const OrderDetail = () => {
   const [orderDetai, setOrderDetai] = useState([]);
   const [user, setUser] = useState(INIT_USER);
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrderDetails();
@@ -51,8 +52,23 @@ export default function OrderDetail() {
   const handleAcceptOrCancel = async (id, status) => {
     const dataReq = { orderId: id, status };
     try {
-      await requestHandle.put('order/', dataReq);
-      navigate('/admin/orders');
+      if (status === 'cancel') {
+        Swal.fire({
+          title: 'Bạn có chắc muốn huỷ đơn hàng này?',
+          showConfirmButton: false,
+          showDenyButton: true,
+          showCancelButton: true,
+          denyButtonText: `Xoá`,
+          cancelButtonText: 'Huỷ',
+        }).then((result) => {
+          if (result.isDenied) {
+            requestHandle.put('order/', dataReq).then(() => navigate('/admin/orders'));
+          }
+        });
+      } else {
+        await requestHandle.put('order/', dataReq);
+        navigate('/admin/orders');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -136,6 +152,12 @@ export default function OrderDetail() {
         <div className='text-end font-bold'>Tổng tiền: {lamTronGia(caculateTotalPrice)} VND</div>
         <div className='text-end py-5'>
           <button
+            className='text-center btn-secondary mr-2 py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
+            onClick={() => navigate('/admin/orders')}
+          >
+            Back
+          </button>
+          <button
             className='text-center btn-success mr-2 py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
             onClick={() => handleAcceptOrCancel(id, 'accepted')}
           >
@@ -151,4 +173,6 @@ export default function OrderDetail() {
       </div>
     </>
   );
-}
+};
+
+export default OrderDetail;

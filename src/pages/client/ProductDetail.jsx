@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'react-toastify/dist/ReactToastify.css';
 import RatingStar from '../../components/client/RatingStar';
 import requestHandle from '../../utils/requestHandle';
-import 'react-toastify/dist/ReactToastify.css';
 import requestHandler from '../../utils/requestHandle';
 import { setCountCart } from '../../utils/counterCartSlice';
 import { isUserLogin } from '../../utils/functionCommon';
@@ -28,13 +28,13 @@ const carouselSettings = {
   ],
 };
 
-export default function ProductDetail() {
+const ProductDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [productDetail, setProductDetail] = useState(null);
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [getRating, setGetRating] = useState();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const notify = () => {
@@ -53,7 +53,7 @@ export default function ProductDetail() {
       const response = await requestHandle.get(`product/${id}`);
       const data = await response.data;
       setProductDetail(data);
-      console.log(data);
+      // console.log(data);
       setSameBrandProducts(data.sameBrandProducts);
     } catch (err) {
       console.log(err);
@@ -63,13 +63,12 @@ export default function ProductDetail() {
 
   const getRatingByUser = async () => {
     const user_id = localStorage.getItem('user_id');
-
     try {
-      const response = await requestHandle.get('rating/', {
-        params: { userId: user_id, productId: id },
-      });
+      const config = { params: { userId: user_id, productId: id } };
+      const response = await requestHandle.get('rating/', config);
       const star = await response.data.data.star;
       setGetRating(star);
+      console.log('getStar', star);
     } catch (err) {
       console.error(err);
     }
@@ -138,12 +137,17 @@ export default function ProductDetail() {
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
             <div className='float-left '>
-              <RatingStar
-                ratingStar={getRating}
-                productId={productDetail?.id}
-              />
+              {localStorage.getItem('user_id') && (
+                <>
+                  <RatingStar
+                    ratingStar={getRating}
+                    productId={productDetail?.id}
+                  />
+                  <br />
+                </>
+              )}
             </div>
-            <br />
+
             <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
             <p className='text-xl font-bold text-main-red mb-4'>Price: {productDetail?.price} $</p>
             <p className='text-xl font-bold mb-4'>
@@ -239,4 +243,6 @@ export default function ProductDetail() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetail;

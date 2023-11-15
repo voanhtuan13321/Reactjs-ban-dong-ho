@@ -1,4 +1,6 @@
-export default function NotFound() {
+import React from 'react';
+
+const NotFound = () => {
   return (
     <div className='flex flex-col items-center justify-center py-16'>
       <img
@@ -11,4 +13,6 @@ export default function NotFound() {
       </p>
     </div>
   );
-}
+};
+
+export default NotFound;

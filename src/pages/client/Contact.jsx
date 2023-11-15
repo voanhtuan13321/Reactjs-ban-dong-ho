@@ -3,7 +3,7 @@ import emailjs from '@emailjs/browser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Contact() {
+const Contact = () => {
   const form = useRef();
 
   const notify = () => {
@@ -23,6 +23,7 @@ export default function Contact() {
     );
     e.target.reset();
   };
+
   return (
     <div>
       <div className='w-container mx-auto mt-8 h-[500px] flex mb-3'>
@@ -149,4 +150,6 @@ export default function Contact() {
       </div>
     </div>
   );
-}
+};
+
+export default Contact;

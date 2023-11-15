@@ -4,10 +4,11 @@ import ReactPaginate from 'react-paginate';
 import LabelStatus from '../../components/admin/LabelStatus';
 import requestHandle from '../../utils/requestHandle';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const itemsPerPage = 10;
 
-export default function Orders() {
+const Orders = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -41,8 +42,23 @@ export default function Orders() {
   const handleAcceptOrCancel = async (id, status) => {
     const dataReq = { orderId: id, status };
     try {
-      await requestHandle.put('order/', dataReq);
-      fetchOrders();
+      if (status === 'cancel') {
+        Swal.fire({
+          title: 'Bạn có chắc muốn huỷ đơn hàng này?',
+          showConfirmButton: false,
+          showDenyButton: true,
+          showCancelButton: true,
+          denyButtonText: `Xoá`,
+          cancelButtonText: 'Huỷ',
+        }).then((result) => {
+          if (result.isDenied) {
+            requestHandle.put('order/', dataReq).then(() => fetchOrders());
+          }
+        });
+      } else {
+        await requestHandle.put('order/', dataReq);
+        fetchOrders();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -139,4 +155,6 @@ export default function Orders() {
       <div className='h-16'></div>
     </main>
   );
-}
+};
+
+export default Orders;

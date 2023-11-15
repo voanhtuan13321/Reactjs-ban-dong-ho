@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Siderbar from '../../components/admin/Siderbar';
 
-export default function LayoutAdmin() {
+const LayoutAdmin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,4 +22,6 @@ export default function LayoutAdmin() {
       </div>
     </>
   );
-}
+};
+
+export default LayoutAdmin;

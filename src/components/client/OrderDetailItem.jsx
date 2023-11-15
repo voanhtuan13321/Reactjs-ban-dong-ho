@@ -1,8 +1,10 @@
+import React from 'react';
 import { lamTronGia } from '../../utils/functionCommon';
 
-export default function OrderDetailItem({ item }) {
-  const caculateTotal = (price, quantity, discount) =>
-    quantity * (price - (price * discount) / 100);
+const OrderDetailItem = ({ item }) => {
+  const caculateTotal = (price, quantity, discount) => {
+    return quantity * (price - (price * discount) / 100);
+  };
 
   return (
     <div className='flex gap-5 my-5 items-center'>
@@ -32,4 +34,6 @@ export default function OrderDetailItem({ item }) {
       </div>
     </div>
   );
-}
+};
+
+export default OrderDetailItem;

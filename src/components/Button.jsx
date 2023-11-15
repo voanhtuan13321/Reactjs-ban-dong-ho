@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Button({ children, size, backGroundColor, color, onClick }) {
+const Button = ({ children, size, backGroundColor, color, onClick }) => {
   return (
     <button
       className={`
@@ -14,4 +14,6 @@ export default function Button({ children, size, backGroundColor, color, onClick
       {children}
     </button>
   );
-}
+};
+
+export default Button;

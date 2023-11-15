@@ -1,32 +1,39 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import { useEffect } from 'react';
 import requestHandler from '../../utils/requestHandle';
 
-export default function Rating({ isDisable, ratingStar, productId }) {
-  console.log(ratingStar);
+const RatingStar = ({ isDisable, ratingStar, productId }) => {
   const [rating, setRating] = useState(ratingStar ? ratingStar : 0);
   const [hover, setHover] = useState(null);
 
+  useEffect(() => {
+    if (ratingStar) {
+      setRating(ratingStar);
+    } else {
+      setRating(0);
+    }
+  }, [ratingStar]);
   const handleClickRating = (ratingValue) => {
-    console.log(ratingValue);
     setRating(ratingValue);
     handleRating(ratingValue);
   };
-  const handleRating = (ratingValue) => {
+
+  const handleRating = async (ratingValue) => {
     const ratingObject = {
       userID: localStorage.getItem('user_id'),
       productID: productId,
       star: ratingValue,
     };
-    requestHandler
-      .put('rating/', ratingObject)
-      .then((resp) => {
-        console.log('rating successfully ', resp);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+
+    try {
+      const response = await requestHandler.put('rating/', ratingObject);
+      console.log('rating successfully ', response);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   return (
     <div className='flex flex-row justify-center'>
       {[...Array(5)].map((star, i) => {
@@ -59,4 +66,6 @@ export default function Rating({ isDisable, ratingStar, productId }) {
       })}
     </div>
   );
-}
+};
+
+export default RatingStar;

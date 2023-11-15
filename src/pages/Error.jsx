@@ -1,4 +1,6 @@
-export default function Error() {
+import React from 'react';
+
+const Error = () => {
   return (
     <div className='flex flex-col items-center justify-center py-16'>
       <div className='flex w-1/2'>
@@ -16,4 +18,6 @@ export default function Error() {
       <p className='text-4xl font-medium text-main-red mt-10 '>Đã có lỗi xảy ra (T.T)</p>
     </div>
   );
-}
+};
+
+export default Error;

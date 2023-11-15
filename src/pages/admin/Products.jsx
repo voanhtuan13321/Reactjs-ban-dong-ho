@@ -8,6 +8,7 @@ import requestHandler from '../../utils/requestHandle';
 import Toast from '../../components/Toast';
 
 const INIT_IMAGE = 'https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg';
+const itemsPerPage = 10;
 const initProduct = {
   color: '',
   description: '',
@@ -27,9 +28,8 @@ const initProduct = {
   warrantyPeriod: 0,
   wireMaterial: '',
 };
-const itemsPerPage = 10;
 
-export default function Products() {
+const Products = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [editProduct, setEditProduct] = useState(initProduct);
@@ -610,4 +610,6 @@ export default function Products() {
       )}
     </>
   );
-}
+};
+
+export default Products;

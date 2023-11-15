@@ -1,21 +1,17 @@
+import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import requestHandler from '../../utils/requestHandle';
-import Toast from '../../components/Toast';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import requestHandler from '../../utils/requestHandle';
 
-export default function ChangePassword() {
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState('');
+const initialValues = {
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+};
+
+const ChangePassword = () => {
   const navigate = useNavigate();
-
-  const initialValues = {
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  };
 
   const validationSchema = Yup.object().shape({
     currentPassword: Yup.string().required('Current password is required'),
@@ -27,22 +23,18 @@ export default function ChangePassword() {
 
   const handlePasswordChange = async (values, { setSubmitting }) => {
     try {
-      const response = await requestHandler.post('change-password', {
+      const dataReq = {
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
-      });
-
-      const data = response.data;
+      };
+      const response = await requestHandler.post('change-password', dataReq);
+      const data = await response.data;
       if (data === 'Change password successfully!') {
         navigate('/client');
-      } else {
-        setMessage(data);
-        setType('error');
       }
     } catch (err) {
       console.error('Lỗi:', err);
     }
-
     setSubmitting(false);
   };
 
@@ -150,4 +142,6 @@ export default function ChangePassword() {
       </div>
     </div>
   );
-}
+};
+
+export default ChangePassword;

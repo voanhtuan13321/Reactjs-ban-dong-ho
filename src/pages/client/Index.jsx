@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Index() {
+const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -10,4 +10,6 @@ export default function Index() {
   }, []);
 
   return <div>Index</div>;
-}
+};
+
+export default Index;

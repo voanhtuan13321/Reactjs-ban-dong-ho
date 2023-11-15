@@ -17,9 +17,10 @@ import requestHandle from '../../utils/requestHandle';
 Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 registerLocale('vi', vi);
 
-export default function Statistical() {
+const Statistical = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [topGoodPrice, setTopGoodPrice] = useState({ labels: [], datas: [] });
+  const [topBestRating, setTopBestRating] = useState({ labels: [], datas: [] });
   const [topUserBuyTheMost, setTopUserBuyTheMost] = useState({ labels: [], datas: [] });
   const [statistical, setStatistical] = useState({ labels: [], datas: [] });
   const [statisticalByYear, setStatisticalByYear] = useState(0);
@@ -31,10 +32,11 @@ export default function Statistical() {
     window.scrollTo(0, 0);
 
     getTopGoodPriceFromApi();
-    getTopBestSellingFromApi();
     getTopUserByTheMost();
+    getTopBestRatingFromApi();
     getStatistical(monthSelect, yearSelect);
     getStatisticalByYear(yearSelect);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTopGoodPriceFromApi = async () => {
@@ -50,16 +52,17 @@ export default function Statistical() {
     setTopGoodPrice({ ...topGoodPrice, labels, datas });
   };
 
-  const getTopBestSellingFromApi = async () => {
-    // const response = await axiosInstent.get(pathApi.topBestSelling);
-    // const result = await response.data;
-    // const labels = [];
-    // const datas = [];
-    // result.forEach((order) => {
-    //   labels.push(order.book.title);
-    //   datas.push(order.quantity);
-    // });
-    // setTopBestSelling({ ...topBestSelling, labels, datas });
+  const getTopBestRatingFromApi = async () => {
+    const response = await requestHandle.get('statistical/best-rating');
+    const result = await response.data;
+    // console.log(result);
+    const labels = [];
+    const datas = [];
+    result.forEach((product) => {
+      labels.push(product.productName);
+      datas.push(product.star);
+    });
+    setTopBestRating({ ...topBestRating, labels, datas });
   };
 
   const getTopUserByTheMost = async () => {
@@ -100,13 +103,16 @@ export default function Statistical() {
   };
 
   const getStatisticalByYear = async (y) => {
-    // const date = new Date();
-    // y === 0 && (y = date.getFullYear());
-    // const urlApi = `${pathApi.statistical}/year/${y}`;
-    // // console.log(m, y, urlApi);
-    // const response = await axiosInstent.get(urlApi);
-    // const result = await response.data;
-    // setStatisticalByYear(result);
+    const date = new Date();
+    y === 0 && (y = date.getFullYear());
+
+    try {
+      const response = await requestHandle.get(`statistical/year/${y}`);
+      const result = await response.data;
+      setStatisticalByYear(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const sumTotalPrice = () => {
@@ -160,6 +166,33 @@ export default function Statistical() {
                         label: 'Số lượng đã mua',
                         data: topUserBuyTheMost.datas,
                         backgroundColor: 'rgba(54, 162, 235)',
+                      },
+                    ],
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className='shadow-xl rounded-lg h-full'>
+              <div className='py-3 text-2xl text-center font-bold'>
+                Sản phẩm được đánh giá cao nhất
+              </div>
+              <div className='p-4'>
+                <Pie
+                  data={{
+                    labels: topBestRating.labels,
+                    datasets: [
+                      {
+                        label: 'star',
+                        data: topBestRating.datas,
+                        backgroundColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(54, 162, 235)',
+                          'rgb(255, 205, 86)',
+                          'rgb(255, 134, 86)',
+                          'rgb(4, 205, 86)',
+                        ],
+                        hoverOffset: 4,
                       },
                     ],
                   }}
@@ -224,4 +257,6 @@ export default function Statistical() {
       </div>
     </main>
   );
-}
+};
+
+export default Statistical;

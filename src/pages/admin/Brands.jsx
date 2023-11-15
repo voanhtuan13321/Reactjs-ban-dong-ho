@@ -6,7 +6,9 @@ import ReactPaginate from 'react-paginate';
 import Toast from '../../components/Toast';
 import requestHandler from '../../utils/requestHandle';
 
-export default function Brands() {
+const itemsPerPage = 5;
+
+const Brands = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brands, setBrands] = useState([]);
   const [editBrand, setEditBrand] = useState(null);
@@ -15,25 +17,25 @@ export default function Brands() {
   const [type, setType] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const itemsPerPage = 5;
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await requestHandler.get('brands/');
-        const data = response.data.data;
-        setBrands(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchBrands();
   }, [state]);
+
   useEffect(() => {
     setPageCount(Math.ceil(brands.length / itemsPerPage));
     setCurrentPage(0);
   }, [brands]);
+
+  const fetchBrands = async () => {
+    try {
+      const response = await requestHandler.get('brands/');
+      const data = response.data.data;
+      setBrands(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -41,6 +43,7 @@ export default function Brands() {
 
   const offset = currentPage * itemsPerPage;
   const currentPageData = brands.slice(offset, offset + itemsPerPage);
+
   const openModal = () => {
     setIsModalOpen(true);
     setEditBrand(null);
@@ -216,4 +219,6 @@ export default function Brands() {
       )}
     </>
   );
-}
+};
+
+export default Brands;
