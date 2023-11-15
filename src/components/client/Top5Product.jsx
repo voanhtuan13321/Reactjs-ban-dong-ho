@@ -50,7 +50,7 @@ function Top5Product() {
   return (
     <div className='mt-4'>
       <p className='text-main-black text-4xl font-bold py-5 border-b-2 border-gray-400'>
-        SẢN PHẨM BÁN CHẠY
+        SELLING PRODUCTS
       </p>
       <Slider
         {...settings}

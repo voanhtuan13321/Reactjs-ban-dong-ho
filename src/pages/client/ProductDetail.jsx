@@ -145,14 +145,12 @@ export default function ProductDetail() {
             </div>
             <br />
             <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
-            <p className='text-xl font-bold text-main-red mb-4'>
-              Price: {productDetail?.price} VND
-            </p>
+            <p className='text-xl font-bold text-main-red mb-4'>Price: {productDetail?.price} $</p>
             <p className='text-xl font-bold mb-4'>
-              Số lượng hiện có: {productDetail?.quantity} sản phẩm
+              Current quantity: {productDetail?.quantity} product
             </p>
             <div className='flex items-center py-4'>
-              <p className='text-black-600 font-bold'>Số lượng:</p>
+              <p className='text-black-600 font-bold'>Quantity:</p>
               <input
                 type='number'
                 className='w-24 py-2 px-3 border border-gray-300 rounded ml-3'
@@ -166,7 +164,7 @@ export default function ProductDetail() {
                 className='bg-main-black text-white py-3 px-6 hover:bg-main-red flex-1 mx-2 h-16 font-bold'
                 onClick={() => addToCart(productDetail, quantity)}
               >
-                THÊM GIỎ HÀNG
+                ADD TO CART
               </button>
             </div>
           </div>

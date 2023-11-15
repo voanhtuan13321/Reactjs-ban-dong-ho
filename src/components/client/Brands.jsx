@@ -10,14 +10,12 @@ function Brands({ handleGetProductsByBrand }) {
 
   useEffect(() => {
     fetchBrands();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchBrands = async () => {
     try {
       const response = await requestHandle.get('brands/');
       const data = await response.data.data;
-      // console.log(data);
       setBrands(data);
     } catch (error) {
       console.log(error);
@@ -57,7 +55,7 @@ function Brands({ handleGetProductsByBrand }) {
   return (
     <div className='mt-3'>
       <p className='text-main-black text-4xl font-bold py-5 border-b-2 border-gray-400'>
-        DANH MỤC SẢN PHẨM
+        PRODUCT PORTFOLIO
       </p>
       <div className='grid grid-cols-12 gap-4 mt-5'>{renderData()}</div>
     </div>

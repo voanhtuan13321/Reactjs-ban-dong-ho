@@ -3,15 +3,15 @@ import { BsSearch } from 'react-icons/bs';
 function Search({ handleSearch, searchTerm }) {
   return (
     <div className=''>
-      <div className=' relative  text-gray-600'>
+      <div className='relative text-gray-600'>
         <input
-          className='border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none'
+          className='border-2 border-gray-300 bg-white h-12 px-6 pr-16 rounded-full text-sm focus:outline-none w-64'
           name='search'
           value={searchTerm}
           onChange={handleSearch}
           placeholder='Bạn muốn tìm gì ?....'
         />
-        <BsSearch className='absolute right-0 top-3  mr-4' />
+        <BsSearch className='absolute right-0 top-4 mr-4' />
       </div>
     </div>
   );
