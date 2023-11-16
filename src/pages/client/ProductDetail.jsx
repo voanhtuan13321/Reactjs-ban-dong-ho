@@ -10,7 +10,7 @@ import RatingStar from '../../components/client/RatingStar';
 import requestHandle from '../../utils/requestHandle';
 import requestHandler from '../../utils/requestHandle';
 import { setCountCart } from '../../utils/counterCartSlice';
-import { isUserLogin } from '../../utils/functionCommon';
+import { isUserLogin, lamTronGia } from '../../utils/functionCommon';
 
 const carouselSettings = {
   dots: true,
@@ -136,7 +136,7 @@ const ProductDetail = () => {
           <div className='border-b-4 border-main-black pb-7'>
             <h1 className='text-lg font-semibold mb-4'>{productDetail?.brands}</h1>
             <h1 className='text-4xl font-semibold mb-4'>{productDetail?.name}</h1>
-            <div className='float-left '>
+            <div>
               {localStorage.getItem('user_id') && (
                 <>
                   <RatingStar
@@ -149,7 +149,13 @@ const ProductDetail = () => {
             </div>
 
             <p className='text-gray-600 mb-4 mt-2'>{productDetail?.model}</p>
-            <p className='text-xl font-bold text-main-red mb-4'>Price: {productDetail?.price} $</p>
+            <p className='text-xl font-bold text-main-red mb-4'>
+              Price:{' '}
+              {lamTronGia(
+                productDetail?.price - productDetail?.price * (productDetail?.discount / 100)
+              ).toLocaleString()}{' '}
+              vnd
+            </p>
             <p className='text-xl font-bold mb-4'>
               Current quantity: {productDetail?.quantity} product
             </p>

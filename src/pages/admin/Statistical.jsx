@@ -205,10 +205,10 @@ const Statistical = () => {
               <div className='py-3 text-2xl text-center font-bold'>Thống kê doanh thu</div>
               <div className='p-4 flex'>
                 <div className='basis-1/4 px-5'>
-                  <div className='flex justify-between py-3'>
-                    <label className='block'>Chọn mốc thời gian</label>
+                  <div className='py-3'>
+                    <p className='font-bold'>Chọn mốc thời gian</p>
                     <DatePicker
-                      className='w-20 text-end text-red-400 font-bold hover:text-red-500 outline-none cursor-pointer rounded-md'
+                      className='w-20 text-red-400 font-bold hover:text-red-500 outline-none cursor-pointer rounded-md'
                       selected={startDate}
                       onChange={(date) => {
                         console.log(date);
@@ -225,13 +225,13 @@ const Statistical = () => {
                       locale='vi'
                     ></DatePicker>
                   </div>
-                  <div className='flex justify-between py-3'>
-                    <label className=''>Tổng doanh thu tháng:</label>
-                    <span>{sumTotalPrice()}</span>
+                  <div className='py-3'>
+                    <p className='font-bold'>Tổng doanh thu tháng:</p>
+                    <span>{sumTotalPrice().toLocaleString()} vnd</span>
                   </div>
-                  <div className='flex justify-between py-3'>
-                    <label>Tổng doanh thu năm:</label>
-                    <span>{statisticalByYear}</span>
+                  <div className='py-3'>
+                    <p className='font-bold'>Tổng doanh thu năm:</p>
+                    <span>{statisticalByYear.toLocaleString()} vnd</span>
                   </div>
                 </div>
                 <div className='basis-3/4'>

@@ -3,6 +3,7 @@ import { GrNext, GrPrevious } from 'react-icons/gr';
 import ReactPaginate from 'react-paginate';
 import requestHandler from '../../utils/requestHandle';
 import Swal from 'sweetalert2';
+import { formatPhoneNumber } from '../../utils/functionCommon';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -88,7 +89,7 @@ const Users = () => {
                       <td>{user.birthDate}</td>
                       <td>{user.address}</td>
                       <td>{user.email}</td>
-                      <td>{user.phone}</td>
+                      <td>{formatPhoneNumber(user.phone)}</td>
                       <td>
                         <button
                           onClick={() => handleChangeStatus(user.id, user.deleted)}
