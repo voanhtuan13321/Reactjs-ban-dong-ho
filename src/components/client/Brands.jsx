@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import requestHandle from '../../utils/requestHandle';
-import { AiFillApple } from 'react-icons/ai';
-import { SiSamsung, SiXiaomi, SiHuawei } from 'react-icons/si';
 
 const Brands = ({ handleGetProductsByBrand }) => {
   const [brands, setBrands] = useState([]);
@@ -26,13 +24,6 @@ const Brands = ({ handleGetProductsByBrand }) => {
 
   const renderData = () => {
     return brands.map((item, index) => {
-      const colors = [
-        'text-black-500 font-extrabold font-bold',
-        'text-blue-700 font-extrabold',
-        'text-[#ff780a] font-extrabold',
-        'text-red-500 font-extrabold',
-      ];
-      const textClass = colors[index % colors.length];
       return (
         <div
           key={index}
