@@ -4,8 +4,6 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { BiArrowFromLeft } from 'react-icons/bi';
-import { AiOutlineUsergroupAdd, AiOutlineUser } from 'react-icons/ai';
-
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
 
@@ -20,7 +18,6 @@ const Header = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && setIsLoggedIn(!isLoggedIn);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
