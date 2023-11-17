@@ -15,6 +15,7 @@ import Profile from './pages/client/Profile';
 import OrderDetail from './pages/client/OrderDetail';
 import OrderSuccess from './pages/client/OrderSuccess';
 import ChangePassword from './pages/client/ChangePassword';
+import About from './pages/client/About';
 import Index from './pages/client/Index';
 import ForgotPassword from './components/client/ForgotPassword';
 import LayoutAdmin from './pages/admin/LayoutAdmin';
@@ -45,6 +46,7 @@ const routes = [
       { path: 'contact', element: <Contact /> },
       { path: 'profile', element: <Profile /> },
       { path: 'change-password', element: <ChangePassword /> },
+      { path: 'about', element: <About /> },
     ],
   },
   {

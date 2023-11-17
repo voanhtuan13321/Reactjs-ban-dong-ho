@@ -90,7 +90,7 @@ const ForgotPassword = () => {
               </button>
             </div>
             <div className='col-span-6 text-right text-sm'>
-              <span className=''>Return page</span>
+              <span className=''>Return page </span>
               <Link
                 to='/login'
                 className='text-[#999999] font-bold'

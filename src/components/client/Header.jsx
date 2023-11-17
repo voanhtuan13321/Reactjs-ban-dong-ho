@@ -3,11 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
 import { BiArrowFromLeft } from 'react-icons/bi';
-
-=======
->>>>>>> 66067547772161f891e1555689edda75f43f85bf
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
 
@@ -21,14 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-<<<<<<< HEAD
-    if (token) {
-      setIsLoggedIn(!isLoggedIn);
-    }
-=======
     token && setIsLoggedIn(!isLoggedIn);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
->>>>>>> 66067547772161f891e1555689edda75f43f85bf
   }, []);
 
   const handleLogout = () => {
