@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { BiArrowFromLeft } from 'react-icons/bi';
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
+import { AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai';
 
 const menuAvatar = [{ to: '/client/profile', text: 'Profile' }];
 
