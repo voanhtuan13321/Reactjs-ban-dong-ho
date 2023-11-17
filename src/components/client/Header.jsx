@@ -4,6 +4,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { BiArrowFromLeft } from 'react-icons/bi';
+import { AiOutlineUsergroupAdd, AiOutlineUser } from 'react-icons/ai';
 
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
@@ -114,19 +115,20 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <div>
+            <div className='flex'>
               <Link
                 to='/login'
-                className='ml-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
+                className='flex ml-3 bg-slate-100 text-main-red py-2 px-4 rounded-md hover:bg-slate-300 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
               >
                 Login
+                <AiOutlineUser />
               </Link>
-
               <Link
                 to='/register'
-                className='ml-3 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800 font-bold'
+                className='flex ml-3 bg-slate-100 text-main-red py-2 px-4 rounded-md hover:bg-slate-300 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
               >
                 Register
+                <AiOutlineUsergroupAdd />
               </Link>
             </div>
           )}

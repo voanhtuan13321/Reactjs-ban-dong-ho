@@ -34,10 +34,12 @@ const CardItem = ({ item }) => {
         >
           {item?.name}
         </h5>
-        <Rating
-          isDisable={true}
-          ratingStar={item.star}
-        />
+        <div className='flex gap-4 justify-center'>
+          <Rating
+            isDisable={true}
+            ratingStar={item.star}
+          />
+        </div>
         <div className='flex gap-4 justify-center'>
           <p className='mb-4 text-lg font-semibold text-main-red '>
             {lamTronGia(item?.price - item?.price * (item?.discount / 100))} vnd
