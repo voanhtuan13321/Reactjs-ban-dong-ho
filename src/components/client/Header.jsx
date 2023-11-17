@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { BiArrowFromLeft } from 'react-icons/bi';
 import logo from '../../assets/img/Logo.png';
 import Navbar from './Navbar';
+import { AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai';
 
 const menuAvatar = [{ to: '/client/profile', text: 'Profile' }];
 
@@ -112,19 +113,20 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <div>
+            <div className='flex'>
               <Link
                 to='/login'
-                className='ml-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
+                className='flex ml-3 bg-slate-100 text-main-red py-2 px-4 rounded-md hover:bg-slate-300 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
               >
                 Login
+                <AiOutlineUser />
               </Link>
-
               <Link
                 to='/register'
-                className='ml-3 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800 font-bold'
+                className='flex ml-3 bg-slate-100 text-main-red py-2 px-4 rounded-md hover:bg-slate-300 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 font-bold'
               >
                 Register
+                <AiOutlineUsergroupAdd />
               </Link>
             </div>
           )}
