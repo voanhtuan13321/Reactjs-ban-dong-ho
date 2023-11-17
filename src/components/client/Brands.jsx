@@ -39,7 +39,7 @@ const Brands = ({ handleGetProductsByBrand }) => {
           onClick={() => handleGetProductsByBrand(item.id)}
           className={`col-span-3 bg-white text-main-black text-lg text-center font-semibold
            px-4 py-3 rounded-lg cursor-pointer hover:opacity-90 transition-all
-           duration-200 ease-in-out border-2 border-gray-300`}
+           duration-200 ease-in-out border-2 border-gray-300 hover:bg-main-red hover:text-white`}
         >
           {item.name}
         </div>
