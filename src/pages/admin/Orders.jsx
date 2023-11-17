@@ -73,7 +73,7 @@ const Orders = () => {
           <td>
             <LabelStatus type={l.status}>{l.status}</LabelStatus>
           </td>
-          <td className='text-lg'>{l.totalAmount} VND</td>
+          <td className='text-lg'>{l.totalAmount.toLocaleString()} vnd</td>
           <td className='text-lg'>{l.createDate}</td>
           <td className='w-2/12'>
             {l.status === 'waiting' && (

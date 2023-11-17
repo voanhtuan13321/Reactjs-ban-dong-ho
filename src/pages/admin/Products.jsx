@@ -190,7 +190,7 @@ const Products = () => {
           />
         </td>
         <td>{product.name}</td>
-        <td className='w-16 text-center'>{product.price}</td>
+        <td className='w-16 text-center'>{product.price.toLocaleString()} vnd</td>
         <td className='w-16 text-center'>{product.discount}</td>
         <td className='w-16 text-center'>{product.quantity}</td>
         <td className='w-16 text-center'>{product.soldQuantity}</td>

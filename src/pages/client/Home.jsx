@@ -69,8 +69,8 @@ const Home = () => {
   return (
     <div className='w-container m-auto mt-2'>
       <Carousel />
-      <Brands handleGetProductsByBrand={handleGetProductsByBrand} />
       <Top5Product />
+      <Brands handleGetProductsByBrand={handleGetProductsByBrand} />
       <div className='relative z-30 flex justify-center py-10 gap-4'>
         <Search
           products={products}

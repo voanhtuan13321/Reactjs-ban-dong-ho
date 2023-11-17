@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Rating from './RatingStar';
+import { lamTronGia } from '../../utils/functionCommon';
 
 const CardItem = ({ item }) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const CardItem = ({ item }) => {
             discount {item?.discount} %
           </span>
         )}
-        <div className='cursor-pointer rounded-t-lg overflow-hidden h-[310px]'>
+        <div className='cursor-pointer rounded-t-lg overflow-hidden h-[310px] flex items-center'>
           <img
             className='hover:scale-125 duration-200 ease-linear'
             src={`http://localhost:8080/api/image/${item.imageSource[0]}`}
@@ -38,9 +39,13 @@ const CardItem = ({ item }) => {
           ratingStar={item.star}
         />
         <div className='flex gap-4 justify-center'>
-          <p className='mb-4 text-lg font-semibold text-main-red '>{item?.price}đ</p>
+          <p className='mb-4 text-lg font-semibold text-main-red '>
+            {lamTronGia(item?.price - item?.price * (item?.discount / 100))} vnd
+          </p>
           {item?.discount > 0 && (
-            <p className='mb-4 text-lg font-semibold text-main-black line-through'>4.999.000đ</p>
+            <p className='mb-4 text-lg font-semibold text-main-black line-through'>
+              {lamTronGia(item?.price)} vnd
+            </p>
           )}
         </div>
       </div>

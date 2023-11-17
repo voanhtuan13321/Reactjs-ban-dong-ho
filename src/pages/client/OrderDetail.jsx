@@ -83,6 +83,7 @@ const OrderDetail = () => {
         dispatch(setCountCart(carts.length));
 
         Swal.fire('Thanh toán thành công', '', 'success');
+        navigate('/client/');
       } else {
         // thanh toan online
         const dataReq = {

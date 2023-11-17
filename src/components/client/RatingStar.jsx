@@ -35,7 +35,7 @@ const RatingStar = ({ isDisable, ratingStar, productId }) => {
   };
 
   return (
-    <div className='flex flex-row justify-center'>
+    <div className='flex flex-row'>
       {[...Array(5)].map((star, i) => {
         const ratingValue = i + 1;
         return (
