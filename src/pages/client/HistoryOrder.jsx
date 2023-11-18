@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import requestHandler from '../../utils/requestHandle';
 import { Link } from 'react-router-dom';
-import { CgDanger } from "react-icons/cg";
-import { FcCancel } from "react-icons/fc";
+import { CgDanger } from 'react-icons/cg';
+import { FcCancel } from 'react-icons/fc';
+import requestHandler from '../../utils/requestHandle';
+import { lamTronGia } from '../../utils/functionCommon';
 
 const HistoryOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -32,49 +33,49 @@ const HistoryOrder = () => {
     }
   };
 
-  const formatPrice = (price) => {
-    return `${price.toFixed(2)}đ`;
+  const renderDetailOrder = (arr) => {
+    return arr.map((item, index) => (
+      <li
+        key={index}
+        className='flex justify-between items-center mb-2'
+      >
+        <img
+          src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
+          alt={item.products.name}
+          className='w-16 h-16 object-cover'
+        />
+        <p className='w-1/5'>{item.products.name}</p>
+        <p>
+          {lamTronGia(item.price)} vnd x {item.quantity}
+        </p>
+        {item.products.discount ? (
+          <>
+            <p>Giảm {item.products.discount}%</p>
+            <p>
+              {lamTronGia(item.price * item.quantity * ((100 - item.products.discount) / 100))} vnd
+            </p>
+          </>
+        ) : (
+          <p>{lamTronGia(item.price * item.quantity)} vnd</p>
+        )}
+      </li>
+    ));
   };
 
   const renderOrders = () => {
+    if (orders.length === 0) {
+      return <div className='p-5 text-2xl text-center'>Chưa có đơn hàng nào</div>;
+    }
+
     return orders.map((order) => (
       <div
         key={order.id}
         className='bg-white shadow-xl rounded-lg p-4 mb-4'
       >
-        <div className='flex justify-between mb-2 border-b pb-2'>
-          <p className='text-lg font-semibold'>Order Code</p>
-          <p className='text-lg font-semibold ml-3'>{order.orderCode}</p>
-        </div>
-        <ul>
-          {order.orderDetail.map((item, index) => (
-            <li
-              key={index}
-              className='flex justify-between items-center mb-2'
-            >
-              <img
-                src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
-                alt={item.products.name}
-                className='w-16 h-16 object-cover'
-              />
-              <p className='w-1/5'>{item.products.name}</p>
-              <p>
-                {formatPrice(item.price)} x {item.quantity}
-              </p>  
-              {item.products.discount ? (
-                <>
-                  <p>{item.products.discount}%</p>
-                  <p>{formatPrice(item.price * item.quantity * ((100 - item.products.discount) / 100))}</p>
-                </>
-              ) : (
-                <p>{formatPrice(item.price * item.quantity)}</p>
-              )}
-            </li>
-          ))}
-        </ul>
-        <div className='flex justify-between mt-2'>
-          <p className='font-semibold'>Total:</p>
-          <p className='flex items-center'>
+        <div className='flex mb-2 border-b pb-2'>
+          <p className='text-lg font-semibold'>Order Code: </p>
+          <p className='text-lg ml-3'>{order.orderCode}</p>
+          <p className='flex items-center ml-5'>
             {order.status === 'accepted' && (
               <>
                 <svg
@@ -90,7 +91,6 @@ const HistoryOrder = () => {
             )}
             {order.status === 'waiting' && (
               <>
-                
                 <CgDanger className='text-yellow-400 w-6 h-6 mr-2 fill-current' />
                 <span className='text-yellow-400 text-lg font-semibold'> Waiting</span>
               </>
@@ -102,7 +102,11 @@ const HistoryOrder = () => {
               </>
             )}
           </p>
-          <p className='text-main-red font-bold'>{formatPrice(order.totalAmount)}</p>
+        </div>
+        <ul>{renderDetailOrder(order.orderDetail)}</ul>
+        <div className='flex justify-end'>
+          <p className='font-semibold mr-2'>Total:</p>
+          <p className='text-main-red font-bold'>{lamTronGia(order.totalAmount)} vnd</p>
         </div>
       </div>
     ));

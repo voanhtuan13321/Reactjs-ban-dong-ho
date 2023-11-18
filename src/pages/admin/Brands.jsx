@@ -133,22 +133,23 @@ const Brands = () => {
               <ReactPaginate
                 breakLabel='...'
                 className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+                pageRangeDisplayed={3}
+                pageCount={pageCount}
+                marginPagesDisplayed={10}
+                pageClassName='border border-solid w-10 h-10 rounded-md hover:bg-main-red hover:text-white cursor-pointer flex'
+                pageLinkClassName='py-2 px-4'
+                activeClassName='bg-main-red text-white'
+                onPageChange={handlePageChange}
                 nextLabel={
                   <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
                     <GrNext />
                   </span>
                 }
-                pageRangeDisplayed={3}
-                pageCount={pageCount}
                 previousLabel={
                   <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
                     <GrPrevious />
                   </span>
                 }
-                marginPagesDisplayed={10}
-                pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
-                activeClassName='bg-main-red text-white'
-                onPageChange={handlePageChange}
               />
             </div>
           </div>

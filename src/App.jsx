@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
+import ReactLoading from 'react-loading';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCountCart } from './utils/counterCartSlice';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -66,6 +67,7 @@ const routes = [
 
 export default function App() {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.counterCart.isLoading);
 
   useEffect(() => {
     fetchCountCart();
@@ -96,5 +98,18 @@ export default function App() {
     });
   };
 
-  return <Routes>{renderRoutes(routes)}</Routes>;
+  return (
+    <div className='relative'>
+      <Routes>{renderRoutes(routes)}</Routes>
+
+      {isLoading && (
+        <div className='fixed top-0 bottom-0 left-0 right-0 bg-slate-400 opacity-50 flex justify-center items-center'>
+          <ReactLoading
+            type='spinningBubbles'
+            color='red'
+          />
+        </div>
+      )}
+    </div>
+  );
 }

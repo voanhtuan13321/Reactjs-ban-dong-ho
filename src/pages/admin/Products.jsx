@@ -183,20 +183,23 @@ const Products = () => {
   const renderProducts = () => {
     return currentPageData.map((product) => (
       <tr key={product.id}>
-        <td className='w-36 text-center'>
+        <td className='text-center'>
           <img
             src={`http://localhost:8080/api/image/${product.imageSource[0]}`}
             alt='chưa có ảnh'
           />
         </td>
-        <td>{product.name}</td>
-        <td className='w-16 text-center'>{product.price.toLocaleString()} vnd</td>
-        <td className='w-16 text-center'>{product.discount}</td>
-        <td className='w-16 text-center'>{product.quantity}</td>
-        <td className='w-16 text-center'>{product.soldQuantity}</td>
-        <td className='w-16'>{product.createDate}</td>
-        <td className='w-16'>{product.updateDate}</td>
-        <td className='w-16 text-center'>
+        <td>
+          <p className='w-[250px] overflow-hidden overflow-ellipsis'>{product.name}</p>
+        </td>
+        {/* <td className=''></td> */}
+        <td className='text-center'>{product.price.toLocaleString()} vnd</td>
+        <td className='text-center'>{product.discount}</td>
+        <td className='text-center'>{product.quantity}</td>
+        <td className='text-center'>{product.soldQuantity}</td>
+        <td>{product.createDate}</td>
+        <td>{product.updateDate}</td>
+        <td className='text-center'>
           <button
             className='bg-orange-300 text-white px-2 rounded-lg hover:bg-orange-200'
             onClick={() => handleEdit(product)}
@@ -237,14 +240,14 @@ const Products = () => {
               <table className='table w-full'>
                 <thead>
                   <tr>
-                    <th className='text-center'>image</th>
+                    <th className='w-36 text-center'>image</th>
                     <th>Name</th>
-                    <th className='text-center'>price</th>
-                    <th className='text-center'>discount</th>
-                    <th className='text-center'>quantity</th>
+                    <th className='w-16 text-center'>price</th>
+                    <th className='w-16 text-center'>discount</th>
+                    <th className='w-16 text-center'>quantity</th>
                     <th className='text-center'>sold quantity</th>
                     <th className='text-center'>createDate</th>
-                    <th className='text-center'>updateDate</th>
+                    <th className='w-16 text-center'>updateDate</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -253,22 +256,23 @@ const Products = () => {
               <ReactPaginate
                 breakLabel='...'
                 className='flex justify-center items-center gap-3 my-6 float-right mr-5'
+                pageRangeDisplayed={3}
+                pageCount={pageCount}
+                marginPagesDisplayed={10}
+                pageClassName='border border-solid w-10 h-10 rounded-md hover:bg-main-red hover:text-white cursor-pointer flex'
+                pageLinkClassName='py-2 px-4'
+                activeClassName='bg-main-red text-white'
+                onPageChange={handlePageChange}
                 nextLabel={
                   <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
                     <GrNext />
                   </span>
                 }
-                pageRangeDisplayed={3}
-                pageCount={pageCount}
                 previousLabel={
                   <span className='w-10 h-10 flex items-center justify-center bg-white rounded-md border border-solid'>
                     <GrPrevious />
                   </span>
                 }
-                marginPagesDisplayed={10}
-                pageClassName='border border-solid rounded-md py-2 px-4 hover:bg-main-red hover:text-white cursor-pointer'
-                activeClassName='bg-main-red text-white'
-                onPageChange={handlePageChange}
               />
             </div>
           </div>

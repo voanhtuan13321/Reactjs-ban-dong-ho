@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import requestHandle from '../../utils/requestHandle';
-import { lamTronGia } from '../../utils/functionCommon';
+import { lamTronGia, formatPhoneNumber } from '../../utils/functionCommon';
 import Swal from 'sweetalert2';
 
 const INIT_USER = {
@@ -103,7 +103,7 @@ const OrderDetail = () => {
           <div className='basis-4/5'>
             <h3 className='font-bold text-xl'>{item.products.name}</h3>
             <div className='flex my-3'>
-              <p className='basis-1/4'>Giá: {item.products.price} VND</p>
+              <p className='basis-1/4'>Giá: {lamTronGia(item.products.price)} VND</p>
               <p className='basis-1/4'>Khuyến mãi: {item.products.discount} %</p>
               <p className='basis-1/4'>Số lượng: {item.quantity} cái</p>
               <p className='basis-1/4 text-end'>
@@ -143,7 +143,7 @@ const OrderDetail = () => {
         </div>
         <div className='flex my-2'>
           <h3 className='font-bold basis-1/6'>Số điện thoại:</h3>
-          <p className='basis-5/6'>{user.phone}</p>
+          <p className='basis-5/6'>{formatPhoneNumber(user.phone)}</p>
         </div>
       </div>
 

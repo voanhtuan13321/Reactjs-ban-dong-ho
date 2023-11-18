@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import 'react-datepicker/dist/react-datepicker.css';
 import requestHandle from '../../utils/requestHandle';
+import { lamTronGia } from '../../utils/functionCommon';
 
 Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 registerLocale('vi', vi);
@@ -31,7 +32,7 @@ const Statistical = () => {
     window.document.title = 'Statistical';
     window.scrollTo(0, 0);
 
-    getTopGoodPriceFromApi();
+    getTopBestSeller();
     getTopUserByTheMost();
     getTopBestRatingFromApi();
     getStatistical(monthSelect, yearSelect);
@@ -39,7 +40,7 @@ const Statistical = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getTopGoodPriceFromApi = async () => {
+  const getTopBestSeller = async () => {
     const response = await requestHandle.get('statistical/top-5-best-sellers');
     const result = await response.data.data;
     // console.log(result);
@@ -227,11 +228,11 @@ const Statistical = () => {
                   </div>
                   <div className='py-3'>
                     <p className='font-bold'>Tổng doanh thu tháng:</p>
-                    <span>{sumTotalPrice().toLocaleString()} vnd</span>
+                    <span>{lamTronGia(sumTotalPrice())} vnd</span>
                   </div>
                   <div className='py-3'>
                     <p className='font-bold'>Tổng doanh thu năm:</p>
-                    <span>{statisticalByYear.toLocaleString()} vnd</span>
+                    <span>{lamTronGia(statisticalByYear)} vnd</span>
                   </div>
                 </div>
                 <div className='basis-3/4'>

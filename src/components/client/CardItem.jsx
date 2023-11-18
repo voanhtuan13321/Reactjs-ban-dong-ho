@@ -14,7 +14,7 @@ const CardItem = ({ item }) => {
     <div className='col-span-3 block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]'>
       <div className='relative'>
         {item?.discount > 0 && (
-          <span className='absolute z-50 bg-main-red  rounded-b-md rounded-r-md py-2 px-4 font-bold capitalize shadow-lg right-[0%] opacity-80 hover:opacity-100 '>
+          <span className='absolute z-50 bg-main-red text-white  rounded-b-md rounded-r-md py-2 px-4 font-bold capitalize shadow-lg right-[0%] opacity-80 hover:opacity-100 '>
             discount {item?.discount} %
           </span>
         )}
@@ -41,11 +41,11 @@ const CardItem = ({ item }) => {
           />
         </div>
         <div className='flex gap-4 justify-center'>
-          <p className='mb-4 text-lg font-semibold text-main-red '>
+          <p className='mb-4 text-sm font-semibold text-main-red '>
             {lamTronGia(item?.price - item?.price * (item?.discount / 100))} vnd
           </p>
           {item?.discount > 0 && (
-            <p className='mb-4 text-lg font-semibold text-main-black line-through'>
+            <p className='mb-4 text-sm font-semibold text-main-black line-through'>
               {lamTronGia(item?.price)} vnd
             </p>
           )}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ children, size, backGroundColor, color, onClick }) => {
+const Button = ({ children, size, backGroundColor, color, onClick, disabled = false }) => {
   return (
     <button
       className={`
@@ -9,6 +9,7 @@ const Button = ({ children, size, backGroundColor, color, onClick }) => {
         ${size === 'lg' && 'px-6 py-3'}
         hover:opacity-95 transition-all duration-200 ease-in-out
       `}
+      disabled={disabled}
       onClick={onClick}
     >
       {children}

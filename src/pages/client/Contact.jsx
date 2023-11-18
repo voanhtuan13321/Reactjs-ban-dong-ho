@@ -1,10 +1,13 @@
 import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import { setStatusLoading } from '../../utils/counterCartSlice';
 
 const Contact = () => {
   const form = useRef();
+  const dispatch = useDispatch();
 
   const notify = () => {
     toast('🙌 Cảm ơn bạn đã liên hệ với chúng tôi !');
@@ -12,15 +15,14 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    emailjs.sendForm('service_zf96rw6', 'template_v9z8cqz', form.current, 'v3jjJZa_b1U7WD62k').then(
-      (result) => {
-        // console.log(result.text);
-        notify();
-      },
-      (error) => {
-        console.log(error.text);
-      }
-    );
+    dispatch(setStatusLoading(true));
+    emailjs
+      .sendForm('service_zf96rw6', 'template_v9z8cqz', form.current, 'v3jjJZa_b1U7WD62k')
+      .then(
+        (result) => notify(),
+        (error) => console.log(error.text)
+      )
+      .finally(() => dispatch(setStatusLoading(false)));
     e.target.reset();
   };
 
@@ -74,8 +76,7 @@ const Contact = () => {
                 </svg>
               </div>
               <div className='mt-3 ml-3'>
-                <span className='text-main-black font-bold'>Email:</span>
-                watch@gmail.com
+                <span className='text-main-black font-bold'>Email: </span>watch@gmail.com
               </div>
             </p>
           </div>

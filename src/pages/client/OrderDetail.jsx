@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import OrderDetailItem from '../../components/client/OrderDetailItem';
 import requestHandler from '../../utils/requestHandle';
-import { lamTronGia, isUserLogin } from '../../utils/functionCommon';
+import { lamTronGia, isUserLogin, formatPhoneNumber } from '../../utils/functionCommon';
 import { setCountCart } from '../../utils/counterCartSlice';
 
 const INIT_USER = {
@@ -132,7 +132,7 @@ const OrderDetail = () => {
         </div>
         <div className='flex my-2'>
           <h3 className='font-bold basis-1/6'>Số điện thoại:</h3>
-          <p className='basis-5/6'>{user.phone}</p>
+          <p className='basis-5/6'>{formatPhoneNumber(user.phone)}</p>
         </div>
         <div className='text-end'>
           <button
@@ -163,6 +163,7 @@ const OrderDetail = () => {
           <Button
             backGroundColor='main-black'
             color='white'
+            disabled={cart.length === 0}
             onClick={handlerThanhToan}
           >
             Thanh toán

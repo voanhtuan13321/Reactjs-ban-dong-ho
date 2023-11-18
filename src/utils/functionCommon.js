@@ -1,5 +1,7 @@
 const lamTronGia = (price) => {
-  return price.toFixed(2);
+  return Math.round(price)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 const isUserLogin = () => {

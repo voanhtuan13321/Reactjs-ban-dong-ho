@@ -92,6 +92,9 @@ const Cart = () => {
   };
 
   const renderCart = () => {
+    if (cart.length === 0) {
+      return <div className='p-5 text-center font-bold'>Không có sản phẩm nào trong giỏ hàng</div>;
+    }
     return cart?.map((item) => (
       <div
         className='flex justify-between items-center p-3'
@@ -124,7 +127,7 @@ const Cart = () => {
           </button>
         </div>
         <div className='w-1/5'>
-          <p>{item.products.price} VNĐ</p>
+          <p>{lamTronGia(item.products.price)} VNĐ</p>
         </div>
         <div className='w-1/5'>
           <p>{lamTronGia(item.quantity * item.products.price)} VNĐ</p>
@@ -169,25 +172,16 @@ const Cart = () => {
 
           {renderCart()}
 
-          <div className='flex justify-between p-3'>
-            <div className='w-2/5'></div>
-            <div className='w-1/5'></div>
-            <div className='w-2/5'></div>
-            <div className='w-1/5'>
-              <div className='font-semibold'>Tổng cộng: {lamTronGia(total)} VNĐ</div>
-            </div>
-          </div>
+          <div className='font-semibold text-end mb-2'>Tổng cộng: {lamTronGia(total)} VNĐ</div>
 
-          <div className='flex justify-between p-3'>
-            <div className='w-2/5'></div>
-            <div className='w-1/5'></div>
-            <div className='w-2/5'></div>
+          <div className='flex justify-end'>
             <div className='w-1/5'>
               <button
                 className='bg-main-black text-white py-3 px-4 hover:bg-main-red w-full rounded-xl'
                 onClick={() => {
                   navigate('/client/order-detail');
                 }}
+                disabled={cart.length === 0}
               >
                 Thanh toán
               </button>

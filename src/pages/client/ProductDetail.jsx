@@ -36,6 +36,7 @@ const ProductDetail = () => {
   const [getRating, setGetRating] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [idProduct, setIdProduct] = useState(id);
 
   const notify = () => {
     toast('🙌 Thêm sản phẩm thành công !');
@@ -46,7 +47,7 @@ const ProductDetail = () => {
     fetchProduct();
     getRatingByUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [idProduct]);
 
   const fetchProduct = async () => {
     try {
@@ -110,10 +111,14 @@ const ProductDetail = () => {
       <div key={product.id}>
         <div className='overflow-hidden'>
           <img
-            src={product.imageSource}
+            // src={product.imageSource}
+            src={`http://localhost:8080/api/image/${product.imageSource}`}
             alt={product.name}
             className='hover:scale-110 duration-200 ease-linear cursor-pointer'
-            onClick={() => navigate(`/client/product-detail/${product.id}`)}
+            onClick={() => {
+              setIdProduct(product.id);
+              navigate(`/client/product-detail/${product.id}`);
+            }}
           />
         </div>
         <h2 className='text-center'>{product.name}</h2>
@@ -153,7 +158,7 @@ const ProductDetail = () => {
               Price:{' '}
               {lamTronGia(
                 productDetail?.price - productDetail?.price * (productDetail?.discount / 100)
-              ).toLocaleString()}{' '}
+              )}{' '}
               vnd
             </p>
             <p className='text-xl font-bold mb-4'>

@@ -22,7 +22,7 @@ const OrderDetailItem = ({ item }) => {
       <div className='basis-4/5'>
         <h3 className='font-bold text-xl'>{item.products.name}</h3>
         <div className='flex my-3'>
-          <p className='basis-1/4'>Giá: {item.products.price} VND</p>
+          <p className='basis-1/4'>Giá: {lamTronGia(item.products.price)} VND</p>
           <p className='basis-1/4'>Khuyến mãi: {item.products.discount} %</p>
           <p className='basis-1/4'>Số lượng: {item.quantity} cái</p>
           <p className='basis-1/4 text-end'>
