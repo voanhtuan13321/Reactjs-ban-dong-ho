@@ -19,6 +19,7 @@ const Header = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && setIsLoggedIn(!isLoggedIn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
