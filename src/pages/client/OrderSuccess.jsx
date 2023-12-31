@@ -44,11 +44,7 @@ function OrderSuccess() {
 
   const handlePaymentSuccess = async (amount) => {
     const idUser = Number(localStorage.getItem('user_id'));
-    const orderReqDTO = {
-      userId: idUser,
-      status: 'waiting',
-      total: amount,
-    };
+    const orderReqDTO = { userId: idUser, status: 'waiting', total: amount };
 
     try {
       await requestHandle.post('order/', orderReqDTO);

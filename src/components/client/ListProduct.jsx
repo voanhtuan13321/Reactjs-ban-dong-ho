@@ -33,7 +33,7 @@ const ListProduct = ({ filteredList }) => {
 
   return (
     <div className='my-2'>
-      <div className='grid grid-cols-12 gap-5 '>{renderCartItem()}</div>
+      <div className='grid grid-cols-12 gap-5'>{renderCartItem()}</div>
       {pageCount > 1 && (
         <div className='flex justify-center'>
           <ReactPaginate

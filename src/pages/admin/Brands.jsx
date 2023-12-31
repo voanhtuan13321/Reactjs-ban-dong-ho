@@ -30,7 +30,7 @@ const Brands = () => {
   const fetchBrands = async () => {
     try {
       const response = await requestHandler.get('brands/');
-      const data = response.data.data;
+      const data = await response.data.data;
       setBrands(data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -71,7 +71,7 @@ const Brands = () => {
       } else {
         response = await requestHandler.post('brands/', values);
       }
-      const data = response.data.data;
+      const data = await response.data.data;
       // const updatedBrands = brands.map((brand) => (brand.id === data.data.id ? data.data : brand));
       // setBrands(updatedBrands);
       setState(!state);

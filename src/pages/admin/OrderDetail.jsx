@@ -4,6 +4,7 @@ import { useState } from 'react';
 import requestHandle from '../../utils/requestHandle';
 import { lamTronGia, formatPhoneNumber } from '../../utils/functionCommon';
 import Swal from 'sweetalert2';
+import requestHandler from '../../utils/requestHandle';
 
 const INIT_USER = {
   id: 0,
@@ -83,47 +84,44 @@ const OrderDetail = () => {
   }, 0);
 
   const renderItemDetail = () => {
-    return orderDetai.map((item) => {
-      return (
-        <div
-          className='flex gap-5 my-5 items-center'
-          key={item.id}
-        >
-          <div className='bg-blue-400 basis-1/5 relative'>
-            <img
-              src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
-              alt='img product'
-            />
-            {item.products.discount > 0 && (
-              <div className='absolute top-0 right-0 m-1 p-1 bg-yellow-300 text-sm rounded-md'>
-                Khuyến mãi {item.products.discount} %
-              </div>
-            )}
-          </div>
-          <div className='basis-4/5'>
-            <h3 className='font-bold text-xl'>{item.products.name}</h3>
-            <div className='flex my-3'>
-              <p className='basis-1/4'>Giá: {lamTronGia(item.products.price)} VND</p>
-              <p className='basis-1/4'>Khuyến mãi: {item.products.discount} %</p>
-              <p className='basis-1/4'>Số lượng: {item.quantity} cái</p>
-              <p className='basis-1/4 text-end'>
-                Thành tiền:{' '}
-                {lamTronGia(
-                  caculateTotal(item.products.price, item.quantity, item.products.discount)
-                )}{' '}
-                VND
-              </p>
+    return orderDetai.map((item) => (
+      <div
+        className='flex gap-5 my-5 items-center'
+        key={item.id}
+      >
+        <div className='bg-blue-400 basis-1/5 relative'>
+          <img
+            src={`${requestHandler.defaults.baseURL}/image/${item.products.images[0]?.source}`}
+            alt='img product'
+          />
+          {item.products.discount > 0 && (
+            <div className='absolute top-0 right-0 m-1 p-1 bg-yellow-300 text-sm rounded-md'>
+              Khuyến mãi {item.products.discount} %
             </div>
+          )}
+        </div>
+        <div className='basis-4/5'>
+          <h3 className='font-bold text-xl'>{item.products.name}</h3>
+          <div className='flex my-3'>
+            <p className='basis-1/4'>Giá: {lamTronGia(item.products.price)} VND</p>
+            <p className='basis-1/4'>Khuyến mãi: {item.products.discount} %</p>
+            <p className='basis-1/4'>Số lượng: {item.quantity} cái</p>
+            <p className='basis-1/4 text-end'>
+              Thành tiền:{' '}
+              {lamTronGia(
+                caculateTotal(item.products.price, item.quantity, item.products.discount)
+              )}{' '}
+              VND
+            </p>
           </div>
         </div>
-      );
-    });
+      </div>
+    ));
   };
 
   return (
     <>
       <h2 className='text-3xl text-center font-bold py-5'>Chi Tiết Đơn Hàng</h2>
-
       <div className='p-10 mx-auto shadow-xl rounded-xl'>
         <div className='flex my-2'>
           <h3 className='font-bold basis-1/6'>Tên:</h3>

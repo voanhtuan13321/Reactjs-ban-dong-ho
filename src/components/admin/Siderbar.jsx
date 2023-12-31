@@ -19,18 +19,16 @@ const Siderbar = () => {
   };
 
   const renderNavs = () => {
-    return navs.map((nav) => {
-      return (
-        <div
-          key={nav.to}
-          onClick={() => navigate(nav.to)}
-          className={`cursor-pointer hover:text-red-500 transition-all duration-150
+    return navs.map((nav) => (
+      <div
+        key={nav.to}
+        onClick={() => navigate(nav.to)}
+        className={`cursor-pointer hover:text-red-500 transition-all duration-150
            ease-linear p-2 text-2xl ${location.pathname === nav.to && 'text-red-500'}`}
-        >
-          {nav.text}
-        </div>
-      );
-    });
+      >
+        {nav.text}
+      </div>
+    ));
   };
 
   return (

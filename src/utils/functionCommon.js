@@ -4,10 +4,7 @@ const lamTronGia = (price) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-const isUserLogin = () => {
-  const isLogin = localStorage.getItem('token');
-  return isLogin ? true : false;
-};
+const isUserLogin = () => !!localStorage.getItem('token');
 
 function formatPhoneNumber(phoneNumber) {
   // Xóa khoảng trắng và dấu gạch nối hiện tại

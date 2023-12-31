@@ -18,14 +18,7 @@ const carouselSettings = {
   speed: 500,
   slidesToShow: 5,
   slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 2,
-      },
-    },
-  ],
+  responsive: [{ breakpoint: 768, settings: { slidesToShow: 2 } }],
 };
 
 const ProductDetail = () => {
@@ -34,13 +27,11 @@ const ProductDetail = () => {
   const [sameBrandProducts, setSameBrandProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [getRating, setGetRating] = useState();
+  const [idProduct, setIdProduct] = useState(id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [idProduct, setIdProduct] = useState(id);
 
-  const notify = () => {
-    toast('🙌 Thêm sản phẩm thành công !');
-  };
+  const notify = () => toast('🙌 Thêm sản phẩm thành công !');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -132,7 +123,7 @@ const ProductDetail = () => {
       <div className='bg-white p-8 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8'>
         <div>
           <img
-            src={`http://localhost:8080/api/image/${productDetail?.imageSource[0]}`}
+            src={`${requestHandler.defaults.baseURL}/image/${productDetail?.imageSource[0]}`}
             alt='Hình ảnh sản phẩm'
             className='w-full'
           />

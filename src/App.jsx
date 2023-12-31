@@ -85,17 +85,15 @@ export default function App() {
   };
 
   const renderRoutes = (routes) => {
-    return routes.map((route, index) => {
-      return (
-        <Route
-          key={index}
-          path={route.path}
-          element={route.element}
-        >
-          {route.childrens && renderRoutes(route.childrens)}
-        </Route>
-      );
-    });
+    return routes.map((route, index) => (
+      <Route
+        key={index}
+        path={route.path}
+        element={route.element}
+      >
+        {route.childrens && renderRoutes(route.childrens)}
+      </Route>
+    ));
   };
 
   return (

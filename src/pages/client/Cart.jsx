@@ -44,12 +44,7 @@ const Cart = () => {
     // console.log(user_id);
     // console.log(prodId.products.id);
     try {
-      const dataReq = {
-        data: {
-          userId: user_id,
-          productId: prodId.products.id,
-        },
-      };
+      const dataReq = { data: { userId: user_id, productId: prodId.products.id } };
       await requestHandler.delete('cart/', dataReq);
       fetchCart();
     } catch (error) {
@@ -61,11 +56,7 @@ const Cart = () => {
     const id_user = JSON.parse(localStorage.getItem('user_id'));
     // console.log(prod);
     try {
-      const dataReq = {
-        userId: id_user,
-        productId: prod.products.id,
-        amount: 1,
-      };
+      const dataReq = { userId: id_user, productId: prod.products.id, amount: 1 };
       await requestHandle.post('cart/', dataReq);
       // console.log('success', response.data);
       fetchCart();
@@ -78,11 +69,7 @@ const Cart = () => {
     const id_user = JSON.parse(localStorage.getItem('user_id'));
     // console.log(prod);
     try {
-      const dataReq = {
-        userId: id_user,
-        productId: prod.products.id,
-        amount: -1,
-      };
+      const dataReq = { userId: id_user, productId: prod.products.id, amount: -1 };
       await requestHandle.post('cart/', dataReq);
       // console.log('success', response.data);
       fetchCart();
@@ -105,7 +92,7 @@ const Cart = () => {
         </div>
         <div className='w-1/5'>
           <img
-            src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
+            src={`${requestHandler.defaults.baseURL}/image/${item.products.images[0]?.source}`}
             alt=''
             className='w-16 h-16'
           />
@@ -127,10 +114,21 @@ const Cart = () => {
           </button>
         </div>
         <div className='w-1/5'>
-          <p>{lamTronGia(item.products.price)} VNĐ</p>
+          <p>
+            {lamTronGia(
+              item?.products.price - item?.products.price * (item?.products.discount / 100)
+            )}{' '}
+            VNĐ
+          </p>
         </div>
         <div className='w-1/5'>
-          <p>{lamTronGia(item.quantity * item.products.price)} VNĐ</p>
+          <p>
+            {lamTronGia(
+              item.quantity *
+                (item?.products.price - item?.products.price * (item?.products.discount / 100))
+            )}{' '}
+            VNĐ
+          </p>
         </div>
         <div className='w-1/5'>
           <button
@@ -178,9 +176,7 @@ const Cart = () => {
             <div className='w-1/5'>
               <button
                 className='bg-main-black text-white py-3 px-4 hover:bg-main-red w-full rounded-xl'
-                onClick={() => {
-                  navigate('/client/order-detail');
-                }}
+                onClick={() => navigate('/client/order-detail')}
                 disabled={cart.length === 0}
               >
                 Thanh toán

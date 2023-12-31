@@ -9,9 +9,7 @@ const Contact = () => {
   const form = useRef();
   const dispatch = useDispatch();
 
-  const notify = () => {
-    toast('🙌 Cảm ơn bạn đã liên hệ với chúng tôi !');
-  };
+  const notify = () => toast('🙌 Cảm ơn bạn đã liên hệ với chúng tôi !');
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -28,7 +26,7 @@ const Contact = () => {
 
   return (
     <div>
-      <div className='w-container mx-auto mt-8 h-[500px] flex mb-3'>
+      <div className='w-container mx-auto mt-8 h-[500px] flex mb-3 container'>
         <ToastContainer />
         <div className='w-1/2 p-4 bg-slate-100 rounded-lg mr-3'>
           <div className='mb-4 flex items-center'>

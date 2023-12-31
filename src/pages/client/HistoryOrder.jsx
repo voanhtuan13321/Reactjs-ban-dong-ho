@@ -40,7 +40,7 @@ const HistoryOrder = () => {
         className='flex justify-between items-center mb-2'
       >
         <img
-          src={`http://localhost:8080/api/image/${item.products.images[0]?.source}`}
+          src={`${requestHandler.defaults.baseURL}/image/${item.products.images[0]?.source}`}
           alt={item.products.name}
           className='w-16 h-16 object-cover'
         />

@@ -29,9 +29,7 @@ const ChangePassword = () => {
       };
       const response = await requestHandler.post('change-password', dataReq);
       const data = await response.data;
-      if (data === 'Change password successfully!') {
-        navigate('/client');
-      }
+      data === 'Change password successfully!' && navigate('/client');
     } catch (err) {
       console.error('Lỗi:', err);
     }

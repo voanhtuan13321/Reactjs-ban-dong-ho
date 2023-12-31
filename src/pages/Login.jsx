@@ -6,10 +6,7 @@ import Toast from '../components/Toast';
 import undraw from '../assets/img/bg-01.jpg';
 import requestHandle from '../utils/requestHandle';
 
-const initialValues = {
-  email: '',
-  password: '',
-};
+const initialValues = { email: '', password: '' };
 
 const Login = () => {
   const [message, setMessage] = useState('');
@@ -38,11 +35,7 @@ const Login = () => {
 
   const handleLogin = async (values) => {
     try {
-      const dataReq = {
-        email: values.email,
-        password: values.password,
-      };
-      const response = await requestHandle.post('login', dataReq);
+      const response = await requestHandle.post('login', values);
       const data = await response.data;
 
       if (data.status === 'success') {
@@ -65,10 +58,10 @@ const Login = () => {
     } catch (err) {
       const statusCode = err.response.status;
       if (statusCode === 401) {
-        setMessage('Account is disabled');
+        setMessage('Invalid email or password!');
         setType('error');
       } else {
-        setMessage('Invalid email or password!');
+        setMessage('Account is disabled');
         setType('error');
       }
     }

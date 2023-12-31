@@ -2,17 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const counterCartSlice = createSlice({
   name: 'counterCart',
-  initialState: {
-    value: 0,
-    isLoading: false,
-  },
+  initialState: { value: 0, isLoading: false },
   reducers: {
-    setCountCart: (state, action) => {
-      state.value = action.payload;
-    },
-    setStatusLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
+    setCountCart: (state, action) => (state.value = action.payload),
+    setStatusLoading: (state, action) => (state.isLoading = action.payload),
   },
 });
 

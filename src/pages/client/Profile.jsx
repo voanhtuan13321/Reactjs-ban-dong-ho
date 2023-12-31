@@ -8,31 +8,15 @@ import ChangePassword from './ChangePassword';
 import HistoryOrder from './HistoryOrder';
 import 'react-toastify/dist/ReactToastify.css';
 
-const INIT_USER = {
-  fullname: '',
-  email: '',
-  birthDate: '',
-  phone: '',
-  address: '',
-};
-
-const initialValues = {
-  fullName: '',
-  email: '',
-  birthDate: '',
-  phone: '',
-  address: '',
-};
+const initialValues = { fullName: '', email: '', birthDate: '', phone: '', address: '' };
 
 const Profile = () => {
   const navigate = useNavigate();
   const [isStatusEdit, setIsStatusEdit] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
-  const [user, setUser] = useState(INIT_USER);
+  const [user, setUser] = useState(initialValues);
 
-  const notify = () => {
-    toast('🙌 Update successfully!!');
-  };
+  const notify = () => toast('🙌 Update successfully!!');
 
   useEffect(() => {
     const isLogin = localStorage.getItem('token');
@@ -67,27 +51,15 @@ const Profile = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
+  const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-  const handleClickEdit = () => {
-    setIsStatusEdit(!isStatusEdit);
-  };
+  const handleClickEdit = () => setIsStatusEdit(!isStatusEdit);
 
-  const switchToProfile = () => {
-    setActiveTab('profile');
-  };
+  const switchToProfile = () => setActiveTab('profile');
 
-  const switchToHistoryOrder = () => {
-    setActiveTab('historyOrder');
-  };
+  const switchToHistoryOrder = () => setActiveTab('historyOrder');
 
-  const switchToChangePassword = () => {
-    setActiveTab('changePassword');
-  };
+  const switchToChangePassword = () => setActiveTab('changePassword');
 
   const fetchUser = async () => {
     const user_Id = JSON.parse(localStorage.getItem('user_id'));

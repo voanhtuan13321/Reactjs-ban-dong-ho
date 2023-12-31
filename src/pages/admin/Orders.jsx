@@ -65,47 +65,45 @@ const Orders = () => {
   };
 
   const renderOrders = () => {
-    return currentPageData.map((l, k) => {
-      return (
-        <tr key={k}>
-          <td>{l.orderCode}</td>
-          <td className='font-bold text-lg'>{l.username}</td>
-          <td>
-            <LabelStatus type={l.status}>{l.status}</LabelStatus>
-          </td>
-          <td className='text-lg'>{l.totalAmount.toLocaleString()} vnd</td>
-          <td className='text-lg'>{l.createDate}</td>
-          <td className='w-2/12'>
-            {l.status === 'waiting' && (
-              <>
-                <button
-                  className='text-center btn-success mr-2 py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
-                  onClick={() => handleAcceptOrCancel(l.id, 'accepted')}
-                >
-                  Accept
-                </button>
-                <button
-                  className='text-center btn-error py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
-                  onClick={() => handleAcceptOrCancel(l.id, 'cancel')}
-                >
-                  Cancel
-                </button>
-              </>
-            )}
-          </td>
-          <td>
-            {l.status === 'waiting' && (
-              <p
-                className='text-blue-500 underline cursor-pointer text-lg'
-                onClick={() => navigate(`/admin/order-detail/${l.id}`)}
+    return currentPageData.map((l, k) => (
+      <tr key={k}>
+        <td>{l.orderCode}</td>
+        <td className='font-bold text-lg'>{l.username}</td>
+        <td>
+          <LabelStatus type={l.status}>{l.status}</LabelStatus>
+        </td>
+        <td className='text-lg'>{l.totalAmount.toLocaleString()} vnd</td>
+        <td className='text-lg'>{l.createDate}</td>
+        <td className='w-2/12'>
+          {l.status === 'waiting' && (
+            <>
+              <button
+                className='text-center btn-success mr-2 py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
+                onClick={() => handleAcceptOrCancel(l.id, 'accepted')}
               >
-                Detail
-              </p>
-            )}
-          </td>
-        </tr>
-      );
-    });
+                Accept
+              </button>
+              <button
+                className='text-center btn-error py-1 px-3 rounded-md font-medium text-lg text-white border border-solid uppercase'
+                onClick={() => handleAcceptOrCancel(l.id, 'cancel')}
+              >
+                Cancel
+              </button>
+            </>
+          )}
+        </td>
+        <td>
+          {l.status === 'waiting' && (
+            <p
+              className='text-blue-500 underline cursor-pointer text-lg'
+              onClick={() => navigate(`/admin/order-detail/${l.id}`)}
+            >
+              Detail
+            </p>
+          )}
+        </td>
+      </tr>
+    ));
   };
 
   return (

@@ -28,7 +28,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const response = await requestHandler.get('users');
-      const data = response.data.data;
+      const data = await response.data.data;
       // console.log(data);
       setUsers(data);
     } catch (error) {
@@ -63,6 +63,16 @@ const Users = () => {
     }
   };
 
+  const handleChangeRole = async (id) => {
+    try {
+      await requestHandler.patch(`users/${id}`);
+      fetchUsers();
+    } catch (error) {
+      alert(error.message);
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <main className='flex-1 overflow-y-auto pt-8 px-6  bg-base-200'>
@@ -79,6 +89,7 @@ const Users = () => {
                     <th>Address</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Role</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -90,12 +101,18 @@ const Users = () => {
                       <td>{user.address}</td>
                       <td>{user.email}</td>
                       <td>{formatPhoneNumber(user.phone)}</td>
+                      <td
+                        className={`hover:underline cursor-pointer font-bold
+                        ${'ROLE_ADMIN' === user.roles && 'text-green-400'}`}
+                        onClick={() => handleChangeRole(user.id)}
+                      >
+                        {user.roles}
+                      </td>
                       <td>
                         <button
                           onClick={() => handleChangeStatus(user.id, user.deleted)}
-                          className={`${
-                            user.deleted ? 'bg-green-400' : 'bg-red-500'
-                          } text-white font-bold px-3 py-2 rounded-lg hover:opacity-90`}
+                          className={`text-white font-bold px-3 py-2 rounded-lg hover:opacity-90 
+                            ${user.deleted ? 'bg-green-400' : 'bg-red-500'}`}
                         >
                           {user.deleted ? 'ACTIVE' : 'DISABLE'}
                         </button>

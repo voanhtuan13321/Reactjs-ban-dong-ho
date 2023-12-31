@@ -70,11 +70,7 @@ const OrderDetail = () => {
       if (typePayment === 1) {
         // thanh toan khi nhan hang
         const idUser = Number(localStorage.getItem('user_id'));
-        const orderReqDTO = {
-          userId: idUser,
-          status: 'waiting',
-          total: caculateTotalPrice,
-        };
+        const orderReqDTO = { userId: idUser, status: 'waiting', total: caculateTotalPrice };
 
         await requestHandler.post('order/', orderReqDTO);
         await requestHandler.delete(`cart/all/${idUser}`);
@@ -99,14 +95,12 @@ const OrderDetail = () => {
   };
 
   const renderItemDetail = () => {
-    return cart.map((item, index) => {
-      return (
-        <OrderDetailItem
-          key={index}
-          item={item}
-        />
-      );
-    });
+    return cart.map((item, index) => (
+      <OrderDetailItem
+        key={index}
+        item={item}
+      />
+    ));
   };
 
   return (

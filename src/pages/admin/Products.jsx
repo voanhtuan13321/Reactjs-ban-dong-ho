@@ -93,7 +93,7 @@ const Products = () => {
   const handleEdit = (product) => {
     setEditProduct(product);
     setImages(product.imageSource[0]);
-    setBase64String(`http://localhost:8080/api/image/${product.imageSource[0]}`);
+    setBase64String(`${requestHandler.defaults.baseURL}/image/${product.imageSource[0]}`);
     setIsModalOpen(true);
   };
 
@@ -141,8 +141,15 @@ const Products = () => {
       closeModal();
       Swal.fire('Cập nhật thành công', '', 'success');
     } catch (error) {
-      console.error('Error:', error);
-      Swal.fire('Thêm mới thì phải thêm hình ảnh', '', 'error');
+      switch (error.response.status) {
+        case 409:
+          Swal.fire('Tên sản phẩm bị trùng', '', 'error');
+          break;
+        default:
+          console.error('Error:', error);
+          Swal.fire('Thêm mới thì phải thêm hình ảnh', '', 'error');
+          break;
+      }
     }
   };
 
@@ -185,7 +192,7 @@ const Products = () => {
       <tr key={product.id}>
         <td className='text-center'>
           <img
-            src={`http://localhost:8080/api/image/${product.imageSource[0]}`}
+            src={`${requestHandler.defaults.baseURL}/image/${product.imageSource[0]}`}
             alt='chưa có ảnh'
           />
         </td>
@@ -194,7 +201,7 @@ const Products = () => {
         </td>
         {/* <td className=''></td> */}
         <td className='text-center'>{product.price.toLocaleString()} vnd</td>
-        <td className='text-center'>{product.discount}</td>
+        <td className='text-center'>{product.discount}%</td>
         <td className='text-center'>{product.quantity}</td>
         <td className='text-center'>{product.soldQuantity}</td>
         <td>{product.createDate}</td>
